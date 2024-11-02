@@ -1,5 +1,6 @@
 from groq import Groq
 from general_data_extraction import *
+from technical_data_extraction import *
 from metadata import *
 import os
 import PyPDF2
@@ -46,7 +47,7 @@ class TextAnalyzer:
 
         metadata_instance = Metadata()
 
-        metadata_instance.general = self.get_general_data(file, text, model, temperature, max_tokens, top_p)
+       # metadata_instance.general = self.get_general_data(file, text, model, temperature, max_tokens, top_p)
         metadata_instance.lifeCycle = self.get_life_cycle_data(file, text, model, temperature, max_tokens, top_p)
         metadata_instance.tehnical = self.get_tehnical_data(file, text, model, temperature, max_tokens, top_p)
         metadata_instance.educational = self.get_educational_data(file, text, model, temperature, max_tokens, top_p)
@@ -54,7 +55,6 @@ class TextAnalyzer:
         metadata_instance.relation = self.get_relation_data(file, text, model, temperature, max_tokens, top_p)
         metadata_instance.classification = self.get_classification_data(file, text, model, temperature, max_tokens, top_p)
 
-        # do for others
         return metadata_instance
 
     def get_general_data(self, file, text, model, temperature, max_tokens, top_p):
@@ -79,32 +79,33 @@ class TextAnalyzer:
     
     def get_life_cycle_data(self, file, text, model, temperature, max_tokens, top_p):
         life_cycle = LifeCycleMetadata()
-        # TO DO
+        # TODO
         return life_cycle
     
     def get_tehnical_data(self, file, text, model, temperature, max_tokens, top_p):
         tehnical = TehnicalMetadata()
-        # TO DO
+        # TODO
+        tehnical.format = get_format(file)
         return tehnical
     
     def get_educational_data(self, file, text, model, temperature, max_tokens, top_p):
         educational = EducationalMetadata()
-        # TO DO
+        # TODO
         return educational
     
     def get_rights_data(self, file, text, model, temperature, max_tokens, top_p):
         rights = RightsMetadata()
-        # TO DO
+        # TODO
         return rights
     
     def get_relation_data(self, file, text, model, temperature, max_tokens, top_p):
         relation = RelationMetadata()
-        # TO DO
+        # TODO
         return relation
     
     def get_classification_data(self, file, text, model, temperature, max_tokens, top_p):
         classification = ClassificationMetadata()
-        # TO DO
+        # TODO
         return classification
 
     
