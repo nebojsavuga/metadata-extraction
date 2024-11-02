@@ -1,6 +1,12 @@
 class Metadata:
     def __init__(self):
-        pass
+        self.general = GeneralMetadata()
+        self.lifeCycle = LifeCycleMetadata()
+        self.tehnical = TehnicalMetadata()
+        self.educational = EducationalMetadata()
+        self.rights = RightsMetadata()
+        self.relation = RelationMetadata()
+        self.classification = ClassificationMetadata()
     
     
 class GeneralMetadata:
@@ -51,6 +57,7 @@ class RightsMetadata:
         self.cost = ''
         self.copyright = ''
         self.description = ''
+        
         
 class RelationMetadata:
     def __init__(self):

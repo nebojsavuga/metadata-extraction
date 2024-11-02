@@ -13,7 +13,7 @@ def get_metadata():
         return jsonify({"error": "Text parameter is required"}), 400
 
     analyzer = TextAnalyzer()
-    keywords = analyzer.get_metadata(
+    metadata_instance = analyzer.get_metadata(
         text,
         model="llama3-70b-8192", 
         temperature=0.7, 
@@ -21,6 +21,18 @@ def get_metadata():
         top_p=1
     )
     
-    return jsonify({"keywords": keywords})
+    response_data = {
+        "general": metadata_instance.general.__dict__,
+        "lifeCycle": metadata_instance.lifeCycle.__dict__,
+        "tehnical": metadata_instance.tehnical.__dict__,
+        "educational": metadata_instance.educational.__dict__,
+        "rights": metadata_instance.rights.__dict__,
+        "relation": metadata_instance.relation.__dict__,
+        "classification": metadata_instance.classification.__dict__,
+    }
+
+    return jsonify(response_data)
+
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,4 +1,5 @@
 from groq import Groq
+from metadata import Metadata
 import os
 
 class TextAnalyzer:
@@ -8,7 +9,9 @@ class TextAnalyzer:
         )
 
     def get_metadata(self, text = '', model="llama3-70b-8192", temperature=0.5, max_tokens=1000, top_p=1):
-        return self.get_keywords(text, model, temperature, max_tokens, top_p)
+        metadata_instance = Metadata()
+        metadata_instance.general.keywords = self.get_keywords(text, model, temperature, max_tokens, top_p)
+        return metadata_instance
     
     def get_keywords(self, text, model, temperature, max_tokens, top_p):
         """Generate keywords from the given text using the Groq API."""
