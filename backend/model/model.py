@@ -1,38 +1,28 @@
-from llamaapi import LlamaAPI
-import json
+from groq import Groq
+import os
+import datetime
 
-llama = LlamaAPI("LA-c93067daf73b441785b03be38df20130aa24c078668649eabaa6192063cf9cf1")
+client = Groq(
+    api_key=os.environ.get("GROQ_API_KEY"),
+)
 
-api_request_json = {
-    "model": "llama3.2-90b-vision",
-    "messages": [
-        {"role": "user", "content": "What is the weather like in Boston?"},
-    ],
-    "functions": [
+completion = client.chat.completions.create(
+    model="llama3-70b-8192",
+    messages=[
         {
-            "name": "get_current_weather",
-            "description": "Get the current weather in a given location",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "location": {
-                        "type": "string",
-                        "description": "The city and state, e.g. San Francisco, CA",
-                    },
-                    "days": {
-                        "type": "number",
-                        "description": "for how many days ahead you wants the forecast",
-                    },
-                    "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
-                },
-            },
-            "required": ["location", "days"],
+            "role": "user",
+            "content": "When was the Kosovo Batle"
+        },
+        {
+            "role": "assistant",
+            "content": "When was the kosovo battle"
         }
     ],
-    "stream": False,
-    "function_call": "get_current_weather",
-}
+    temperature=1,
+    max_tokens=1024,
+    top_p=1,
+    stream=False,
+    stop=None,
+)
 
-# Execute the Request
-response = llama.run(api_request_json)
-print(json.dumps(response.json(), indent=2))
+print(completion.choices[0].message)
