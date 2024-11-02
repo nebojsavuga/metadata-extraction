@@ -16,7 +16,7 @@ def get_metadata():
 
     analyzer = TextAnalyzer()
     metadata_instance = analyzer.get_metadata(
-        file, model="llama3-70b-8192", temperature=0.7, max_tokens=150, top_p=1
+        file, model="llama3-70b-8192", temperature=0.7, max_tokens=1000, top_p=1
     )
 
     response_data = {

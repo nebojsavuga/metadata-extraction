@@ -1,10 +1,15 @@
 from groq import Groq
 from general_data_extraction import *
+from technical_data_extraction import *
 from metadata import *
 import os
 import PyPDF2
 import docx
 from flask import jsonify
+
+# Supported video and audio formats
+VIDEO_FORMATS = ["mp4", "mkv", "avi", "mov"]
+AUDIO_FORMATS = ["mp3", "wav", "aac", "flac"]
 
 
 def extract_text_from_pdf(file):
@@ -34,34 +39,40 @@ class TextAnalyzer:
             text = extract_text_from_pdf(file)
         elif file.filename.endswith(".docx"):
             text = extract_text_from_word(file)
-        elif file.filename.endswith(".mp3"):
-            return (
-                jsonify({"error": "MP3 file type not supported for text extraction"}),
-                400,
-            )
         else:
-            return jsonify({"error": "Unsupported file type"}), 400
+            text = "No data."
         if not text:
             return jsonify({"error": "Could not extract text from the file"}), 400
 
         metadata_instance = Metadata()
 
-        metadata_instance.general = self.get_general_data(file, text, model, temperature, max_tokens, top_p)
-        metadata_instance.lifeCycle = self.get_life_cycle_data(file, text, model, temperature, max_tokens, top_p)
-        metadata_instance.tehnical = self.get_tehnical_data(file, text, model, temperature, max_tokens, top_p)
-        metadata_instance.educational = self.get_educational_data(file, text, model, temperature, max_tokens, top_p)
-        metadata_instance.rights = self.get_rights_data(file, text, model, temperature, max_tokens, top_p)
-        metadata_instance.relation = self.get_relation_data(file, text, model, temperature, max_tokens, top_p)
-        metadata_instance.classification = self.get_classification_data(file, text, model, temperature, max_tokens, top_p)
+        metadata_instance.general = self.get_general_data(
+            file, text, model, temperature, max_tokens, top_p
+        )
+        metadata_instance.lifeCycle = self.get_life_cycle_data(
+            file, text, model, temperature, max_tokens, top_p
+        )
+        metadata_instance.tehnical = self.get_tehnical_data(
+            file, text, model, temperature, max_tokens, top_p
+        )
+        metadata_instance.educational = self.get_educational_data(
+            file, text, model, temperature, max_tokens, top_p
+        )
+        metadata_instance.rights = self.get_rights_data(
+            file, text, model, temperature, max_tokens, top_p
+        )
+        metadata_instance.relation = self.get_relation_data(
+            file, text, model, temperature, max_tokens, top_p
+        )
+        metadata_instance.classification = self.get_classification_data(
+            file, text, model, temperature, max_tokens, top_p
+        )
 
-        # do for others
         return metadata_instance
 
     def get_general_data(self, file, text, model, temperature, max_tokens, top_p):
         general = GeneralMetadata()
-        general.title = get_title(
-            self, text, model, temperature, max_tokens, top_p
-        )
+        general.title = get_title(self, text, model, temperature, max_tokens, top_p)
         general.description = get_description(
             self, text, model, temperature, max_tokens, top_p
         )
@@ -74,37 +85,55 @@ class TextAnalyzer:
         general.aggregation_level = get_aggregation_level(
             self, text, model, 0.1, max_tokens, top_p
         )
-        
+
         return general
-    
+
     def get_life_cycle_data(self, file, text, model, temperature, max_tokens, top_p):
         life_cycle = LifeCycleMetadata()
-        # TO DO
+        # TODO
         return life_cycle
-    
+
     def get_tehnical_data(self, file, text, model, temperature, max_tokens, top_p):
         tehnical = TehnicalMetadata()
-        # TO DO
+        # TODO Other platform requirements check with professor
+        tehnical.format = get_file_format(file)
+
+        tehnical.size = get_file_size(file)
+
+        tehnical.location = get_location(
+            self, text, model, temperature, max_tokens, top_p
+        )
+        tehnical.requirement = get_requirement(
+            self, text, model, temperature, max_tokens, top_p
+        )
+        tehnical.installation_remarks = get_installation_remarks(
+            self, text, model, temperature, max_tokens, top_p
+        )
+        if tehnical.format in VIDEO_FORMATS + AUDIO_FORMATS:
+            tehnical.duration = get_duration(
+                file, tehnical.format, VIDEO_FORMATS, AUDIO_FORMATS
+            )
+
         return tehnical
-    
+
     def get_educational_data(self, file, text, model, temperature, max_tokens, top_p):
         educational = EducationalMetadata()
-        # TO DO
+        # TODO
         return educational
-    
+
     def get_rights_data(self, file, text, model, temperature, max_tokens, top_p):
         rights = RightsMetadata()
-        # TO DO
+        # TODO
         return rights
-    
+
     def get_relation_data(self, file, text, model, temperature, max_tokens, top_p):
         relation = RelationMetadata()
-        # TO DO
+        # TODO
         return relation
-    
-    def get_classification_data(self, file, text, model, temperature, max_tokens, top_p):
-        classification = ClassificationMetadata()
-        # TO DO
-        return classification
 
-    
+    def get_classification_data(
+        self, file, text, model, temperature, max_tokens, top_p
+    ):
+        classification = ClassificationMetadata()
+        # TODO
+        return classification
