@@ -7,12 +7,13 @@ class TextAnalyzer:
             api_key=api_key or os.environ.get("GROQ_API_KEY")
         )
 
-    def get_keywords(self, text, model="llama3-70b-8192", temperature=0.7, max_tokens=1000, top_p=1):
+    def get_keywords(self, text = '', task = '', model="llama3-70b-8192", temperature=0.5, max_tokens=1000, top_p=1):
         """Generate keywords from the given text using the Groq API."""
         completion = self.client.chat.completions.create(
             model=model,
             messages=[
-                {"role": "user", "content": f"Provide a keywords of the following text: '{text}'"}
+                {"role": "user", "content": text},
+                {"role": "system", "content": task}
             ],
             temperature=temperature,
             max_tokens=max_tokens,
@@ -41,5 +42,5 @@ if __name__ == "__main__":
     )
 
     analyzer = TextAnalyzer()
-    keywords = analyzer.get_keywords(text)
+    keywords = analyzer.get_keywords(text, 'Extract most used keywords with only bullet points and ! at the end and no additional text')
     print(keywords)
