@@ -1,5 +1,5 @@
 from groq import Groq
-from metadata import Metadata
+from metadata import Metadata, GeneralMetadata
 import os
 import PyPDF2
 import docx
@@ -44,10 +44,18 @@ class TextAnalyzer:
             return jsonify({"error": "Could not extract text from the file"}), 400
 
         metadata_instance = Metadata()
-        metadata_instance.general.keywords = self.get_keywords(
+
+        metadata_instance.general = self.get_general_data(file, text, model, temperature, max_tokens, top_p)
+        # do for others
+        return metadata_instance
+
+    def get_general_data(self, file, text, model, temperature, max_tokens, top_p):
+        general = GeneralMetadata()
+        general.keywords = self.get_keywords(
             text, model, temperature, max_tokens, top_p
         )
-        return metadata_instance
+        
+        return general
 
     def get_keywords(self, text, model, temperature, max_tokens, top_p):
         """Generate keywords from the given text using the Groq API."""
