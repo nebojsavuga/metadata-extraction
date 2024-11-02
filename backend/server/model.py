@@ -86,6 +86,13 @@ class TextAnalyzer:
             self, text, model, 0.1, max_tokens, top_p
         )
 
+        general.structure = get_structure(
+            self, text, model, temperature, max_tokens, top_p
+        )
+        general.coverage = get_coverage(
+            self, text, model, temperature, max_tokens, top_p
+        )
+        
         return general
 
     def get_life_cycle_data(self, file, text, model, temperature, max_tokens, top_p):

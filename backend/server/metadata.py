@@ -17,6 +17,7 @@ class GeneralMetadata:
         self.description = ''
         self.keywords = ''
         self.structure = ''
+        self.coverage = ''
         self.aggregation_level = ''
         
         
