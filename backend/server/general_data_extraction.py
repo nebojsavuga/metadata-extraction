@@ -16,6 +16,7 @@ def get_title(textAnalyzer, text, model, temperature, max_tokens, top_p):
         )
         return completion.choices[0].message.content.strip()
     
+    
 def get_description(textAnalyzer, text, model, temperature, max_tokens, top_p):
     """Get description from the given text using the Groq API."""
     completion = textAnalyzer.client.chat.completions.create(
@@ -33,6 +34,7 @@ def get_description(textAnalyzer, text, model, temperature, max_tokens, top_p):
         stream=False,
     )
     return completion.choices[0].message.content.strip()
+
 
 def get_keywords(textAnalyzer, text, model, temperature, max_tokens, top_p):
     """Generate keywords from the given text using the Groq API."""
@@ -52,6 +54,7 @@ def get_keywords(textAnalyzer, text, model, temperature, max_tokens, top_p):
     )
     return completion.choices[0].message.content.strip()
 
+
 def get_language(textAnalyzer, text, model, temperature, max_tokens, top_p):
     """Get language from the given text using the Groq API."""
     completion = textAnalyzer.client.chat.completions.create(
@@ -69,6 +72,7 @@ def get_language(textAnalyzer, text, model, temperature, max_tokens, top_p):
         stream=False,
     )
     return completion.choices[0].message.content.strip()
+
 
 def get_aggregation_level(textAnalyzer, text, model, temperature, max_tokens, top_p):
     """Get aggregation level from the given text using the Groq API."""
@@ -91,6 +95,7 @@ def get_aggregation_level(textAnalyzer, text, model, temperature, max_tokens, to
         stream=False,
     )
     return completion.choices[0].message.content.strip()
+
 
 def get_structure(textAnalyzer, text, model, temperature, max_tokens, top_p):
     """Get structure from the given text using the Groq API."""
@@ -132,6 +137,7 @@ relationships."""
         stream=False,
     )
     return completion.choices[0].message.content.strip()
+
 
 def get_coverage(textAnalyzer, text, model, temperature, max_tokens, top_p):
     """Get coverage from the given text using the Groq API."""

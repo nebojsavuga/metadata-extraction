@@ -72,7 +72,9 @@ class TextAnalyzer:
 
     def get_general_data(self, file, text, model, temperature, max_tokens, top_p):
         general = GeneralMetadata()
+        
         general.title = get_title(self, text, model, temperature, max_tokens, top_p)
+        
         general.description = get_description(
             self, text, model, temperature, max_tokens, top_p
         )
@@ -85,7 +87,6 @@ class TextAnalyzer:
         general.aggregation_level = get_aggregation_level(
             self, text, model, 0.1, max_tokens, top_p
         )
-
         general.structure = get_structure(
             self, text, model, temperature, max_tokens, top_p
         )
