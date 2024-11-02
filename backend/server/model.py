@@ -1,4 +1,5 @@
 from groq import Groq
+from general_data_extraction import *
 from metadata import *
 import os
 import PyPDF2
@@ -58,20 +59,20 @@ class TextAnalyzer:
 
     def get_general_data(self, file, text, model, temperature, max_tokens, top_p):
         general = GeneralMetadata()
-        general.title = self.get_title(
-            text, model, temperature, max_tokens, top_p
+        general.title = get_title(
+            self, text, model, temperature, max_tokens, top_p
         )
-        general.description = self.get_description(
-            text, model, temperature, max_tokens, top_p
+        general.description = get_description(
+            self, text, model, temperature, max_tokens, top_p
         )
-        general.keywords = self.get_keywords(
-            text, model, temperature, max_tokens, top_p
+        general.keywords = get_keywords(
+            self, text, model, temperature, max_tokens, top_p
         )
-        general.language = self.get_language(
-            text, model, temperature, max_tokens, top_p
+        general.language = get_language(
+            self, text, model, temperature, max_tokens, top_p
         )
-        general.aggregation_level = self.get_aggregation_level(
-            text, model, temperature, max_tokens, top_p
+        general.aggregation_level = get_aggregation_level(
+            self, text, model, 0.1, max_tokens, top_p
         )
         
         return general
@@ -106,96 +107,4 @@ class TextAnalyzer:
         # TO DO
         return classification
 
-    def get_title(self, text, model, temperature, max_tokens, top_p):
-        """Get title from the given text using the Groq API."""
-        completion = self.client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "user", "content": text},
-                {
-                    "role": "system",
-                    "content": """Get the title of the text, but just title, without additional text"""
-                },
-            ],
-            temperature=temperature,
-            max_tokens=max_tokens,
-            top_p=top_p,
-            stream=False,
-        )
-        return completion.choices[0].message.content.strip()
     
-    def get_description(self, text, model, temperature, max_tokens, top_p):
-        """Get description from the given text using the Groq API."""
-        completion = self.client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "user", "content": text},
-                {
-                    "role": "system",
-                    "content": """Get short description of the text, but just description, without additional text"""
-                },
-            ],
-            temperature=temperature,
-            max_tokens=max_tokens,
-            top_p=top_p,
-            stream=False,
-        )
-        return completion.choices[0].message.content.strip()
-    
-    def get_keywords(self, text, model, temperature, max_tokens, top_p):
-        """Generate keywords from the given text using the Groq API."""
-        completion = self.client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "user", "content": text},
-                {
-                    "role": "system",
-                    "content": "Extract keywords with bullet points. Dont add any aditional text",
-                },
-            ],
-            temperature=temperature,
-            max_tokens=max_tokens,
-            top_p=top_p,
-            stream=False,
-        )
-        return completion.choices[0].message.content.strip()
-    
-    def get_language(self, text, model, temperature, max_tokens, top_p):
-        """Get language from the given text using the Groq API."""
-        completion = self.client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "user", "content": text},
-                {
-                    "role": "system",
-                    "content": "Extract language of the text. Dont add any aditional text just language",
-                },
-            ],
-            temperature=temperature,
-            max_tokens=max_tokens,
-            top_p=top_p,
-            stream=False,
-        )
-        return completion.choices[0].message.content.strip()
-    
-    def get_aggregation_level(self, text, model, temperature, max_tokens, top_p):
-        """Get aggregation level from the given text using the Groq API."""
-        completion = self.client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "user", "content": text},
-                {
-                    "role": "system",
-                    "content": """Extract aggregation level of the text with just level, no additional text. Aggregation level is The functional granularity of this learning object. These are possible values: 
-1: the smallest level of aggregation, e.g., raw media data or fragments.
-2: a collection of level 1 learning objects, e.g., a lesson.
-3: a collection of level 2 learning objects, e.g., a course.
-4: the largest level of granularity, e.g., a set of courses that lead to a certificate."""
-                },
-            ],
-            temperature=temperature,
-            max_tokens=max_tokens,
-            top_p=top_p,
-            stream=False,
-        )
-        return completion.choices[0].message.content.strip()
