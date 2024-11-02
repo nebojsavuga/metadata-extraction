@@ -85,7 +85,8 @@ class TextAnalyzer:
     def get_tehnical_data(self, file, text, model, temperature, max_tokens, top_p):
         tehnical = TehnicalMetadata()
         # TODO
-        tehnical.format = get_format(file)
+        tehnical.format = get_file_format(file)
+        tehnical.size = get_file_size(file)
         return tehnical
     
     def get_educational_data(self, file, text, model, temperature, max_tokens, top_p):

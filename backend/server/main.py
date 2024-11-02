@@ -10,7 +10,7 @@ def get_metadata():
         return jsonify({"error": "File is required"}), 400
 
     file = request.files["file"]
-
+    print(file)
     if not file:
         return jsonify({"error": "No file provided"}), 400
 
