@@ -80,7 +80,6 @@ def get_duration(file, file_format, video_formats, audio_formats):
     temp_file_path = os.path.join(temp_dir, f"temp_file{file_format}")
 
     try:
-        # Save uploaded file to the manually created temporary file
         file.save(temp_file_path)
 
         # Select the appropriate clip based on format
@@ -101,6 +100,6 @@ def get_duration(file, file_format, video_formats, audio_formats):
         return None
 
     finally:
-        # Clean up the temporary file
+        # cleanup
         if os.path.exists(temp_file_path):
             os.remove(temp_file_path)

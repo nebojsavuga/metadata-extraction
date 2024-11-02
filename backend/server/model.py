@@ -40,13 +40,15 @@ class TextAnalyzer:
         elif file.filename.endswith(".docx"):
             text = extract_text_from_word(file)
         else:
-            text = 'No data.'
+            text = "No data."
         if not text:
             return jsonify({"error": "Could not extract text from the file"}), 400
 
         metadata_instance = Metadata()
-        
-        metadata_instance.general = self.get_general_data(file, text, model, temperature, max_tokens, top_p)
+
+        metadata_instance.general = self.get_general_data(
+            file, text, model, temperature, max_tokens, top_p
+        )
         metadata_instance.lifeCycle = self.get_life_cycle_data(
             file, text, model, temperature, max_tokens, top_p
         )
@@ -93,9 +95,11 @@ class TextAnalyzer:
 
     def get_tehnical_data(self, file, text, model, temperature, max_tokens, top_p):
         tehnical = TehnicalMetadata()
-        # Other platform requirements check with professor
+        # TODO Other platform requirements check with professor
         tehnical.format = get_file_format(file)
+
         tehnical.size = get_file_size(file)
+
         tehnical.location = get_location(
             self, text, model, temperature, max_tokens, top_p
         )
@@ -105,7 +109,7 @@ class TextAnalyzer:
         tehnical.installation_remarks = get_installation_remarks(
             self, text, model, temperature, max_tokens, top_p
         )
-        if tehnical.format in VIDEO_FORMATS or tehnical.format in AUDIO_FORMATS:
+        if tehnical.format in VIDEO_FORMATS + AUDIO_FORMATS:
             tehnical.duration = get_duration(
                 file, tehnical.format, VIDEO_FORMATS, AUDIO_FORMATS
             )
