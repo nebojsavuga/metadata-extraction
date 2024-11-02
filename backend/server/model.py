@@ -61,6 +61,9 @@ class TextAnalyzer:
         general.title = self.get_title(
             text, model, temperature, max_tokens, top_p
         )
+        general.description = self.get_description(
+            text, model, temperature, max_tokens, top_p
+        )
         general.keywords = self.get_keywords(
             text, model, temperature, max_tokens, top_p
         )
@@ -112,6 +115,24 @@ class TextAnalyzer:
                 {
                     "role": "system",
                     "content": """Get the title of the text, but just title, without additional text"""
+                },
+            ],
+            temperature=temperature,
+            max_tokens=max_tokens,
+            top_p=top_p,
+            stream=False,
+        )
+        return completion.choices[0].message.content.strip()
+    
+    def get_description(self, text, model, temperature, max_tokens, top_p):
+        """Get description from the given text using the Groq API."""
+        completion = self.client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "user", "content": text},
+                {
+                    "role": "system",
+                    "content": """Get short description of the text, but just description, without additional text"""
                 },
             ],
             temperature=temperature,
