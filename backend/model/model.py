@@ -11,11 +11,11 @@ completion = client.chat.completions.create(
     messages=[
         {
             "role": "user",
-            "content": "When was the Kosovo Batle"
+            "content": "From this: 'Tradicionalne kuće često nisu prilagođene savremenim potrebama. Ove kuće zavise od fiksnih i manuelnih procesa.  One ne uzimaju u obzir promenljive uslove i potrebe ljudi. Zbog žurbe i nepažnje, ljudi zaboravljaju da uključe ili isključe kućne aparate i sigurnosne uređaje. Nedostatak automatizacije i kontrole uređajima van doma može dovesti do veće potrošnje električne energije i smanjene bezbednosti kuće.' Create Summary"
         },
         {
             "role": "assistant",
-            "content": "When was the kosovo battle"
+            "content": "Summarize text"
         }
     ],
     temperature=1,
@@ -25,4 +25,4 @@ completion = client.chat.completions.create(
     stop=None,
 )
 
-print(completion.choices[0].message)
+print(completion.choices[0].message.content)
