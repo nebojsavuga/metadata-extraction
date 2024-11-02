@@ -8,8 +8,8 @@ import docx
 from flask import jsonify
 
 # Supported video and audio formats
-VIDEO_FORMATS = [".mp4", ".mkv", ".avi", ".mov"]
-AUDIO_FORMATS = [".mp3", ".wav", ".aac", ".flac"]
+VIDEO_FORMATS = ["mp4", "mkv", "avi", "mov"]
+AUDIO_FORMATS = ["mp3", "wav", "aac", "flac"]
 
 
 def extract_text_from_pdf(file):
@@ -40,13 +40,13 @@ class TextAnalyzer:
         elif file.filename.endswith(".docx"):
             text = extract_text_from_word(file)
         else:
-            return 'No data.'
+            text = 'No data.'
         if not text:
             return jsonify({"error": "Could not extract text from the file"}), 400
 
         metadata_instance = Metadata()
         
-        #metadata_instance.general = self.get_general_data(file, text, model, temperature, max_tokens, top_p)
+        metadata_instance.general = self.get_general_data(file, text, model, temperature, max_tokens, top_p)
         metadata_instance.lifeCycle = self.get_life_cycle_data(
             file, text, model, temperature, max_tokens, top_p
         )
@@ -95,18 +95,16 @@ class TextAnalyzer:
         tehnical = TehnicalMetadata()
         # Other platform requirements check with professor
         tehnical.format = get_file_format(file)
-        if tehnical.format not in AUDIO_FORMATS and tehnical.format not in VIDEO_FORMATS:
-            tehnical.size = get_file_size(file)
-            tehnical.location = get_location(
-                self, text, model, temperature, max_tokens, top_p
-            )
-            tehnical.requirement = get_requirement(
-                self, text, model, temperature, max_tokens, top_p
-            )
-            tehnical.installation_remarks = get_installation_remarks(
-                self, text, model, temperature, max_tokens, top_p
-            )
-        print(tehnical.format)
+        tehnical.size = get_file_size(file)
+        tehnical.location = get_location(
+            self, text, model, temperature, max_tokens, top_p
+        )
+        tehnical.requirement = get_requirement(
+            self, text, model, temperature, max_tokens, top_p
+        )
+        tehnical.installation_remarks = get_installation_remarks(
+            self, text, model, temperature, max_tokens, top_p
+        )
         if tehnical.format in VIDEO_FORMATS or tehnical.format in AUDIO_FORMATS:
             tehnical.duration = get_duration(
                 file, tehnical.format, VIDEO_FORMATS, AUDIO_FORMATS

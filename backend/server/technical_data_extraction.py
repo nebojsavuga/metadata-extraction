@@ -1,5 +1,6 @@
 import os
 from moviepy.editor import VideoFileClip, AudioFileClip
+import tempfile
 
 
 def get_file_format(file):
@@ -25,7 +26,7 @@ def get_location(textAnalyzer, text, model, temperature, max_tokens, top_p):
             {
                 "role": "system",
                 "content": """Return guessed geographical location without any explanation. If no location is found return Not Found.""",
-            }
+            },
         ],
         temperature=temperature,
         max_tokens=max_tokens,
@@ -44,7 +45,7 @@ def get_requirement(textAnalyzer, text, model, temperature, max_tokens, top_p):
             {
                 "role": "system",
                 "content": """Return installation or usage requirements as bullet points if any are given in the file.  If not return No requirements found.""",
-            }
+            },
         ],
         temperature=temperature,
         max_tokens=max_tokens,
@@ -63,7 +64,7 @@ def get_installation_remarks(textAnalyzer, text, model, temperature, max_tokens,
             {
                 "role": "system",
                 "content": """Return installation or usage remarks as bullet points if any are given in the file.  If not return No remarks found.""",
-            }
+            },
         ],
         temperature=temperature,
         max_tokens=max_tokens,
@@ -75,21 +76,31 @@ def get_installation_remarks(textAnalyzer, text, model, temperature, max_tokens,
 
 def get_duration(file, file_format, video_formats, audio_formats):
     """Get duration of the audio/video in seconds."""
-    file_format = os.path.splitext(file.filename)[1].lower()
-    file_path = os.path.join("/tmp", file.filename)
-    file.save(file_path)
+    temp_dir = tempfile.gettempdir()
+    temp_file_path = os.path.join(temp_dir, f"temp_file{file_format}")
+
     try:
-        if file_format(file) in video_formats:
-            clip = VideoFileClip(file_path)
+        # Save uploaded file to the manually created temporary file
+        file.save(temp_file_path)
+
+        # Select the appropriate clip based on format
+        if file_format in video_formats:
+            clip = VideoFileClip(temp_file_path)
         elif file_format in audio_formats:
-            clip = AudioFileClip(file_path)
+            clip = AudioFileClip(temp_file_path)
         else:
-            return None  # Unsupported format
-        duration = clip.duration  # Duration in seconds
-        clip.close()  # Close the file after processing
+            return None
+
+        duration = clip.duration
+        clip.close()
+
         return duration
+
     except Exception as e:
         print(f"Error retrieving duration: {e}")
         return None
 
-
+    finally:
+        # Clean up the temporary file
+        if os.path.exists(temp_file_path):
+            os.remove(temp_file_path)
