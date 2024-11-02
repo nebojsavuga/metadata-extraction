@@ -13,3 +13,22 @@ def get_file_size(file):
     file_size_mb = file.tell()
     file.seek(0)
     return file_size_mb
+
+
+def get_location(textAnalyzer, text, model, temperature, max_tokens, top_p):
+    """Get location from the file."""
+    completion = textAnalyzer.client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "user", "content": text},
+            {
+                "role": "system",
+                "content": """Return guessed geographical location without any explanation. If no location is found return Not Found.""",
+            }
+        ],
+        temperature=temperature,
+        max_tokens=max_tokens,
+        top_p=top_p,
+        stream=False,
+    )
+    return completion.choices[0].message.content.strip()
