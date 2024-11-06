@@ -1,6 +1,7 @@
 from groq import Groq
 from general_data_extraction import *
 from technical_data_extraction import *
+from rights_data_extraction import *
 from metadata import *
 import os
 import PyPDF2
@@ -174,7 +175,15 @@ class TextAnalyzer:
 
     def get_rights_data(self, file, text, model, temperature, max_tokens, top_p):
         rights = RightsMetadata()
-        # TODO
+        rights.cost = get_cost(
+            self, text, model, 0.1, max_tokens, top_p
+        )
+        rights.copyright = get_copyright(
+            self, text, model, temperature, max_tokens, top_p
+        )
+        rights.description = get_rights_description(
+            self, text, model, temperature, max_tokens, top_p
+        )
         return rights
 
     def get_relation_data(self, file, text, model, temperature, max_tokens, top_p):
