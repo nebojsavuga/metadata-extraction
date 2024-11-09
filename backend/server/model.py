@@ -159,7 +159,7 @@ class TextAnalyzer:
 
         general.title = get_title(self, text, model, temperature, max_tokens, top_p)
 
-        general.description = get_description(
+        general.description = get_educational_description(
             self, text, model, temperature, max_tokens, top_p
         )
         general.keywords = get_keywords(
@@ -228,6 +228,28 @@ class TextAnalyzer:
             self, text, model, 0.1, max_tokens, top_p
         )
         educational.typical_age_range = get_typical_age_range(
+            self, text, model, 0.1, max_tokens, top_p
+        )
+        educational.difficulty = get_dificulty(
+            self,
+            text,
+            educational.intended_end_user_role,
+            model,
+            0.1,
+            max_tokens,
+            top_p,
+        )
+        educational.typical_learning_time = get_learning_time(
+            self,
+            text,
+            educational.context,
+            educational.typical_age_range,
+            model,
+            0.1,
+            max_tokens,
+            top_p,
+        )
+        educational.description = get_educational_description(
             self, text, model, 0.1, max_tokens, top_p
         )
         return educational

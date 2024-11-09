@@ -172,3 +172,75 @@ def get_typical_age_range(textAnalyzer, text, model, temperature, max_tokens, to
         stream=False,
     )
     return completion.choices[0].message.content.strip()
+
+
+def get_dificulty(
+    textAnalyzer, text, intended_user_role, model, temperature, max_tokens, top_p
+):
+    """Get dificulty."""
+    completion = textAnalyzer.client.chat.completions.create(
+        model=model,
+        messages=[
+            {
+                "role": "user",
+                "content": f"How hard it is to work with or through this learning object for the typical intended target audience. '{intended_user_role}' Learning object: '{text}'",
+            },
+            {
+                "role": "system",
+                "content": """Answers: very easy, easy, medium, difficult, very difficult. Don't explain answers. Only choose 1 of the given choices""",
+            },
+        ],
+        temperature=temperature,
+        max_tokens=max_tokens,
+        top_p=top_p,
+        stream=False,
+    )
+    return completion.choices[0].message.content.strip()
+
+
+def get_learning_time(
+    textAnalyzer, text, context, age_range, model, temperature, max_tokens, top_p
+):
+    """Get laerning time."""
+    completion = textAnalyzer.client.chat.completions.create(
+        model=model,
+        messages=[
+            {
+                "role": "user",
+                "content": f"How long will it take to learn the given materrial. Age: '{age_range}'. Context: '{context}' Learning object: '{text}'",
+            },
+            {
+                "role": "system",
+                "content": """Give me an answer in a timespan. Example 5 days, 1 week, etc. Don't explain answers.""",
+            },
+        ],
+        temperature=temperature,
+        max_tokens=max_tokens,
+        top_p=top_p,
+        stream=False,
+    )
+    return completion.choices[0].message.content.strip()
+
+
+def get_educational_description(
+    textAnalyzer, text, model, temperature, max_tokens, top_p
+):
+    """Get description."""
+    completion = textAnalyzer.client.chat.completions.create(
+        model=model,
+        messages=[
+            {
+                "role": "user",
+                "content": f"How is this learning object intented to be used: '{text}'",
+            },
+            {
+                "role": "system",
+                "content": "Example answer: Teacher guidelines that come with a textbook.",
+            },
+        ],
+        temperature=temperature,
+        max_tokens=max_tokens,
+        top_p=top_p,
+        stream=False,
+    )
+    return completion.choices[0].message.content.strip()
