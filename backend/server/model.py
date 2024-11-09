@@ -2,6 +2,7 @@ from groq import Groq
 from general_data_extraction import *
 from technical_data_extraction import *
 from rights_data_extraction import *
+from life_cycle_data_extraction import *
 from metadata import *
 import os
 import PyPDF2
@@ -181,7 +182,12 @@ class TextAnalyzer:
 
     def get_life_cycle_data(self, file, text, model, temperature, max_tokens, top_p):
         life_cycle = LifeCycleMetadata()
-        # TODO
+        life_cycle.version = get_version(
+            self, text, model, temperature, max_tokens, top_p
+            )
+        life_cycle.contribute = get_contribute(
+            self, text, model, temperature, max_tokens, top_p
+            )
         return life_cycle
 
     def get_tehnical_data(self, file, text, model, temperature, max_tokens, top_p):
