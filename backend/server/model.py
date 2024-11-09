@@ -129,7 +129,6 @@ class TextAnalyzer:
             text = "".join(short_text)
 
         metadata_instance = Metadata()
-
         metadata_instance.general = self.get_general_data(
             file, text, model, temperature, max_tokens, top_p
         )
@@ -187,7 +186,6 @@ class TextAnalyzer:
 
     def get_tehnical_data(self, file, text, model, temperature, max_tokens, top_p):
         tehnical = TehnicalMetadata()
-        # TODO Other platform requirements check with professor
         tehnical.format = get_file_format(file)
 
         tehnical.size = get_file_size(file)
