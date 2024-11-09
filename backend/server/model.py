@@ -2,6 +2,7 @@ from groq import Groq
 from general_data_extraction import *
 from technical_data_extraction import *
 from rights_data_extraction import *
+from educational_data_extraction import *
 from metadata import *
 import os
 import PyPDF2
@@ -129,27 +130,27 @@ class TextAnalyzer:
             text = "".join(short_text)
 
         metadata_instance = Metadata()
-        metadata_instance.general = self.get_general_data(
-            file, text, model, temperature, max_tokens, top_p
-        )
-        metadata_instance.lifeCycle = self.get_life_cycle_data(
-            file, text, model, temperature, max_tokens, top_p
-        )
-        metadata_instance.tehnical = self.get_tehnical_data(
-            file, text, model, temperature, max_tokens, top_p
-        )
+        # metadata_instance.general = self.get_general_data(
+        #     file, text, model, temperature, max_tokens, top_p
+        # )
+        # metadata_instance.lifeCycle = self.get_life_cycle_data(
+        #     file, text, model, temperature, max_tokens, top_p
+        # )
+        # metadata_instance.tehnical = self.get_tehnical_data(
+        #     file, text, model, temperature, max_tokens, top_p
+        # )
         metadata_instance.educational = self.get_educational_data(
             file, text, model, temperature, max_tokens, top_p
         )
-        metadata_instance.rights = self.get_rights_data(
-            file, text, model, temperature, max_tokens, top_p
-        )
-        metadata_instance.relation = self.get_relation_data(
-            file, text, model, temperature, max_tokens, top_p
-        )
-        metadata_instance.classification = self.get_classification_data(
-            file, text, model, temperature, max_tokens, top_p
-        )
+        # metadata_instance.rights = self.get_rights_data(
+        #     file, text, model, temperature, max_tokens, top_p
+        # )
+        # metadata_instance.relation = self.get_relation_data(
+        #     file, text, model, temperature, max_tokens, top_p
+        # )
+        # metadata_instance.classification = self.get_classification_data(
+        #     file, text, model, temperature, max_tokens, top_p
+        # )
 
         return metadata_instance
 
@@ -208,7 +209,21 @@ class TextAnalyzer:
 
     def get_educational_data(self, file, text, model, temperature, max_tokens, top_p):
         educational = EducationalMetadata()
-        # TODO
+        educational.interactivity_type = get_interactivity_type(
+            self, text, model, 0.1, max_tokens, top_p
+        )
+        educational.interactivity_level = get_interactivity_level(
+            self, text, model, 0.1, max_tokens, top_p
+        )
+        educational.learning_resource_type = get_learning_resource_type(
+            self, text, model, 0.1, max_tokens, top_p
+        )
+        educational.semantic_density = get_semantic_density(
+            self, text, model, 0.1, max_tokens, top_p
+        )
+        educational.intended_end_user_role = get_intended_user_role(
+            self, text, model, 0.1, max_tokens, top_p
+        )
         return educational
 
     def get_rights_data(self, file, text, model, temperature, max_tokens, top_p):
