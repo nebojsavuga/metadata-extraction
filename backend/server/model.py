@@ -9,9 +9,29 @@ import docx
 from flask import jsonify
 import re
 import tiktoken
+import pytesseract
+from PIL import Image
+import io
+import fitz
+from transformers import BlipProcessor, BlipForConditionalGeneration
+import torch
+
 # Supported video and audio formats
 VIDEO_FORMATS = ["mp4", "mkv", "avi", "mov"]
 AUDIO_FORMATS = ["mp3", "wav", "aac", "flac"]
+
+processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
+model = BlipForConditionalGeneration.from_pretrained(
+    "Salesforce/blip-image-captioning-base"
+)
+
+
+def generate_caption(image: Image.Image) -> str:
+    """Generate a caption for an image using a pre-trained model."""
+    inputs = processor(images=image, return_tensors="pt")
+    output = model.generate(**inputs)
+    caption = processor.decode(output[0], skip_special_tokens=True)
+    return caption
 
 
 def extract_text_from_pdf(file):
@@ -28,38 +48,60 @@ def extract_text_from_word(file):
     return text.strip()
 
 
+def extract_pdf(file):
+    text = extract_text_from_pdf(file)
+    file.seek(0)
+    pdf_document = fitz.open(stream=file.read(), filetype="pdf")
+    # Extract images and generate captions
+    for page_index in range(len(pdf_document)):
+        page = pdf_document.load_page(page_index)
+        image_list = page.get_images(full=True)
+
+        for _, img in enumerate(image_list, start=1):
+            xref = img[0]
+            base_image = pdf_document.extract_image(xref)
+            image_bytes = base_image["image"]
+            # Open the image and generate a caption
+            image = Image.open(io.BytesIO(image_bytes))
+            caption = generate_caption(image)
+            text += "Image caption: " + caption + "\n"
+    return text
+
+
 def split_text_by_word_count(text, word_limit=2000):
-    words = re.split(r'(\s+)', text)
+    words = re.split(r"(\s+)", text)
     segments = []
     current_segment = []
     current_word_count = 0
 
     for word in words:
         current_segment.append(word)
-        if word.strip(): 
+        if word.strip():
             current_word_count += 1
 
         if current_word_count >= word_limit:
-            segments.append(''.join(current_segment).strip())
+            segments.append("".join(current_segment).strip())
             current_segment = []
             current_word_count = 0
 
     if current_segment:
-        segments.append(''.join(current_segment).strip())
+        segments.append("".join(current_segment).strip())
 
     return segments
+
 
 class TextAnalyzer:
     def __init__(self, api_key=None):
         self.client = Groq(api_key=api_key or os.environ.get("GROQ_API_KEY"))
-        self.tokenizer = tiktoken.get_encoding("cl100k_base")  
+        self.tokenizer = tiktoken.get_encoding("cl100k_base")
+
     def get_metadata(
         self, file, model="llama3-70b-8192", temperature=0.5, max_tokens=1000, top_p=1
     ):
-        
+
         text = ""
         if file.filename.endswith(".pdf"):
-            text = extract_text_from_pdf(file)
+            text = extract_pdf(file)
         elif file.filename.endswith(".docx"):
             text = extract_text_from_word(file)
         else:
@@ -67,27 +109,27 @@ class TextAnalyzer:
         if not text:
             return jsonify({"error": "Could not extract text from the file"}), 400
         num_tokens = len(self.tokenizer.encode(text))
-        if (num_tokens > 5000):
+        if num_tokens > 5000:
             words = split_text_by_word_count(text)
             short_text = []
             for word in words:
                 completion = self.client.chat.completions.create(
-                model=model,
-                messages=[
-                    {"role": "user", "content": word},
-                    {
-                        "role": "system",
-                        "content": """Get description of the text, but just description, dont add any additional text"""
-                    },
-                ],
-                temperature=temperature,
-                max_tokens=max_tokens,
-                top_p=top_p,
-                stream=False,
-            )
+                    model=model,
+                    messages=[
+                        {"role": "user", "content": word},
+                        {
+                            "role": "system",
+                            "content": """Get description of the text, but just description, dont add any additional text""",
+                        },
+                    ],
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    top_p=top_p,
+                    stream=False,
+                )
                 short_text.append(completion.choices[0].message.content.strip())
             text = "".join(short_text)
-                
+
         metadata_instance = Metadata()
 
         metadata_instance.general = self.get_general_data(
@@ -116,9 +158,9 @@ class TextAnalyzer:
 
     def get_general_data(self, file, text, model, temperature, max_tokens, top_p):
         general = GeneralMetadata()
-        
+
         general.title = get_title(self, text, model, temperature, max_tokens, top_p)
-        
+
         general.description = get_description(
             self, text, model, temperature, max_tokens, top_p
         )
@@ -137,7 +179,7 @@ class TextAnalyzer:
         general.coverage = get_coverage(
             self, text, model, temperature, max_tokens, top_p
         )
-        
+
         return general
 
     def get_life_cycle_data(self, file, text, model, temperature, max_tokens, top_p):
@@ -175,9 +217,7 @@ class TextAnalyzer:
 
     def get_rights_data(self, file, text, model, temperature, max_tokens, top_p):
         rights = RightsMetadata()
-        rights.cost = get_cost(
-            self, text, model, 0.1, max_tokens, top_p
-        )
+        rights.cost = get_cost(self, text, model, 0.1, max_tokens, top_p)
         rights.copyright = get_copyright(
             self, text, model, temperature, max_tokens, top_p
         )

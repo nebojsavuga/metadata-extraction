@@ -11,6 +11,7 @@ def get_file_format(file):
 
 def get_file_size(file):
     """Get size of file in bytes."""
+    
     file.seek(0, os.SEEK_END)
     file_size_mb = file.tell()
     file.seek(0)
