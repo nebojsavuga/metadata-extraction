@@ -17,6 +17,7 @@ def get_version(textAnalyzer, text, model, temperature, max_tokens, top_p):
         )
         return completion.choices[0].message.content.strip()
     
+    
 def get_contribute(textAnalyzer, text, model, temperature, max_tokens, top_p):
         """Get contribute from the given text using the Groq API."""
         completion = textAnalyzer.client.chat.completions.create(
