@@ -5,3 +5,8 @@ python-docx
 moviepy
 tiktoken
 pytesseract
+PyMuPDF
+Pillow
+PyPDF2
+transformers
+torch
