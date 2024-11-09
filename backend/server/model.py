@@ -224,6 +224,12 @@ class TextAnalyzer:
         educational.intended_end_user_role = get_intended_user_role(
             self, text, model, 0.1, max_tokens, top_p
         )
+        educational.context = get_educational_context(
+            self, text, model, 0.1, max_tokens, top_p
+        )
+        educational.typical_age_range = get_typical_age_range(
+            self, text, model, 0.1, max_tokens, top_p
+        )
         return educational
 
     def get_rights_data(self, file, text, model, temperature, max_tokens, top_p):

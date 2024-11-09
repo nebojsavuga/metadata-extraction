@@ -62,7 +62,9 @@ def get_interactivity_level(textAnalyzer, text, model, temperature, max_tokens, 
     return completion.choices[0].message.content.strip()
 
 
-def get_learning_resource_type(textAnalyzer, text, model, temperature, max_tokens, top_p):
+def get_learning_resource_type(
+    textAnalyzer, text, model, temperature, max_tokens, top_p
+):
     """Get learning resource type."""
     completion = textAnalyzer.client.chat.completions.create(
         model=model,
@@ -82,6 +84,7 @@ def get_learning_resource_type(textAnalyzer, text, model, temperature, max_token
         stream=False,
     )
     return completion.choices[0].message.content.strip()
+
 
 def get_semantic_density(textAnalyzer, text, model, temperature, max_tokens, top_p):
     """Get learning resource type."""
@@ -104,6 +107,7 @@ def get_semantic_density(textAnalyzer, text, model, temperature, max_tokens, top
     )
     return completion.choices[0].message.content.strip()
 
+
 def get_intended_user_role(textAnalyzer, text, model, temperature, max_tokens, top_p):
     """Get intended user role."""
     completion = textAnalyzer.client.chat.completions.create(
@@ -116,6 +120,50 @@ def get_intended_user_role(textAnalyzer, text, model, temperature, max_tokens, t
             {
                 "role": "system",
                 "content": """Answers: teacher, author, learner, manager. Don't explain answers. Only choose 1 of the given choices""",
+            },
+        ],
+        temperature=temperature,
+        max_tokens=max_tokens,
+        top_p=top_p,
+        stream=False,
+    )
+    return completion.choices[0].message.content.strip()
+
+
+def get_educational_context(textAnalyzer, text, model, temperature, max_tokens, top_p):
+    """Get context."""
+    completion = textAnalyzer.client.chat.completions.create(
+        model=model,
+        messages=[
+            {
+                "role": "user",
+                "content": f"What is the principal environment within which the learning and use of this learning object is intended to take place.: '{text}'",
+            },
+            {
+                "role": "system",
+                "content": """Answers: school, higher education, training, other. Don't explain answers. Only choose 1 of the given choices""",
+            },
+        ],
+        temperature=temperature,
+        max_tokens=max_tokens,
+        top_p=top_p,
+        stream=False,
+    )
+    return completion.choices[0].message.content.strip()
+
+
+def get_typical_age_range(textAnalyzer, text, model, temperature, max_tokens, top_p):
+    """Get typical age range."""
+    completion = textAnalyzer.client.chat.completions.create(
+        model=model,
+        messages=[
+            {
+                "role": "user",
+                "content": f"What is the typical age range of user for this text: '{text}'",
+            },
+            {
+                "role": "system",
+                "content": """Give me an answer in following format: n years- m years. No explanation needed""",
             },
         ],
         temperature=temperature,
