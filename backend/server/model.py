@@ -4,6 +4,7 @@ from technical_data_extraction import *
 from rights_data_extraction import *
 from educational_data_extraction import *
 from life_cycle_data_extraction import *
+from classification_data_extraction import *
 from metadata import *
 import os
 import PyPDF2
@@ -131,6 +132,7 @@ class TextAnalyzer:
             text = "".join(short_text)
 
         metadata_instance = Metadata()
+
         # metadata_instance.general = self.get_general_data(
         #     file, text, model, temperature, max_tokens, top_p
         # )
@@ -149,9 +151,11 @@ class TextAnalyzer:
         # metadata_instance.relation = self.get_relation_data(
         #     file, text, model, temperature, max_tokens, top_p
         # )
-        # metadata_instance.classification = self.get_classification_data(
-        #     file, text, model, temperature, max_tokens, top_p
-        # )
+
+        metadata_instance.classification = self.get_classification_data(
+            file, text, model, temperature, max_tokens, top_p
+        )
+
 
         return metadata_instance
 
@@ -280,5 +284,16 @@ class TextAnalyzer:
         self, file, text, model, temperature, max_tokens, top_p
     ):
         classification = ClassificationMetadata()
-        # TODO
+        classification.purpose = get_purpose(
+            self, text, model, temperature, max_tokens, top_p
+        )
+        classification.taxon_path = get_taxon_path(
+            self, text, model, temperature, max_tokens, top_p
+        )
+        classification.description = get_classification_description(
+            self, text, model, temperature, max_tokens, top_p, classification.purpose
+        )
+        classification.keywords = get_classification_keywords(
+            self, text, model, temperature, max_tokens, top_p, classification.purpose
+        )
         return classification
