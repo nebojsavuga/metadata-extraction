@@ -9,12 +9,10 @@ import docx
 from flask import jsonify
 import re
 import tiktoken
-import pytesseract
 from PIL import Image
 import io
 import fitz
 from transformers import BlipProcessor, BlipForConditionalGeneration
-import torch
 
 # Supported video and audio formats
 VIDEO_FORMATS = ["mp4", "mkv", "avi", "mov"]
