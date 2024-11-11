@@ -16,6 +16,7 @@ from PIL import Image
 import io
 import fitz
 from transformers import BlipProcessor, BlipForConditionalGeneration
+from concurrent.futures import ThreadPoolExecutor
 
 # Supported video and audio formats
 VIDEO_FORMATS = ["mp4", "mkv", "avi", "mov"]
@@ -97,7 +98,7 @@ class TextAnalyzer:
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
 
     def get_metadata(
-        self, file, model="llama3-70b-8192", temperature=0.5, max_tokens=1000, top_p=1
+        self, file, model="llama3-8b-8192", temperature=0.5, max_tokens=1000, top_p=1
     ):
 
         text = ""
@@ -132,7 +133,25 @@ class TextAnalyzer:
             text = "".join(short_text)
 
         metadata_instance = Metadata()
+        with ThreadPoolExecutor() as executor:
+            futures = {
+                executor.submit(self.get_general_data, file, text, model, temperature, max_tokens, top_p): 'general',
+                executor.submit(self.get_life_cycle_data, file, text, model, temperature, max_tokens, top_p): 'lifeCycle',
+                executor.submit(self.get_tehnical_data, file, text, model, temperature, max_tokens, top_p): 'tehnical',
+                executor.submit(self.get_educational_data, file, text, model, temperature, max_tokens, top_p): 'educational',
+                executor.submit(self.get_rights_data, file, text, model, temperature, max_tokens, top_p): 'rights',
+                executor.submit(self.get_relation_data, file, text, model, temperature, max_tokens, top_p): 'relation',
+                executor.submit(self.get_classification_data, file, text, model, temperature, max_tokens, top_p): 'classification'
+            }
 
+            for future in futures:
+                section_name = futures[future]
+                try:
+                    setattr(metadata_instance, section_name, future.result())
+                except Exception as e:
+                    print(f"Error processing {section_name}: {e}")
+
+        return metadata_instance
         # metadata_instance.general = self.get_general_data(
         #     file, text, model, temperature, max_tokens, top_p
         # )
@@ -142,9 +161,9 @@ class TextAnalyzer:
         # metadata_instance.tehnical = self.get_tehnical_data(
         #     file, text, model, temperature, max_tokens, top_p
         # )
-        metadata_instance.educational = self.get_educational_data(
-            file, text, model, temperature, max_tokens, top_p
-        )
+        # metadata_instance.educational = self.get_educational_data(
+        #     file, text, model, temperature, max_tokens, top_p
+        # )
         # metadata_instance.rights = self.get_rights_data(
         #     file, text, model, temperature, max_tokens, top_p
         # )
@@ -152,16 +171,16 @@ class TextAnalyzer:
         #     file, text, model, temperature, max_tokens, top_p
         # )
 
-        metadata_instance.classification = self.get_classification_data(
-            file, text, model, temperature, max_tokens, top_p
-        )
+        # metadata_instance.classification = self.get_classification_data(
+        #     file, text, model, temperature, max_tokens, top_p
+        # )
 
 
-        return metadata_instance
+        # return metadata_instance
 
     def get_general_data(self, file, text, model, temperature, max_tokens, top_p):
         general = GeneralMetadata()
-
+        
         general.title = get_title(self, text, model, temperature, max_tokens, top_p)
 
         general.description = get_educational_description(
