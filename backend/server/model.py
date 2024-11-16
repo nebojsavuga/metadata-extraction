@@ -30,18 +30,10 @@ model = BlipForConditionalGeneration.from_pretrained(
 
 def generate_caption(image: Image.Image) -> str:
     """Generate a caption for an image using a pre-trained model."""
-    inputs = processor(images=image, return_tensors="pt")
+    inputs = processor(image, return_tensors="pt")
     output = model.generate(**inputs)
     caption = processor.decode(output[0], skip_special_tokens=True)
     return caption
-
-
-def extract_text_from_pdf(file):
-    reader = PyPDF2.PdfReader(file)
-    text = ""
-    for page in reader.pages:
-        text += page.extract_text() + "\n"
-    return text.strip()
 
 
 def extract_text_from_word(file):
@@ -51,11 +43,18 @@ def extract_text_from_word(file):
 
 
 def extract_pdf(file):
-    text = extract_text_from_pdf(file)
+    # Open the PDF for text and image extraction
+    text_output = ""
+    reader = PyPDF2.PdfReader(file)
     file.seek(0)
     pdf_document = fitz.open(stream=file.read(), filetype="pdf")
-    # Extract images and generate captions
+    
+    # Process each page
     for page_index in range(len(pdf_document)):
+        # Extract text for the page
+        text_output += reader.pages[page_index].extract_text() + "\n"
+
+        # Extract images for the page
         page = pdf_document.load_page(page_index)
         image_list = page.get_images(full=True)
 
@@ -63,11 +62,13 @@ def extract_pdf(file):
             xref = img[0]
             base_image = pdf_document.extract_image(xref)
             image_bytes = base_image["image"]
+            
             # Open the image and generate a caption
             image = Image.open(io.BytesIO(image_bytes))
             caption = generate_caption(image)
-            text += "Image caption: " + caption + "\n"
-    return text
+            # Add the caption right after the page text
+            text_output += "Image caption: " + caption + "\n"
+    return text_output.strip()
 
 
 def split_text_by_word_count(text, word_limit=2000):
