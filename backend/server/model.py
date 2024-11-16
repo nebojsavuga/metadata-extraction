@@ -39,7 +39,24 @@ def generate_caption(image: Image.Image) -> str:
 def extract_text_from_word(file):
     doc = docx.Document(file)
     text = "\n".join([para.text for para in doc.paragraphs])
-    return text.strip()
+    image_captions = []
+    for rel in doc.part.rels.values():
+        if "image" in rel.target_ref:
+            image_data = rel.target_part.blob
+            image = Image.open(io.BytesIO(image_data))
+
+            # Generate a caption for the image
+            caption = generate_caption(image)
+            image_captions.append(caption)
+
+    if len(image_captions) > 1:
+        image_captions = image_captions[::-1]
+    # Combine text and captions
+    combined_output = text
+    for caption in image_captions:
+        combined_output += f"\nImage caption: {caption}"
+
+    return combined_output
 
 
 def extract_pdf(file):
@@ -48,7 +65,7 @@ def extract_pdf(file):
     reader = PyPDF2.PdfReader(file)
     file.seek(0)
     pdf_document = fitz.open(stream=file.read(), filetype="pdf")
-    
+
     # Process each page
     for page_index in range(len(pdf_document)):
         # Extract text for the page
@@ -62,7 +79,7 @@ def extract_pdf(file):
             xref = img[0]
             base_image = pdf_document.extract_image(xref)
             image_bytes = base_image["image"]
-            
+
             # Open the image and generate a caption
             image = Image.open(io.BytesIO(image_bytes))
             caption = generate_caption(image)
@@ -136,13 +153,69 @@ class TextAnalyzer:
         metadata_instance = Metadata()
         with ThreadPoolExecutor() as executor:
             futures = {
-                executor.submit(self.get_general_data, file, text, model, temperature, max_tokens, top_p): 'general',
-                executor.submit(self.get_life_cycle_data, file, text, model, temperature, max_tokens, top_p): 'lifeCycle',
-                executor.submit(self.get_tehnical_data, file, text, model, temperature, max_tokens, top_p): 'tehnical',
-                executor.submit(self.get_educational_data, file, text, model, temperature, max_tokens, top_p): 'educational',
-                executor.submit(self.get_rights_data, file, text, model, temperature, max_tokens, top_p): 'rights',
-                executor.submit(self.get_relation_data, file, text, model, temperature, max_tokens, top_p): 'relation',
-                executor.submit(self.get_classification_data, file, text, model, temperature, max_tokens, top_p): 'classification'
+                executor.submit(
+                    self.get_general_data,
+                    file,
+                    text,
+                    model,
+                    temperature,
+                    max_tokens,
+                    top_p,
+                ): "general",
+                executor.submit(
+                    self.get_life_cycle_data,
+                    file,
+                    text,
+                    model,
+                    temperature,
+                    max_tokens,
+                    top_p,
+                ): "lifeCycle",
+                executor.submit(
+                    self.get_tehnical_data,
+                    file,
+                    text,
+                    model,
+                    temperature,
+                    max_tokens,
+                    top_p,
+                ): "tehnical",
+                executor.submit(
+                    self.get_educational_data,
+                    file,
+                    text,
+                    model,
+                    temperature,
+                    max_tokens,
+                    top_p,
+                ): "educational",
+                executor.submit(
+                    self.get_rights_data,
+                    file,
+                    text,
+                    model,
+                    temperature,
+                    max_tokens,
+                    top_p,
+                ): "rights",
+                executor.submit(
+                    self.get_relation_data,
+                    file,
+                    text,
+                    model,
+                    temperature,
+                    max_tokens,
+                    top_p,
+                ): "relation",
+                executor.submit(
+                    self.get_classification_data,
+                    file,
+                    text,
+                    model,
+                    temperature,
+                    max_tokens,
+                    top_p,
+                ): "classification",
             }
 
             for future in futures:
@@ -176,12 +249,11 @@ class TextAnalyzer:
         #     file, text, model, temperature, max_tokens, top_p
         # )
 
-
         # return metadata_instance
 
     def get_general_data(self, file, text, model, temperature, max_tokens, top_p):
         general = GeneralMetadata()
-        
+
         general.title = get_title(self, text, model, temperature, max_tokens, top_p)
 
         general.description = get_educational_description(
@@ -209,10 +281,10 @@ class TextAnalyzer:
         life_cycle = LifeCycleMetadata()
         life_cycle.version = get_version(
             self, text, model, temperature, max_tokens, top_p
-            )
+        )
         life_cycle.contribute = get_contribute(
             self, text, model, temperature, max_tokens, top_p
-            )
+        )
         return life_cycle
 
     def get_tehnical_data(self, file, text, model, temperature, max_tokens, top_p):

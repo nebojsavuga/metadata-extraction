@@ -10,3 +10,4 @@ Pillow
 PyPDF2
 transformers
 torch
+python-pptx
