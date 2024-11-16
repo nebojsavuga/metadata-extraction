@@ -7,85 +7,15 @@ from life_cycle_data_extraction import *
 from classification_data_extraction import *
 from metadata import *
 import os
-import PyPDF2
-import docx
 from flask import jsonify
 import re
 import tiktoken
-from PIL import Image
-import io
-import fitz
-from transformers import BlipProcessor, BlipForConditionalGeneration
 from concurrent.futures import ThreadPoolExecutor
+from text_extractors import *
 
 # Supported video and audio formats
 VIDEO_FORMATS = ["mp4", "mkv", "avi", "mov"]
 AUDIO_FORMATS = ["mp3", "wav", "aac", "flac"]
-
-processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
-model = BlipForConditionalGeneration.from_pretrained(
-    "Salesforce/blip-image-captioning-base"
-)
-
-
-def generate_caption(image: Image.Image) -> str:
-    """Generate a caption for an image using a pre-trained model."""
-    inputs = processor(image, return_tensors="pt")
-    output = model.generate(**inputs)
-    caption = processor.decode(output[0], skip_special_tokens=True)
-    return caption
-
-
-def extract_text_from_word(file):
-    doc = docx.Document(file)
-    text = "\n".join([para.text for para in doc.paragraphs])
-    image_captions = []
-    for rel in doc.part.rels.values():
-        if "image" in rel.target_ref:
-            image_data = rel.target_part.blob
-            image = Image.open(io.BytesIO(image_data))
-
-            # Generate a caption for the image
-            caption = generate_caption(image)
-            image_captions.append(caption)
-
-    if len(image_captions) > 1:
-        image_captions = image_captions[::-1]
-    # Combine text and captions
-    combined_output = text
-    for caption in image_captions:
-        combined_output += f"\nImage caption: {caption}"
-
-    return combined_output
-
-
-def extract_pdf(file):
-    # Open the PDF for text and image extraction
-    text_output = ""
-    reader = PyPDF2.PdfReader(file)
-    file.seek(0)
-    pdf_document = fitz.open(stream=file.read(), filetype="pdf")
-
-    # Process each page
-    for page_index in range(len(pdf_document)):
-        # Extract text for the page
-        text_output += reader.pages[page_index].extract_text() + "\n"
-
-        # Extract images for the page
-        page = pdf_document.load_page(page_index)
-        image_list = page.get_images(full=True)
-
-        for _, img in enumerate(image_list, start=1):
-            xref = img[0]
-            base_image = pdf_document.extract_image(xref)
-            image_bytes = base_image["image"]
-
-            # Open the image and generate a caption
-            image = Image.open(io.BytesIO(image_bytes))
-            caption = generate_caption(image)
-            # Add the caption right after the page text
-            text_output += "Image caption: " + caption + "\n"
-    return text_output.strip()
 
 
 def split_text_by_word_count(text, word_limit=2000):
@@ -123,7 +53,7 @@ class TextAnalyzer:
         if file.filename.endswith(".pdf"):
             text = extract_pdf(file)
         elif file.filename.endswith(".docx"):
-            text = extract_text_from_word(file)
+            text = extract_word(file)
         else:
             text = "No data."
         if not text:
