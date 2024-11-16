@@ -54,6 +54,8 @@ class TextAnalyzer:
             text = extract_pdf(file)
         elif file.filename.endswith(".docx"):
             text = extract_word(file)
+        elif file.filename.endswith(".pptx"):
+            text = extract_pptx(file)
         else:
             text = "No data."
         if not text:

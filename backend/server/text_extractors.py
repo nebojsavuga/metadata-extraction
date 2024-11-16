@@ -62,3 +62,39 @@ def extract_pdf(file):
             caption = generate_caption(image)
             text_output += "Image caption: " + caption + "\n"
     return text_output.strip()
+
+
+def extract_pptx(file):
+    # Open the PowerPoint file
+    presentation = pptx.Presentation(file)
+    
+    # Initialize text and image outputs
+    combined_output = ""
+    
+    # Process each slide
+    for slide_index, slide in enumerate(presentation.slides):
+        # Extract text from the slide
+        slide_text = []
+        for shape in slide.shapes:
+            if shape.has_text_frame:
+                for paragraph in shape.text_frame.paragraphs:
+                    slide_text.append(paragraph.text)
+        
+        # Add slide text to the output
+        if slide_text:
+            combined_output += f"Slide {slide_index + 1} Text:\n" + "\n".join(slide_text) + "\n"
+        
+        # Extract images from the slide
+        for shape in slide.shapes:
+            if shape.shape_type == pptx.enum.shapes.MSO_SHAPE_TYPE.PICTURE:
+                image = shape.image
+                image_bytes = image.blob
+                pil_image = Image.open(io.BytesIO(image_bytes))
+                
+                # Generate a caption for the image
+                caption = generate_caption(pil_image)
+                
+                # Add the caption to the output
+                combined_output += f"Slide {slide_index + 1} Image Caption: {caption}\n"
+    
+    return combined_output.strip()
