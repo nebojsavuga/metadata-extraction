@@ -1,0 +1,63 @@
+CREATE TABLE Users (
+    id UNIQUEIDENTIFIER DEFAULT NEWID(),
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE UploadedFile (
+    id UNIQUEIDENTIFIER DEFAULT NEWID(),
+    name VARCHAR(255) NOT NULL,
+    size INT NOT NULL,
+    user_id UNIQUEIDENTIFIER,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Metadata (
+    id UNIQUEIDENTIFIER DEFAULT NEWID(),
+    fileId UNIQUEIDENTIFIER,
+    date_created DATETIME NOT NULL DEFAULT GETDATE(),
+    classification_description VARCHAR(2000) NOT NULL,
+    classification_keywords VARCHAR(2000) NOT NULL,
+    classification_purpose VARCHAR(2000) NOT NULL,
+    classification_taxon_path VARCHAR(2000) NOT NULL,
+    educational_context VARCHAR(255) NOT NULL,
+    educational_description VARCHAR(2000) NOT NULL,
+    educational_difficulty VARCHAR(255) NOT NULL,
+    educational_intended_end_user_role VARCHAR(255) NOT NULL,
+    educational_interactivity_level VARCHAR(255) NOT NULL,
+    educational_interactivity_type VARCHAR(255) NOT NULL,
+    educational_language VARCHAR(255) NOT NULL,
+    educational_learning_resource_type VARCHAR(255) NOT NULL,
+    educational_semantic_density VARCHAR(255) NOT NULL,
+    educational_typical_age_range VARCHAR(255) NOT NULL,
+    educational_typical_learning_rate VARCHAR(255) NOT NULL,
+    general_aggregation_level VARCHAR(255) NOT NULL,
+    general_coverage VARCHAR(255) NOT NULL,
+    general_description VARCHAR(255) NOT NULL,
+    general_keywords VARCHAR(255) NOT NULL,
+    general_language VARCHAR(255) NOT NULL,
+    general_structure VARCHAR(255) NOT NULL,
+    general_title VARCHAR(255) NOT NULL,
+    technical_format VARCHAR(50),
+    technical_size INT,
+    technical_location VARCHAR(255),
+    technical_requirement VARCHAR(255),
+    technical_installation_remarks VARCHAR(255),
+    technical_duration VARCHAR(255),
+    rights_cost VARCHAR(2000),
+    rights_copyright_restrictions VARCHAR(2000),
+    rights_description VARCHAR(2000),
+    life_cycle_version VARCHAR(50),
+    life_cycle_status VARCHAR(255),
+    life_cycle_contribute_role VARCHAR(255),
+    life_cycle_contribute_entity VARCHAR(255),
+    life_cycle_contribute_date DATETIME,
+    relation_annotation VARCHAR(255),
+    relation_kind VARCHAR(255),
+    relation_resource VARCHAR(255),
+    PRIMARY KEY (id),
+    FOREIGN KEY (fileId) REFERENCES UploadedFile(id) ON DELETE CASCADE
+);

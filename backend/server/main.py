@@ -1,14 +1,8 @@
 from flask import Flask, request, jsonify
 from model import TextAnalyzer
-import pyodbc
-import json
+from sql_service import *
 
 app = Flask(__name__)
-
-def load_db_config():
-    with open('db_config.json', 'r') as file:
-        config = json.load(file)
-    return config
 
 @app.route("/", methods=["POST"])
 def get_metadata():
@@ -39,15 +33,5 @@ def get_metadata():
 
 
 if __name__ == "__main__":
-    db_config = load_db_config()
-    server = db_config['server']
-    database = db_config['database']
-    driver = db_config['driver']
-    connection = pyodbc.connect(
-        f"DRIVER={driver};"
-        f"SERVER={server};"
-        f"DATABASE={database};"
-        f"Trusted_Connection=yes;"
-    )
-
+    create_tables('../db_scripts/create_tables.sql', 'db_config.json')
     app.run(debug=True)
