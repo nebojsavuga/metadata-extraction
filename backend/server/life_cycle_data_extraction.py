@@ -29,7 +29,7 @@ def get_contribute(textAnalyzer, text, model, temperature, max_tokens, top_p):
                     "content": """Extract the names of all
                     contributors (i.e., people or organizations) who have played
                     a role in the life cycle of this learning object (e.g., creation, editing, publication)
-                    from the provided text. Only return the list of contributors. If no contributors are found,
+                    from the provided text. Only return the list of contributors with no aditional text. If no contributors are found,
                     respond with "No contributors."""
                 },
             ],

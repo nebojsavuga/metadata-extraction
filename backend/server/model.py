@@ -215,7 +215,7 @@ class TextAnalyzer:
             self, text, model, temperature, max_tokens, top_p
         )
         life_cycle.contribute = get_contribute(
-            self, text, model, temperature, max_tokens, top_p
+            self, text, model, 0.1, max_tokens, top_p
         )
         return life_cycle
 
