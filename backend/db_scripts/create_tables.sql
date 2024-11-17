@@ -36,7 +36,7 @@ CREATE TABLE Metadata (
     educational_typical_learning_rate VARCHAR(255) NOT NULL,
     general_aggregation_level VARCHAR(255) NOT NULL,
     general_coverage VARCHAR(255) NOT NULL,
-    general_description VARCHAR(255) NOT NULL,
+    general_description VARCHAR(2000) NOT NULL,
     general_keywords VARCHAR(255) NOT NULL,
     general_language VARCHAR(255) NOT NULL,
     general_structure VARCHAR(255) NOT NULL,
