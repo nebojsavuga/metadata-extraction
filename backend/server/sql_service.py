@@ -63,8 +63,6 @@ def insert_general_metadata(general_data, config_path):
     # """, (user_id, username, email, password))
     
     file_id1 = uuid.uuid4()
-    file_id2 = uuid.uuid4()
-
     cursor.execute("""
         INSERT INTO UploadedFile (id, name, size, user_id)
         VALUES (?, ?, ?, ?)
@@ -126,7 +124,7 @@ def insert_general_metadata(general_data, config_path):
 
     # Mapiranje vrednosti iz objekta general_data u tuple za SQL upit
     values = (
-        uuid.UUID("9257ECA6-0E6D-4F04-ABEB-891357F56FA1"),
+        file_id1,
         general_data.classification.description,  # classification_description
         general_data.classification.keywords,     # classification_keywords
         general_data.classification.purpose,        # classification_purpose
