@@ -20,6 +20,11 @@
     </div>
 </div>
 
+<div class="row" *ngIf="metadata">
+    <div class="col-12 text-center">
+        <app-metadata [metadata]="metadata"></app-metadata>
+    </div>
+</div>
 <div class="row my-3">
     <div class="col-12 text-center">
         <h1>Files</h1>

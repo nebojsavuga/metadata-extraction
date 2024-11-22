@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './features/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MetadataComponent } from './features/metadata/metadata.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    MetadataComponent
   ],
   imports: [
     BrowserModule,

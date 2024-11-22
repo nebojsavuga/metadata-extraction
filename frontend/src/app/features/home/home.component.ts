@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environment/environment';
 import { MetadataService } from '../../services/metadata.service';
+import { Metadata } from '../../model/metadata';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ export class HomeComponent {
   selectedFile: File | null = null;
   isLoading: boolean = false;
   fileName: string | null = null;
-
+  metadata: Metadata;
+  
   constructor(private metadataService: MetadataService) { }
 
   onFileChange(event: any): void {
@@ -21,7 +23,6 @@ export class HomeComponent {
     if (file) {
       this.selectedFile = file;
       this.fileName = file.name;
-      console.log(this.fileName);
     }
   }
 
@@ -40,7 +41,8 @@ export class HomeComponent {
       {
         next: res => {
           this.isLoading = false;
-          console.log(res);
+          this.metadata = res;
+          console.log(this.metadata);
         },
 
         error: err => {
