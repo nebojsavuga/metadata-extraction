@@ -1,1 +1,11 @@
-<p>home works!</p>
+<div *ngIf="isLoading" class="spinner">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  
+
+<div class="file-upload-container">
+    <input type="file" (change)="onFileChange($event)" />
+    <button (click)="uploadFile()">Upload</button>
+</div>
