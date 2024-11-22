@@ -1,5 +1,5 @@
 CREATE TABLE Users (
-    id UNIQUEIDENTIFIER DEFAULT NEWID(),
+    id INT IDENTITY(1,1) NOT NULL,
     username VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -7,17 +7,17 @@ CREATE TABLE Users (
 );
 
 CREATE TABLE UploadedFile (
-    id UNIQUEIDENTIFIER DEFAULT NEWID(),
+    id INT IDENTITY(1,1) NOT NULL,
     name VARCHAR(255) NOT NULL,
     size INT NOT NULL,
-    user_id UNIQUEIDENTIFIER,
+    user_id INT,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Metadata (
-    id UNIQUEIDENTIFIER DEFAULT NEWID(),
-    fileId UNIQUEIDENTIFIER,
+    id INT IDENTITY(1,1) NOT NULL,
+    fileId INT,
     date_created DATETIME NOT NULL DEFAULT GETDATE(),
     classification_description VARCHAR(2000) NOT NULL,
     classification_keywords VARCHAR(2000) NOT NULL,
