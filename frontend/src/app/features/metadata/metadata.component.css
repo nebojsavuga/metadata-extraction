@@ -1,15 +1,16 @@
 .subtitle {
     text-decoration: underline;
 }
-b{
-    text-decoration: underline;
-}
 
 .row div {
-    display: flex;
-    align-items: center;
     justify-content: space-between;
     text-align: justify;
-    width: 90%;
-    margin: 2px 10px; 
+}
+
+.col-2{
+    font-size: 18px;
+}
+
+.col-10{
+    font-size: 16px;
 }
