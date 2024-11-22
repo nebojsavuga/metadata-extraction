@@ -1,5 +1,5 @@
 {
-    "server": "localhost",
+    "server": "DESKTOP-LTM3NV6\\SQLEXPRESS",
     "database": "MetadataExtraction",
     "driver": "{ODBC Driver 17 for SQL Server}"
 }
