@@ -1,11 +1,27 @@
 <div *ngIf="isLoading" class="spinner">
     <div class="spinner-border" role="status">
-      <span class="sr-only">Loading...</span>
+        <span class="sr-only">Loading...</span>
     </div>
-  </div>
-  
+</div>
 
-<div class="file-upload-container">
-    <input type="file" (change)="onFileChange($event)" />
-    <button (click)="uploadFile()">Upload</button>
+<div class="row my-3">
+    <div class="col-12 text-center my-2">
+        <h1>Upload file</h1>
+    </div>
+    <div class="col-12 text-center">
+        <input type="file" id="fileInput" (change)="onFileChange($event)" />
+        <label for="fileInput" class="default-button mx-5">
+            Select File
+        </label>
+        <button (click)="uploadFile()" class="default-button">Get metadata</button>
+    </div>
+    <div class="col-12 text-center my-3">
+        <span *ngIf="fileName">Selected File: {{ fileName }}</span>
+    </div>
+</div>
+
+<div class="row my-3">
+    <div class="col-12 text-center">
+        <h1>Files</h1>
+    </div>
 </div>

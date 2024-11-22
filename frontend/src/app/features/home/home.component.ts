@@ -12,6 +12,7 @@ import { MetadataService } from '../../services/metadata.service';
 export class HomeComponent {
   selectedFile: File | null = null;
   isLoading: boolean = false;
+  fileName: string | null = null;
 
   constructor(private metadataService: MetadataService) { }
 
@@ -19,6 +20,8 @@ export class HomeComponent {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
+      this.fileName = file.name;
+      console.log(this.fileName);
     }
   }
 
