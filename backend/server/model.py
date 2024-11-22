@@ -13,7 +13,6 @@ import re
 import tiktoken
 from concurrent.futures import ThreadPoolExecutor
 from text_extractors import *
-import pyodbc
 # Supported video and audio formats
 VIDEO_FORMATS = ["mp4", "mkv", "avi", "mov"]
 AUDIO_FORMATS = ["mp3", "wav", "aac", "flac"]
@@ -157,32 +156,8 @@ class TextAnalyzer:
                     setattr(metadata_instance, section_name, future.result())
                 except Exception as e:
                     print(f"Error processing {section_name}: {e}")
-        insert_general_metadata(metadata_instance, "db_config.json")
+        insert_general_metadata(file.filename, metadata_instance, 'db_config.json')
         return metadata_instance
-        # metadata_instance.general = self.get_general_data(
-        #     file, text, model, temperature, max_tokens, top_p
-        # )
-        # metadata_instance.lifeCycle = self.get_life_cycle_data(
-        #     file, text, model, temperature, max_tokens, top_p
-        # )
-        # metadata_instance.tehnical = self.get_tehnical_data(
-        #     file, text, model, temperature, max_tokens, top_p
-        # )
-        # metadata_instance.educational = self.get_educational_data(
-        #     file, text, model, temperature, max_tokens, top_p
-        # )
-        # metadata_instance.rights = self.get_rights_data(
-        #     file, text, model, temperature, max_tokens, top_p
-        # )
-        # metadata_instance.relation = self.get_relation_data(
-        #     file, text, model, temperature, max_tokens, top_p
-        # )
-
-        # metadata_instance.classification = self.get_classification_data(
-        #     file, text, model, temperature, max_tokens, top_p
-        # )
-
-        # return metadata_instance
     
 
     def get_general_data(self, file, text, model, temperature, max_tokens, top_p):
