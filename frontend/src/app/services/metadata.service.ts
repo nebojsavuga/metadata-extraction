@@ -22,4 +22,9 @@ export class MetadataService {
     const url = environment.apiHost;
     return this.http.get<UploadedFile[]>(url);
   }
+
+  getFile(file_id: string): Observable<Metadata> {
+    const url = environment.apiHost;
+    return this.http.get<Metadata>(url + Number(file_id));
+  }
 }

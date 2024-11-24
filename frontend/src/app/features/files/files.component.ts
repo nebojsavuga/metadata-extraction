@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { UploadedFile } from '../../model/file';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-files',
@@ -9,9 +10,11 @@ import { UploadedFile } from '../../model/file';
 export class FilesComponent {
 
   @Input() files: UploadedFile[] = [];
+  
+  constructor(private router: Router) { }
 
   onFileClick(event: any) {
-    console.log(event);
+    this.router.navigate(['file/' + event])
   }
 
   getFileIcon(fileName: string): string {

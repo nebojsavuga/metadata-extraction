@@ -2,10 +2,11 @@ from flask import Flask, request, jsonify
 from model import TextAnalyzer
 from sql_service import *
 from flask_cors import CORS
-from sql_service import get_all_files
+from sql_service import get_all_files, get_file_by_id
 
 app = Flask(__name__)
 CORS(app)
+
 
 @app.route("/", methods=["POST"])
 def get_metadata():
@@ -37,13 +38,25 @@ def get_metadata():
 
 @app.route("/", methods=["GET"])
 def get_files():
-    return jsonify(get_all_files('db_config.json'))
+    return jsonify(get_all_files("db_config.json"))
 
-@app.route("/file/<int:file_id>", methods=["GET"])
+
+@app.route("/<int:file_id>", methods=["GET"])
 def get_file(file_id):
-    return ''
+    metadata_instance = get_file_by_id("db_config.json", file_id)
+    response_data = {
+        "general": metadata_instance.general.__dict__,
+        "lifeCycle": metadata_instance.lifeCycle.__dict__,
+        "tehnical": metadata_instance.tehnical.__dict__,
+        "educational": metadata_instance.educational.__dict__,
+        "rights": metadata_instance.rights.__dict__,
+        "relation": metadata_instance.relation.__dict__,
+        "classification": metadata_instance.classification.__dict__,
+    }
+    return jsonify(response_data)
+
 
 if __name__ == "__main__":
-    #create_tables('../db_scripts/create_tables.sql', 'db_config.json')
-    #insert_user('db_config.json')
+    # create_tables('../db_scripts/create_tables.sql', 'db_config.json')
+    # insert_user('db_config.json')
     app.run(debug=True)
