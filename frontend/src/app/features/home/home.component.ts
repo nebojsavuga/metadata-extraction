@@ -59,6 +59,7 @@ export class HomeComponent implements OnInit {
           this.isLoading = false;
           this.metadata = res;
           this.getFiles();
+          this.selectedFile = null;
         },
 
         error: err => {
