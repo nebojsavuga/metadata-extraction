@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UploadedFile } from '../../model/file';
-import { OutletContext, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MetadataService } from '../../services/metadata.service';
 import { SnackbarService } from '../../services/snackbar.service';
 
