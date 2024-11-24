@@ -18,7 +18,7 @@ export class MetadataComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.metadataService.getFile(id).subscribe(
-        res =>{
+        res => {
           this.metadata = res;
         }
       )

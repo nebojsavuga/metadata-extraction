@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UploadedFile } from '../../model/file';
 import { OutletContext, Router } from '@angular/router';
 import { MetadataService } from '../../services/metadata.service';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-files',
@@ -13,7 +14,7 @@ export class FilesComponent {
   @Input() files: UploadedFile[] = [];
   @Output() refresh = new EventEmitter<boolean>();
 
-  constructor(private router: Router, private metadataService: MetadataService) { }
+  constructor(private router: Router, private metadataService: MetadataService, private snackbar: SnackbarService) { }
 
   onFileClick(event: any) {
     this.router.navigate(['file/' + event])
@@ -45,8 +46,9 @@ export class FilesComponent {
       {
         next: () => {
           this.refresh.emit(true);
+          this.snackbar.showSnackBar('Successfully deleted file.', 'Ok')
         },
-        error : err =>{
+        error: err => {
           console.log(err);
         }
       }

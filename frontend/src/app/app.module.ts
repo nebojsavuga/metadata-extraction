@@ -7,6 +7,7 @@ import { HomeComponent } from './features/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MetadataComponent } from './features/metadata/metadata.component';
 import { FilesComponent } from './features/files/files.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
