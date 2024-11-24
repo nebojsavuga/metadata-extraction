@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MetadataComponent } from './features/metadata/metadata.component';
 import { FilesComponent } from './features/files/files.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

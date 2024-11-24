@@ -9,9 +9,7 @@ export class SnackbarService {
 
     showSnackBar(message: string, action: string) {
         const _ = this.snackBar.open(message, action, {
-            duration: 4000,
-            horizontalPosition: 'right',
-            verticalPosition: 'top'
+            duration: 4000
         });
     }
 }
