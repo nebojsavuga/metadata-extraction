@@ -1,8 +1,10 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from model import TextAnalyzer
 from sql_service import *
 from flask_cors import CORS
-from sql_service import get_all_files, get_file_by_id
+from sql_service import get_all_files, get_file_by_id, get_file_path
+import base64
+import mimetypes
 
 app = Flask(__name__)
 CORS(app)
@@ -55,13 +57,39 @@ def get_file(file_id):
     }
     return jsonify(response_data)
 
+
 @app.route("/<int:file_id>", methods=["DELETE"])
 def delete_file(file_id):
     response = delete_file_by_id("db_config.json", file_id)
     return response
 
 
+@app.route("/file/<int:file_id>", methods=["GET"])
+def get_blob_file(file_id):
+    file_path = get_file_path("db_config.json", file_id)
+
+    if not os.path.exists(file_path):
+        return {"error": "File not found"}, 404
+
+    # Get file extension and guess MIME type
+    _, file_extension = os.path.splitext(file_path)
+    mime_type, _ = mimetypes.guess_type(file_path)
+
+    if not mime_type:
+        return {"error": "Unable to determine file type"}, 400
+
+    # Read file content as binary
+    with open(file_path, "rb") as file:
+        file_content = file.read()
+
+    # Convert file content to base64 encoding
+    encoded_file = base64.b64encode(file_content).decode("utf-8")
+
+    # Return both file data and MIME type (for frontend to handle it)
+    return {"file_type": mime_type, "file_data": encoded_file}
+
+
 if __name__ == "__main__":
-    #create_tables('../db_scripts/create_tables.sql', 'db_config.json')
-    #insert_user('db_config.json')
+    # create_tables('../db_scripts/create_tables.sql', 'db_config.json')
+    # insert_user('db_config.json')
     app.run(debug=True)

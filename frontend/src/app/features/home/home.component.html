@@ -13,7 +13,7 @@
         <label for="fileInput" class="default-button mx-5">
             Select File
         </label>
-        <button (click)="uploadFile()" class="default-button" *ngIf="selectedFile">Upload</button>
+        <button (click)="uploadFile()" class="default-button">Upload</button>
     </div>
     <div class="col-12 text-center my-3">
         <span *ngIf="fileName">Selected File: {{ fileName }}</span>

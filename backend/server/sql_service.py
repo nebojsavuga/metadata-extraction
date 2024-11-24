@@ -4,6 +4,7 @@ import os
 from metadata import *
 from flask import jsonify
 
+
 def load_db_config(path):
     script_dir = os.path.dirname(os.path.abspath(__file__))
     absolute_path = os.path.join(script_dir, path)
@@ -70,7 +71,7 @@ def insert_user(config_path):
     connection.close()
 
 
-def insert_general_metadata(filename, general_data, config_path):
+def insert_general_metadata(filename, general_data, config_path, file_path):
     db_config = load_db_config(config_path)
     server = db_config["server"]
     database = db_config["database"]
@@ -98,11 +99,11 @@ def insert_general_metadata(filename, general_data, config_path):
 
     cursor.execute(
         """
-        INSERT INTO UploadedFile (name, size, user_id)
+        INSERT INTO UploadedFile (name, size, user_id, file_path)
         OUTPUT INSERTED.id
-        VALUES (?, ?, ?);
+        VALUES (?, ?, ?, ?);
     """,
-        (filename, general_data.tehnical.size, user_id),
+        (filename, general_data.tehnical.size, user_id, file_path),
     )
 
     file_id = cursor.fetchone()[0]
@@ -219,15 +220,19 @@ def get_all_files(config_path):
         f"Trusted_Connection=yes;"
     )
     cursor = connection.cursor()
-    query = "SELECT id, name, size FROM UploadedFile"
+    query = "SELECT id, name, size, file_path FROM UploadedFile"
     cursor.execute(query)
     rows = cursor.fetchall()
-    files = [{"id": row[0], "name": row[1], "size": row[2]} for row in rows]
+    files = [
+        {"id": row[0], "name": row[1], "size": row[2], "file_path": row[3]}
+        for row in rows
+    ]
 
     cursor.close()
     connection.close()
 
     return files
+
 
 def get_file_by_id(config_path, file_id):
     db_config = load_db_config(config_path)
@@ -264,19 +269,33 @@ def get_file_by_id(config_path, file_id):
         metadata_instance.classification.keywords = result.classification_keywords
         metadata_instance.classification.purpose = result.classification_purpose
         metadata_instance.classification.taxon_path = result.classification_taxon_path
-        
+
         metadata_instance.educational.context = result.educational_context
         metadata_instance.educational.description = result.educational_description
         metadata_instance.educational.difficulty = result.educational_difficulty
-        metadata_instance.educational.intended_end_user_role = result.educational_intended_end_user_role
-        metadata_instance.educational.interactivity_level = result.educational_interactivity_level
-        metadata_instance.educational.interactivity_type = result.educational_interactivity_type
+        metadata_instance.educational.intended_end_user_role = (
+            result.educational_intended_end_user_role
+        )
+        metadata_instance.educational.interactivity_level = (
+            result.educational_interactivity_level
+        )
+        metadata_instance.educational.interactivity_type = (
+            result.educational_interactivity_type
+        )
         metadata_instance.educational.language = result.educational_language
-        metadata_instance.educational.learning_resource_type = result.educational_learning_resource_type
-        metadata_instance.educational.semantic_density = result.educational_semantic_density
-        metadata_instance.educational.typical_age_range = result.educational_typical_age_range
-        metadata_instance.educational.typical_learning_time = result.educational_typical_learning_rate
-        
+        metadata_instance.educational.learning_resource_type = (
+            result.educational_learning_resource_type
+        )
+        metadata_instance.educational.semantic_density = (
+            result.educational_semantic_density
+        )
+        metadata_instance.educational.typical_age_range = (
+            result.educational_typical_age_range
+        )
+        metadata_instance.educational.typical_learning_time = (
+            result.educational_typical_learning_rate
+        )
+
         metadata_instance.general.aggregation_level = result.general_aggregation_level
         metadata_instance.general.coverage = result.general_coverage
         metadata_instance.general.description = result.general_description
@@ -289,7 +308,9 @@ def get_file_by_id(config_path, file_id):
         metadata_instance.tehnical.size = result.technical_size
         metadata_instance.tehnical.location = result.technical_location
         metadata_instance.tehnical.requirement = result.technical_requirement
-        metadata_instance.tehnical.installation_remarks = result.technical_installation_remarks
+        metadata_instance.tehnical.installation_remarks = (
+            result.technical_installation_remarks
+        )
         metadata_instance.tehnical.duration = result.technical_duration
 
         metadata_instance.rights.cost = result.rights_cost
@@ -323,26 +344,59 @@ def delete_file_by_id(config_path, file_id):
     cursor = connection.cursor()
     try:
         cursor = connection.cursor()
-        
+
         delete_metadata_query = "DELETE FROM Metadata WHERE fileId = ?"
         cursor.execute(delete_metadata_query, (file_id,))
-        
+
         delete_file_query = "DELETE FROM UploadedFile WHERE id = ?"
         cursor.execute(delete_file_query, (file_id,))
-        
+
         connection.commit()
-        
-        return jsonify({
-            "message": f"File with ID {file_id} and related metadata deleted successfully."
-        }), 200
-        
+
+        return (
+            jsonify(
+                {
+                    "message": f"File with ID {file_id} and related metadata deleted successfully."
+                }
+            ),
+            200,
+        )
+
     except Exception as e:
         connection.rollback()
-        return jsonify({
-            "error": str(e),
-            "message": "An error occurred while deleting the file and its metadata."
-        }), 500
-        
+        return (
+            jsonify(
+                {
+                    "error": str(e),
+                    "message": "An error occurred while deleting the file and its metadata.",
+                }
+            ),
+            500,
+        )
+
     finally:
         cursor.close()
         connection.close()
+
+
+def get_file_path(config_path, file_id):
+    db_config = load_db_config(config_path)
+    server = db_config["server"]
+    database = db_config["database"]
+    driver = db_config["driver"]
+    connection = pyodbc.connect(
+        f"DRIVER={driver};"
+        f"SERVER={server};"
+        f"DATABASE={database};"
+        f"Trusted_Connection=yes;"
+    )
+    cursor = connection.cursor()
+    query = """
+            SELECT 
+                file_path
+            FROM UploadedFile
+            WHERE id = ?
+        """
+    cursor.execute(query, (file_id,))
+    result = cursor.fetchone()
+    return result.file_path

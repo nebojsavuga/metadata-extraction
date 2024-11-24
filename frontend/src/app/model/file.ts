@@ -3,4 +3,5 @@ export interface UploadedFile{
     name: string;
     size: number;
     user_id: number;
+    file_path: string;
 }

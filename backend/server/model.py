@@ -13,6 +13,9 @@ import re
 import tiktoken
 from concurrent.futures import ThreadPoolExecutor
 from text_extractors import *
+from datetime import datetime
+
+
 # Supported video and audio formats
 VIDEO_FORMATS = ["mp4", "mkv", "avi", "mov"]
 AUDIO_FORMATS = ["mp3", "wav", "aac", "flac"]
@@ -156,7 +159,15 @@ class TextAnalyzer:
                     setattr(metadata_instance, section_name, future.result())
                 except Exception as e:
                     print(f"Error processing {section_name}: {e}")
-        insert_general_metadata(file.filename, metadata_instance, 'db_config.json')
+        os.makedirs('metadata_files', exist_ok=True)
+        timestamp = datetime.now().strftime('%d_%m_%Y')
+        file_name_with_timestamp = f"{timestamp}_{file.filename}"
+        file_path = os.path.join('metadata_files', file_name_with_timestamp)
+        with open(file_path, 'wb') as output_file:
+            output_file.write(file.read())
+            
+        insert_general_metadata(file.filename, metadata_instance, 'db_config.json', file_path)
+        
         return metadata_instance
     
 
