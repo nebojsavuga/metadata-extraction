@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './features/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MetadataComponent } from './features/metadata/metadata.component';
+import { FilesComponent } from './features/files/files.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    MetadataComponent
+    MetadataComponent,
+    FilesComponent
   ],
   imports: [
     BrowserModule,

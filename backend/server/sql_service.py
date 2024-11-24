@@ -2,6 +2,7 @@ import json
 import pyodbc
 import os
 
+
 def load_db_config(path):
     script_dir = os.path.dirname(os.path.abspath(__file__))
     absolute_path = os.path.join(script_dir, path)
@@ -93,7 +94,7 @@ def insert_general_metadata(filename, general_data, config_path):
     )
 
     user_id = cursor.fetchone()[0]
-    
+
     cursor.execute(
         """
         INSERT INTO UploadedFile (name, size, user_id)
@@ -104,7 +105,7 @@ def insert_general_metadata(filename, general_data, config_path):
     )
 
     file_id = cursor.fetchone()[0]
-    
+
     connection.commit()
 
     # SQL upit za unos podataka u tabelu Metadata
@@ -207,3 +208,26 @@ def insert_general_metadata(filename, general_data, config_path):
 
     cursor.close()
     connection.close()
+
+
+def get_all_files(config_path):
+    db_config = load_db_config(config_path)
+    server = db_config["server"]
+    database = db_config["database"]
+    driver = db_config["driver"]
+    connection = pyodbc.connect(
+        f"DRIVER={driver};"
+        f"SERVER={server};"
+        f"DATABASE={database};"
+        f"Trusted_Connection=yes;"
+    )
+    cursor = connection.cursor()
+    query = "SELECT id, name, size FROM UploadedFile"
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    files = [{"id": row[0], "name": row[1], "size": row[2]} for row in rows]
+
+    cursor.close()
+    connection.close()
+
+    return files

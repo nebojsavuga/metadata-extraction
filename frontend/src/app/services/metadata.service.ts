@@ -3,6 +3,7 @@ import { environment } from '../../environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Metadata } from '../model/metadata';
+import { UploadedFile } from '../model/file';
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +16,10 @@ export class MetadataService {
   uploadFile(formData: FormData): Observable<Metadata> {
     const url = environment.apiHost;
     return this.http.post<Metadata>(url, formData);
+  }
+
+  getFiles(): Observable<UploadedFile[]> {
+    const url = environment.apiHost;
+    return this.http.get<UploadedFile[]>(url);
   }
 }

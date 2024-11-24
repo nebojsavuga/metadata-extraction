@@ -13,23 +13,18 @@
         <label for="fileInput" class="default-button mx-5">
             Select File
         </label>
-        <button (click)="uploadFile()" class="default-button">Get metadata</button>
+        <button (click)="uploadFile()" class="default-button">Upload</button>
     </div>
     <div class="col-12 text-center my-3">
         <span *ngIf="fileName">Selected File: {{ fileName }}</span>
     </div>
 </div>
 
-<div class="row" >
-    <div class="col-12 text-center">
-        <h1>Metadata</h1>
-    </div>
-    <div class="col-12 text-center">
-        <app-metadata [metadata]="metadata"></app-metadata>
-    </div>
-</div>
 <div class="row my-3">
-    <div class="col-12 text-center">
+    <div class="col-12 text-center mb-3">
         <h1>Files</h1>
+    </div>
+    <div class="col-12 text-center">
+        <app-files [files]="files"></app-files>
     </div>
 </div>

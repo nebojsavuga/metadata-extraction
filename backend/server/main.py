@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from model import TextAnalyzer
 from sql_service import *
 from flask_cors import CORS
+from sql_service import get_all_files
 
 app = Flask(__name__)
 CORS(app)
@@ -36,7 +37,7 @@ def get_metadata():
 
 @app.route("/", methods=["GET"])
 def get_files():
-    return ''
+    return jsonify(get_all_files('db_config.json'))
 
 @app.route("/file/<int:file_id>", methods=["GET"])
 def get_file(file_id):

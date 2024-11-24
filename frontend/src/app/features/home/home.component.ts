@@ -1,22 +1,36 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environment/environment';
 import { MetadataService } from '../../services/metadata.service';
 import { Metadata } from '../../model/metadata';
+import { UploadedFile } from '../../model/file';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   selectedFile: File | null = null;
   isLoading: boolean = false;
   fileName: string | null = null;
   metadata: Metadata;
-  
+  files: UploadedFile[] = [];
+
   constructor(private metadataService: MetadataService) { }
+
+  ngOnInit(): void {
+    this.getFiles();
+  }
+
+  private getFiles() {
+    this.metadataService.getFiles().subscribe(
+      res => {
+        this.files = res;
+      }
+    );
+  }
 
   onFileChange(event: any): void {
     const file = event.target.files[0];
@@ -42,7 +56,7 @@ export class HomeComponent {
         next: res => {
           this.isLoading = false;
           this.metadata = res;
-          console.log(this.metadata);
+          this.getFiles();
         },
 
         error: err => {

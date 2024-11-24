@@ -1,0 +1,10 @@
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-12 px-5 mb-3 d-flex align-items-center file-item" *ngFor="let file of files"
+        (click)="onFileClick(file.id)" style="cursor: pointer;">
+        <i class="{{ getFileIcon(file.name) }} me-2" style="font-size: 2.5rem; color: #007bff;"></i>
+        <div>
+            <strong>{{ file.name }}</strong> <br>
+            <small class="text-muted">{{ file.size }} KB</small>
+        </div>
+    </div>
+</div>
