@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
     this.getFiles();
   }
 
-  private getFiles() {
+  getFiles() {
     this.metadataService.getFiles().subscribe(
       res => {
         this.files = res;

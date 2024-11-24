@@ -2,6 +2,7 @@ import json
 import pyodbc
 import os
 from metadata import *
+from flask import jsonify
 
 def load_db_config(path):
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -314,3 +315,42 @@ def get_file_by_id(config_path, file_id):
     cursor.close()
     connection.close()
     return metadata_instance
+
+
+def delete_file_by_id(config_path, file_id):
+    db_config = load_db_config(config_path)
+    server = db_config["server"]
+    database = db_config["database"]
+    driver = db_config["driver"]
+    connection = pyodbc.connect(
+        f"DRIVER={driver};"
+        f"SERVER={server};"
+        f"DATABASE={database};"
+        f"Trusted_Connection=yes;"
+    )
+    cursor = connection.cursor()
+    try:
+        cursor = connection.cursor()
+        
+        delete_metadata_query = "DELETE FROM Metadata WHERE fileId = ?"
+        cursor.execute(delete_metadata_query, (file_id,))
+        
+        delete_file_query = "DELETE FROM UploadedFile WHERE id = ?"
+        cursor.execute(delete_file_query, (file_id,))
+        
+        connection.commit()
+        
+        return jsonify({
+            "message": f"File with ID {file_id} and related metadata deleted successfully."
+        }), 200
+        
+    except Exception as e:
+        connection.rollback()
+        return jsonify({
+            "error": str(e),
+            "message": "An error occurred while deleting the file and its metadata."
+        }), 500
+        
+    finally:
+        cursor.close()
+        connection.close()

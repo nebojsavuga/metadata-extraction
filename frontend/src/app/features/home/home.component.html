@@ -25,6 +25,6 @@
         <h1>Files</h1>
     </div>
     <div class="col-12 text-center">
-        <app-files [files]="files"></app-files>
+        <app-files [files]="files" (refresh)="getFiles()"></app-files>
     </div>
 </div>

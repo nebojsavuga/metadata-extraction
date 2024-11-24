@@ -203,7 +203,7 @@ class TextAnalyzer:
         tehnical.size = get_file_size(file)
 
         tehnical.location = get_location(
-            self, text, model, temperature, max_tokens, top_p
+            self, text, model, temperature, 500, top_p
         )
         tehnical.requirement = get_requirement(
             self, text, model, temperature, max_tokens, top_p

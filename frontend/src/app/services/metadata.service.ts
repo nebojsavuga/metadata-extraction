@@ -27,4 +27,9 @@ export class MetadataService {
     const url = environment.apiHost;
     return this.http.get<Metadata>(url + Number(file_id));
   }
+
+  deleteFile(file_id: number): Observable<any> {
+    const url = environment.apiHost;
+    return this.http.delete<any>(url + file_id);
+  }
 }

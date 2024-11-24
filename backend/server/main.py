@@ -55,6 +55,11 @@ def get_file(file_id):
     }
     return jsonify(response_data)
 
+@app.route("/<int:file_id>", methods=["DELETE"])
+def delete_file(file_id):
+    response = delete_file_by_id("db_config.json", file_id)
+    return response
+
 
 if __name__ == "__main__":
     # create_tables('../db_scripts/create_tables.sql', 'db_config.json')
