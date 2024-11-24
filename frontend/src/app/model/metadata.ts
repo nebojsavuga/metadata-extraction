@@ -27,7 +27,7 @@ export interface LifeCycleMetadata {
 
 export interface TehnicalMetadata {
     format: string;
-    size: string;
+    size: number;
     location: string;
     requirement: string;
     installation_remarks: string;

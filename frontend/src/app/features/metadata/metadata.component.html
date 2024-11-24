@@ -378,7 +378,7 @@
                         <b>Size: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.tehnical.size}}
+                        {{ metadata.tehnical.size / 1000000 | number : '1.0-3' }} MB
                     </div>
                 </div>
             </div>
