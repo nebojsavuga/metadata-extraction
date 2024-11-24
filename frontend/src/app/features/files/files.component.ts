@@ -13,6 +13,7 @@ export class FilesComponent {
 
   @Input() files: UploadedFile[] = [];
   @Output() refresh = new EventEmitter<boolean>();
+  isLoading: boolean = false;
 
   constructor(private router: Router, private metadataService: MetadataService, private snackbar: SnackbarService) { }
 
@@ -42,14 +43,17 @@ export class FilesComponent {
   }
 
   onDeleteClick(fileId: number): void {
+    this.isLoading = true;
     this.metadataService.deleteFile(fileId).subscribe(
       {
         next: () => {
           this.refresh.emit(true);
-          this.snackbar.showSnackBar('Successfully deleted file.', 'Ok')
+          this.snackbar.showSnackBar('Successfully deleted file.', 'Ok');
+          this.isLoading = false;
         },
-        error: err => {
-          console.log(err);
+        error: () => {
+          this.snackbar.showSnackBar('Something went wrong', 'Ok');
+          this.isLoading = false;
         }
       }
     )

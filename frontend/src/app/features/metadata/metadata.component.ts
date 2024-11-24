@@ -11,15 +11,17 @@ import { ActivatedRoute } from '@angular/router';
 export class MetadataComponent implements OnInit {
 
   metadata: Metadata;
-
+  isLoading = false;
   constructor(private metadataService: MetadataService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
+      this.isLoading = true;
       this.metadataService.getFile(id).subscribe(
         res => {
           this.metadata = res;
+          this.isLoading = false;
         }
       )
     });
