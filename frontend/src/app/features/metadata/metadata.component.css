@@ -7,11 +7,11 @@
     text-align: justify;
 }
 
-.col-2{
+.col-2 {
     font-size: 18px;
 }
 
-.col-10{
+.col-10 {
     font-size: 16px;
 }
 
@@ -19,13 +19,15 @@
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    margin-top: 20px;
+    margin: 20px auto;
     overflow: hidden;
-  }
-  
-  iframe, video, img {
+    max-width: 800px;
+}
+
+iframe,
+video,
+img {
     border-radius: 5px;
     max-width: 100%;
     height: auto;
-  }
-  
+}
