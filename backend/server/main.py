@@ -62,6 +62,6 @@ def delete_file(file_id):
 
 
 if __name__ == "__main__":
-    # create_tables('../db_scripts/create_tables.sql', 'db_config.json')
-    # insert_user('db_config.json')
+    #create_tables('../db_scripts/create_tables.sql', 'db_config.json')
+    #insert_user('db_config.json')
     app.run(debug=True)

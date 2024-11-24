@@ -146,14 +146,12 @@ def insert_general_metadata(filename, general_data, config_path):
         rights_description,
         life_cycle_version,
         life_cycle_status,
-        life_cycle_contribute_role,
-        life_cycle_contribute_entity,
-        life_cycle_contribute_date,
+        life_cycle_contribute,
         relation_annotation,
         relation_kind,
         relation_resource
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)
     """
 
     values = (
@@ -191,9 +189,7 @@ def insert_general_metadata(filename, general_data, config_path):
         general_data.rights.description,  # rights_description
         general_data.lifeCycle.version,  # life_cycle_version
         general_data.lifeCycle.status,  # life_cycle_status
-        None,  # life_cycle_contribute_role
-        None,  # life_cycle_contribute_entity
-        None,  # life_cycle_contribute_date
+        general_data.lifeCycle.contribute,  # life_cycle_contribute
         None,  # relation_annotation
         None,  # relation_kind
         None,  # relation_resource
@@ -254,7 +250,7 @@ def get_file_by_id(config_path, file_id):
                 general_aggregation_level, general_coverage, general_description, general_keywords, general_language,
                 general_structure, general_title, technical_format, technical_size, technical_location, technical_requirement,
                 technical_installation_remarks, technical_duration, rights_cost, rights_copyright_restrictions, rights_description,
-                life_cycle_version, life_cycle_status, life_cycle_contribute_role, life_cycle_contribute_entity, life_cycle_contribute_date,
+                life_cycle_version, life_cycle_status, life_cycle_contribute,
                 relation_annotation, relation_kind, relation_resource
             FROM Metadata
             WHERE fileId = ?
@@ -302,11 +298,7 @@ def get_file_by_id(config_path, file_id):
 
         metadata_instance.lifeCycle.version = result.life_cycle_version
         metadata_instance.lifeCycle.status = result.life_cycle_status
-        metadata_instance.lifeCycle.contribute = {
-            "role": result.life_cycle_contribute_role,
-            "entity": result.life_cycle_contribute_entity,
-            "date": result.life_cycle_contribute_date,
-        }
+        metadata_instance.lifeCycle.contribute = result.life_cycle_contribute
 
         metadata_instance.relation.annotation = result.relation_annotation
         metadata_instance.relation.kind = result.relation_kind
