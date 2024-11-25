@@ -174,7 +174,6 @@ class TextAnalyzer:
         insert_general_metadata(
             file.filename, metadata_instance, "db_config.json", file_path
         )
-
         return metadata_instance
 
     def get_general_data(self, file, text, model, temperature, max_tokens, top_p):
