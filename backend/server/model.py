@@ -160,7 +160,7 @@ class TextAnalyzer:
                 except Exception as e:
                     print(f"Error processing {section_name}: {e}")
         os.makedirs('metadata_files', exist_ok=True)
-        timestamp = datetime.now().strftime('%d_%m_%Y')
+        timestamp = datetime.now().strftime('%d_%m_%Y_%H_%M')
         file_name_with_timestamp = f"{timestamp}_{file.filename}"
         file_path = os.path.join('metadata_files', file_name_with_timestamp)
         with open(file_path, 'wb') as output_file:
