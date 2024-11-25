@@ -59,10 +59,12 @@ class TextAnalyzer:
             text = extract_word(file)
         elif file.filename.endswith(".pptx"):
             text = extract_pptx(file)
-        elif file.filename.lower().endswith((".jpg", ".jpeg", ".png")):            
+        elif file.filename.lower().endswith((".jpg", ".jpeg", ".png")):
             image_bytes = file.read()
             image = Image.open(io.BytesIO(image_bytes))
             text = generate_caption(image)
+        elif file.filename.lower().endswith(".mp4"):
+            text = extract_video(file)
         if not text:
             return jsonify({"error": "Could not extract text from the file"}), 400
         num_tokens = len(self.tokenizer.encode(text))
@@ -161,17 +163,19 @@ class TextAnalyzer:
                     setattr(metadata_instance, section_name, future.result())
                 except Exception as e:
                     print(f"Error processing {section_name}: {e}")
-        os.makedirs('metadata_files', exist_ok=True)
-        timestamp = datetime.now().strftime('%d_%m_%Y_%H_%M')
+        os.makedirs("metadata_files", exist_ok=True)
+        timestamp = datetime.now().strftime("%d_%m_%Y_%H_%M")
         file_name_with_timestamp = f"{timestamp}_{file.filename}"
-        file_path = os.path.join('metadata_files', file_name_with_timestamp)
-        with open(file_path, 'wb') as output_file:
+        file_path = os.path.join("metadata_files", file_name_with_timestamp)
+        file.seek(0)
+        with open(file_path, "wb") as output_file:
             output_file.write(file.read())
-            
-        insert_general_metadata(file.filename, metadata_instance, 'db_config.json', file_path)
-        
+
+        insert_general_metadata(
+            file.filename, metadata_instance, "db_config.json", file_path
+        )
+
         return metadata_instance
-    
 
     def get_general_data(self, file, text, model, temperature, max_tokens, top_p):
         general = GeneralMetadata()
@@ -215,9 +219,7 @@ class TextAnalyzer:
 
         tehnical.size = get_file_size(file)
 
-        tehnical.location = get_location(
-            self, text, model, temperature, 500, top_p
-        )
+        tehnical.location = get_location(self, text, model, temperature, 500, top_p)
         tehnical.requirement = get_requirement(
             self, text, model, temperature, max_tokens, top_p
         )

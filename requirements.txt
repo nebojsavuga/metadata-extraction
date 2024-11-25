@@ -12,3 +12,6 @@ transformers
 torch
 python-pptx
 flask-cors
+moviepy
+openai-whisper
+Pillow
