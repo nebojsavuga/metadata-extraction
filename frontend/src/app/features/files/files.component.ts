@@ -37,6 +37,10 @@ export class FilesComponent {
       case 'mp4':
       case 'mov':
         return 'bi bi-file-earmark-play-fill';
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+        return 'bi bi-file-earmark-image-fill';
       default:
         return 'bi bi-file-earmark-fill';
     }

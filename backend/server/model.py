@@ -59,8 +59,10 @@ class TextAnalyzer:
             text = extract_word(file)
         elif file.filename.endswith(".pptx"):
             text = extract_pptx(file)
-        else:
-            text = "No data."
+        elif file.filename.lower().endswith((".jpg", ".jpeg", ".png")):            
+            image_bytes = file.read()
+            image = Image.open(io.BytesIO(image_bytes))
+            text = generate_caption(image)
         if not text:
             return jsonify({"error": "Could not extract text from the file"}), 400
         num_tokens = len(self.tokenizer.encode(text))
