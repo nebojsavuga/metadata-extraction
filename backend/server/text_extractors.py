@@ -143,43 +143,33 @@ def extract_video(file):
         f.write(file.read())
 
     try:
-        # Extract audio transcription with timestamps
         audio_transcription = extract_audio_with_timestamps(video_path)
 
-        # Extract frame captions
         video = mp.VideoFileClip(video_path)
         duration = int(video.duration)
-        frame_interval = 5  # Extract frames every 5 seconds
+        frame_interval = 5
         frame_captions = []
-
+        # get video image every 5 seconds
         for t in range(0, duration, frame_interval):
             frame = video.get_frame(t)
             pil_image = Image.fromarray(frame)
             caption = generate_caption(pil_image)
             frame_captions.append((t, caption))
 
-        # Combine audio transcription and frame captions into a single timeline
+        # sort timelines so that audio and video aligns well
         timeline = []
-
-        # Add audio transcription to timeline
         for start, end, text in audio_transcription:
             timeline.append((start, f"[Audio {start:.2f}-{end:.2f}s]: {text}"))
 
-        # Add frame captions to timeline
         for time, caption in frame_captions:
             timeline.append((time, f"[Video Frame {time}s]: {caption}"))
 
-        # Sort timeline by timestamp
         timeline.sort(key=lambda x: x[0])
 
-        # Format the timeline for output
         text_output = "\n".join(event[1] for event in timeline)
-        # if os.path.exists(video_path):
-        #     os.remove(video_path)
     finally:
-        # Ensure all resources are closed and temporary files are deleted
         if "video" in locals():
-            video.close()  # Release the video object
+            video.close()
         if os.path.exists(video_path):
             os.remove(video_path)
         return text_output.strip()
