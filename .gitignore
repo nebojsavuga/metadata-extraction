@@ -9,7 +9,7 @@ tmp/
 app/**/*.js
 app/**/*.js.map
 
-/backend/server/metadata_files
+backend/server/metadata_files/
 
 # dependencies
 node_modules/
