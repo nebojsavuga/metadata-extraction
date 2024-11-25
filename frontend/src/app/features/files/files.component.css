@@ -1,0 +1,18 @@
+.delete {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: red;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.delete:hover{
+    color: rgb(165, 3, 3);
+    background-color: rgba(212, 211, 211, 0.2);
+    cursor: pointer;
+}
+
+.file-item{
+    border: 2px solid rgb(18, 20, 148);
+}

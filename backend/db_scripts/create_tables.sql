@@ -11,6 +11,7 @@ CREATE TABLE UploadedFile (
     name VARCHAR(255) NOT NULL,
     size INT NOT NULL,
     user_id INT,
+    file_path VARCHAR(255),
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
 );
@@ -52,9 +53,7 @@ CREATE TABLE Metadata (
     rights_description VARCHAR(2000),
     life_cycle_version VARCHAR(500),
     life_cycle_status VARCHAR(2000),
-    life_cycle_contribute_role VARCHAR(2000),
-    life_cycle_contribute_entity VARCHAR(2000),
-    life_cycle_contribute_date DATETIME,
+    life_cycle_contribute VARCHAR(2000),
     relation_annotation VARCHAR(2000),
     relation_kind VARCHAR(2000),
     relation_resource VARCHAR(2000),

@@ -1,0 +1,435 @@
+<div class="row my-3">
+    <div class="col-12 text-center">
+        <h1>Metadata</h1>
+    </div>
+</div>
+<div class="row col-12">
+    <div id="fileContainer"></div>
+</div>
+<div class="row" *ngIf="metadata">
+    <div class="col-6">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="subtitle mx-4 my-2">General</h2>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Title: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.general.title}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Description: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.general.description}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Coverage: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.general.coverage}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Aggregation level: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.general.aggregation_level}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Keywords: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.general.keywords}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Language: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.general.language}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Structure: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.general.structure}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-6">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="subtitle mx-4 my-2">Educational</h2>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Interactivity Type: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.educational.interactivity_type}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Learning Resource Type: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.educational.learning_resource_type}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Interactivity Level: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.educational.interactivity_level}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Semantic Density: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.educational.semantic_density}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Intended End User Role: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.educational.intended_end_user_role}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Context: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.educational.context}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Typical Age Range: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.educational.typical_age_range}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Difficulty: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.educational.difficulty}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Typical Learning Time: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.educational.typical_learning_time}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Description: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.educational.description}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Language: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.educational.language}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="subtitle mx-4 my-2">Life Cycle</h2>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Version: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.lifeCycle.version}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Status: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.lifeCycle.status}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Contribute: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.lifeCycle.contribute}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="subtitle mx-4 my-2">Classification</h2>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Purpose: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.classification.purpose}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Taxon Path: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.classification.taxon_path}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Description: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.classification.description}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Keywords: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.classification.keywords}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="subtitle mx-4 my-2">Rights</h2>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Cost: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.rights.cost}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Copyright: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.rights.copyright}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Description: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.rights.description}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="subtitle mx-4 my-2">Relation</h2>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Kind: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.relation.kind}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Resource: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.relation.resource}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Annotation: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.relation.annotation}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="subtitle mx-4 my-2">Technical</h2>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Format: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.tehnical.format}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Size: </b>
+                    </div>
+                    <div class="col-9">
+                        {{ metadata.tehnical.size / 1000000 | number : '1.0-3' }} MB
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Location: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.tehnical.location}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Requirement: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.tehnical.requirement}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Installation Remarks: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.tehnical.installation_remarks}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row mx-3">
+                    <div class="col-3">
+                        <b>Duration: </b>
+                    </div>
+                    <div class="col-9">
+                        {{metadata.tehnical.duration}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="isLoading" class="spinner">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
