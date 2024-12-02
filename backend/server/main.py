@@ -64,6 +64,15 @@ def delete_file(file_id):
     return response
 
 
+@app.route("/<int:file_id>", methods=["PUT"])
+def edit_metadata_route(file_id):
+    data = request.get_json() 
+    print(data.get('tehnical', {}).get('location', ''),
+
+)# Uzimanje podataka iz JSON tela
+    response = update_metadata(file_id, data, "db_config.json")  # Pozivanje funkcije za ažuriranje
+    return jsonify(response)
+
 @app.route("/file/<int:file_id>", methods=["GET"])
 def get_blob_file(file_id):
     file_path = get_file_path("db_config.json", file_id)
