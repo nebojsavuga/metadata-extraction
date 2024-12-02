@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-4">
         <div class="mb-3">
-            <button class="default-button" (click)="onBackFolder()" *ngIf="selectedFolderId">Back</button>
-            <button class="default-button" (click)="onAddFolderClick()">Add Folder</button>
+            <button class="default-button mx-1 my-1" (click)="onBackFolder()" *ngIf="selectedFolderId">Back</button>
+            <button class="default-button my-1" (click)="onAddFolderClick()">Add Folder</button>
         </div>
         <div class="row">
             <div class="col-12 px-5 mb-3 mx-1 d-flex align-items-center folder-item" *ngFor="let folder of displayedFolders"
