@@ -14,8 +14,9 @@ export class MetadataService {
 
   constructor(private http: HttpClient) { }
 
-  uploadFile(formData: FormData): Observable<Metadata> {
-    return this.http.post<Metadata>(this.baseUrl, formData);
+  uploadFile(formData: FormData, folderId: number | undefined): Observable<Metadata> {
+    const url = `${this.baseUrl.replace(/\/$/, '')}?folderId=${folderId}`;
+    return this.http.post<Metadata>(url, formData);
   }
 
   getFiles(): Observable<UploadedFile[]> {

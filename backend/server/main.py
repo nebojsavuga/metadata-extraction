@@ -19,10 +19,11 @@ def get_metadata():
 
     if not file:
         return jsonify({"error": "No file provided"}), 400
-
+    folder_id = request.args.get("folderId")
+    
     analyzer = TextAnalyzer()
     metadata_instance = analyzer.get_metadata(
-        file, temperature=0.7, max_tokens=1000, top_p=1
+        file, temperature=0.7, max_tokens=1000, top_p=1, folder_id=folder_id
     )
 
     response_data = {
@@ -109,8 +110,8 @@ def create_folder_route():
         return jsonify(new_folder), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
-    
+
+
 @app.route("/folders/<int:folder_id>", methods=["DELETE"])
 def delete_folder_route(folder_id):
     try:
@@ -120,6 +121,7 @@ def delete_folder_route(folder_id):
         return jsonify(response), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == "__main__":
     # create_tables('../db_scripts/create_tables.sql', 'db_config.json')

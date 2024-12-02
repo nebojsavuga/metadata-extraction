@@ -16,7 +16,9 @@ export class FilesComponent {
 
   @Input() set files(files: UploadedFile[]) {
     this._files = files;
-    this.displayedFiles = this._files.filter(x => !x.folder_id);
+
+    this.filterFiles(this.selectedFolderId);
+
   }
 
   get files() {
@@ -25,7 +27,7 @@ export class FilesComponent {
 
   @Input() set folders(folders: MetadataFolder[]) {
     this._folders = folders;
-    this.displayedFolders = this._folders.filter(x => !x.parent_folder_id);
+    this.filterFolders(this.selectedFolderId);
   }
 
   get folders() {
@@ -35,6 +37,7 @@ export class FilesComponent {
   @Input() displayedFolders: MetadataFolder[] = [];
   @Input() displayedFiles: UploadedFile[] = [];
   @Output() refresh = new EventEmitter<boolean>();
+  @Output() selectedFolder = new EventEmitter<number>();
   isLoading: boolean = false;
   selectedFileId: number | undefined;
   selectedFolderId: number | null = null;
@@ -128,7 +131,8 @@ export class FilesComponent {
             const parent_folder_id = this.folders.find(x => x.id === folderId).parent_folder_id;
             this.folders = this.folders.filter(x => x.id !== folderId);
             this.filterFolders(parent_folder_id);
-
+            this.selectedFolderId = parent_folder_id;
+            this.selectedFolder.emit(this.selectedFolderId);
           },
           error: err => {
             console.error('Error deleting folder:', err);
@@ -161,6 +165,7 @@ export class FilesComponent {
     } else {
       this.selectedFolderId = id;
     }
+    this.selectedFolder.emit(this.selectedFolderId);
     this.filterFolders(id);
     this.filterFiles(id);
   }
@@ -178,5 +183,6 @@ export class FilesComponent {
     this.filterFiles(folder.parent_folder_id);
     this.filterFolders(folder.parent_folder_id);
     this.selectedFolderId = folder.parent_folder_id;
+    this.selectedFolder.emit(this.selectedFolderId);
   }
 }

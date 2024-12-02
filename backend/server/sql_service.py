@@ -71,7 +71,7 @@ def insert_user(config_path):
     connection.close()
 
 
-def insert_general_metadata(filename, general_data, config_path, file_path):
+def insert_general_metadata(filename, general_data, config_path, file_path, folder_id):
     db_config = load_db_config(config_path)
     server = db_config["server"]
     database = db_config["database"]
@@ -96,15 +96,30 @@ def insert_general_metadata(filename, general_data, config_path, file_path):
     )
 
     user_id = cursor.fetchone()[0]
-
-    cursor.execute(
-        """
+    try:
+        folder_id = int(folder_id)
+    except ValueError:
+        folder_id = None
+        
+    print(folder_id)
+    if folder_id is None:
+        cursor.execute(
+            """
         INSERT INTO UploadedFile (name, size, user_id, file_path)
         OUTPUT INSERTED.id
         VALUES (?, ?, ?, ?);
-    """,
-        (filename, general_data.tehnical.size, user_id, file_path),
-    )
+        """,
+            (filename, general_data.tehnical.size, user_id, file_path),
+        )
+    else:
+        cursor.execute(
+            """
+            INSERT INTO UploadedFile (name, size, user_id, file_path, folder_id)
+            OUTPUT INSERTED.id
+            VALUES (?, ?, ?, ?, ?);
+            """,
+            (filename, general_data.tehnical.size, user_id, file_path, folder_id),
+        )
 
     file_id = cursor.fetchone()[0]
 

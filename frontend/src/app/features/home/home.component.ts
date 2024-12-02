@@ -18,17 +18,23 @@ export class HomeComponent implements OnInit {
   metadata: Metadata;
   files: UploadedFile[] = [];
   folders: MetadataFolder[] = [];
+  selectedFolderId: number | undefined;
 
   constructor(private metadataService: MetadataService) { }
 
   ngOnInit(): void {
     this.getFiles();
+    this.getFolders();
+  }
 
+  private getFolders() {
+    this.isLoading = true;
     this.metadataService.getFolders().subscribe(
       res => {
         this.folders = res;
+        this.isLoading = false;
       }
-    )
+    );
   }
 
   getFiles() {
@@ -60,18 +66,23 @@ export class HomeComponent implements OnInit {
 
   uploadToServer(formData: FormData) {
     this.isLoading = true;
-    this.metadataService.uploadFile(formData).subscribe(
+    this.metadataService.uploadFile(formData, this.selectedFolderId).subscribe(
       {
         next: res => {
           this.isLoading = false;
           this.metadata = res;
           this.getFiles();
+          this.getFolders();
         },
 
-        error: err => {
+        error: () => {
           this.isLoading = false;
         }
       }
     );
+  }
+
+  setSelectedFolder(event: any) {
+    this.selectedFolderId = event;
   }
 }
