@@ -71,6 +71,11 @@ export class FilesComponent {
 
   onAddFolderClick() {
     const folderName = prompt('Enter folder name');
+    const exists = this.folders.findIndex(x => x.name === folderName && x.parent_folder_id === this.selectedFolderId) != -1;
+    if (exists) {
+      this.snackbar.showSnackBar('File with this name already exists.', 'Ok.');
+      return;
+    }
     if (folderName) {
       this.metadataService.createFolder(folderName, this.selectedFolderId).subscribe(
         {
