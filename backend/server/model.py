@@ -14,7 +14,6 @@ import tiktoken
 from concurrent.futures import ThreadPoolExecutor
 from text_extractors import *
 from datetime import datetime
-from openai import OpenAI
 
 # Supported video and audio formats
 VIDEO_FORMATS = ["mp4", "mkv", "avi", "mov"]
@@ -45,11 +44,11 @@ def split_text_by_word_count(text, word_limit=2000):
 
 class TextAnalyzer:
     def __init__(self, api_key=None):
-        self.client = OpenAI(api_key=api_key or os.environ.get("OPENAI_API_KEY"))
+        self.client = Groq(api_key=api_key or os.environ.get("GROQ_API_KEY"))
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
 
     def get_metadata(
-        self, file, model="gpt-3.5-turbo", temperature=0.5, max_tokens=1000, top_p=1
+        self, file, model="llama3-8b-8192", temperature=0.5, max_tokens=1000, top_p=1
     ):
         text = ""
         if file.filename.endswith(".pdf"):
