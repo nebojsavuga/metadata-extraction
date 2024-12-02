@@ -11,7 +11,14 @@ import { SnackbarService } from '../../services/snackbar.service';
 export class FilesComponent {
 
   @Input() files: UploadedFile[] = [];
-  @Input() folders: MetadataFolder[] = [];
+
+  _folders: MetadataFolder[];
+  @Input() set folders(folders: MetadataFolder[]) {
+    this._folders = folders;
+    this.displayedFolders = this._folders;
+  }
+
+  @Input() displayedFolders: MetadataFolder[] = [];
   @Output() refresh = new EventEmitter<boolean>();
   isLoading: boolean = false;
   selectedFileId: number | undefined;
