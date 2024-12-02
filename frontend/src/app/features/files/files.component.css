@@ -14,9 +14,18 @@
 }
 
 .file-item{
-    border: 2px solid rgb(18, 20, 148);
+    border: 1px solid gray;
 }
 
 .folder-item{
     border: 1px solid gray;
+}
+
+.selected-folder{
+    border: 5px solid rgb(18, 20, 148);
+}
+
+
+.selected-file{
+    border: 3px solid rgb(18, 20, 148);
 }

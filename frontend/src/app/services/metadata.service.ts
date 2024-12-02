@@ -22,8 +22,8 @@ export class MetadataService {
     return this.http.get<UploadedFile[]>(this.baseUrl);
   }
 
-  getFile(file_id: string): Observable<Metadata> {
-    return this.http.get<Metadata>(this.baseUrl + Number(file_id));
+  getFile(file_id: number): Observable<Metadata> {
+    return this.http.get<Metadata>(this.baseUrl + file_id);
   }
 
   deleteFile(file_id: number): Observable<any> {

@@ -14,14 +14,17 @@ export class FilesComponent {
   @Input() folders: MetadataFolder[] = [];
   @Output() refresh = new EventEmitter<boolean>();
   isLoading: boolean = false;
-  selectedFileId: string | undefined;
+  selectedFileId: number | undefined;
   selectedFolderId: number | null = null;
 
   constructor(private metadataService: MetadataService, private snackbar: SnackbarService) { }
 
   onFileClick(event: any) {
-    this.selectedFileId = event;
-    console.log(this.selectedFileId);
+    if (this.selectedFileId === event) {
+      this.selectedFileId = null;
+    } else {
+      this.selectedFileId = event;
+    }
   }
 
   getFileIcon(fileName: string): string {
@@ -117,6 +120,10 @@ export class FilesComponent {
   }
 
   onFolderClick(id: number) {
-    this.selectedFolderId = id;
+    if (this.selectedFolderId === id) {
+      this.selectedFolderId = null;
+    } else {
+      this.selectedFolderId = id;
+    }
   }
 }

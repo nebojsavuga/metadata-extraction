@@ -11,7 +11,7 @@ export class MetadataComponent implements OnChanges {
 
   metadata: Metadata;
   isLoading = false;
-  @Input() selectedFileId: string | undefined;
+  @Input() selectedFileId: number | undefined;
 
   constructor(private metadataService: MetadataService) { }
 
@@ -21,7 +21,7 @@ export class MetadataComponent implements OnChanges {
     }
   }
 
-  fetchMetadata(selectedFileId: string) {
+  fetchMetadata(selectedFileId: number) {
     this.getMetadata(selectedFileId);
     const fileContainer =  document.getElementById('fileContainer');
     if (fileContainer) {
@@ -60,7 +60,7 @@ export class MetadataComponent implements OnChanges {
     });
   }
 
-  private getMetadata(id: string) {
+  private getMetadata(id: number) {
     this.isLoading = true;
     this.metadataService.getFile(id).subscribe(
       res => {

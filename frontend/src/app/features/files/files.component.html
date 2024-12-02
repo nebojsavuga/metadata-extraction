@@ -4,8 +4,8 @@
             <button class="default-button" (click)="onAddFolderClick()">Add Folder</button>
         </div>
         <div class="row">
-            <div class="col-12 px-5 mb-3 mx-1 d-flex align-items-center folder-item"
-                *ngFor="let folder of folders" style="position: relative;">
+            <div class="col-12 px-5 mb-3 mx-1 d-flex align-items-center folder-item" *ngFor="let folder of folders"
+                style="position: relative;" [ngClass]="{'selected-folder': selectedFolderId === folder.id}">
                 <i class="bi bi-folder-fill me-2" style="cursor: pointer; font-size: 2.5rem; color: #007bff;"
                     (click)="onFolderClick(folder.id)"></i>
                 <div style="cursor: pointer;" (click)="onFolderClick(folder.id)">
@@ -18,7 +18,7 @@
         </div>
         <!-- File List -->
         <div class="row">
-            <div class="col-12 px-5 mb-3 mx-1 d-flex align-items-center file-item" *ngFor="let file of files"
+            <div class="col-12 px-5 mb-3 mx-1 d-flex align-items-center file-item" *ngFor="let file of files" [ngClass]="{'selected-file': selectedFileId === file.id}"
                 style="position: relative;">
                 <i (click)="onFileClick(file.id)" class="{{ getFileIcon(file.name) }} me-2"
                     style="cursor: pointer; font-size: 2.5rem; color: #007bff;"></i>
