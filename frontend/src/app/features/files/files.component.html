@@ -20,7 +20,7 @@
 
         <!-- File List -->
         <div class="row">
-            <div class="col-12 px-5 mb-3 mx-1 d-flex align-items-center file-item" *ngFor="let file of files" [ngClass]="{'selected-file': selectedFileId === file.id}"
+            <div class="col-12 px-5 mb-3 mx-1 d-flex align-items-center file-item" *ngFor="let file of displayedFiles" [ngClass]="{'selected-file': selectedFileId === file.id}"
                 style="position: relative;">
                 <i (click)="onFileClick(file.id)" class="{{ getFileIcon(file.name) }} me-2"
                     style="cursor: pointer; font-size: 2.5rem; color: #007bff;"></i>
