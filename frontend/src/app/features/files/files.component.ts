@@ -10,15 +10,30 @@ import { SnackbarService } from '../../services/snackbar.service';
 })
 export class FilesComponent {
 
-  @Input() files: UploadedFile[] = [];
 
   _folders: MetadataFolder[];
+  _files: UploadedFile[];
+
+  @Input() set files(files: UploadedFile[]) {
+    this._files = files;
+    this.displayedFiles = this._files.filter(x => !x.folder_id);
+  }
+
+  get files() {
+    return this._files;
+  }
+
   @Input() set folders(folders: MetadataFolder[]) {
     this._folders = folders;
-    this.displayedFolders = this._folders;
+    this.displayedFolders = this._folders.filter(x => !x.parent_folder_id);
+  }
+
+  get folders() {
+    return this._folders;
   }
 
   @Input() displayedFolders: MetadataFolder[] = [];
+  @Input() displayedFiles: UploadedFile[] = [];
   @Output() refresh = new EventEmitter<boolean>();
   isLoading: boolean = false;
   selectedFileId: number | undefined;
@@ -33,6 +48,7 @@ export class FilesComponent {
       this.selectedFileId = event;
     }
   }
+
 
   getFileIcon(fileName: string): string {
     const fileExtension = fileName.split('.').pop()?.toLowerCase();
@@ -78,7 +94,7 @@ export class FilesComponent {
 
   onAddFolderClick() {
     const folderName = prompt('Enter folder name');
-    const exists = this.folders.findIndex(x => x.name === folderName && x.parent_folder_id === this.selectedFolderId) != -1;
+    const exists = this.displayedFolders.findIndex(x => x.name === folderName && x.parent_folder_id === this.selectedFolderId) != -1;
     if (exists) {
       this.snackbar.showSnackBar('File with this name already exists.', 'Ok.');
       return;
@@ -89,6 +105,7 @@ export class FilesComponent {
           next: newFolder => {
             this.folders.push(newFolder);
             this.loadFiles();
+            this.filterFolders(newFolder.parent_folder_id);
           },
           error: err => {
             console.error('Error creating folder:', err);
@@ -99,13 +116,19 @@ export class FilesComponent {
   }
 
   onDeleteFolderClick(folderId: number) {
+    const hasItems = this.folders.find(x => x.parent_folder_id === folderId) !== undefined || this.files.find(x => x.folder_id === folderId) !== undefined;
+    if (hasItems) {
+      this.snackbar.showSnackBar('Can\'t delete a folder which has objects in it.', 'Ok');
+      return;
+    }
     if (confirm('Are you sure you want to delete this folder?')) {
       this.metadataService.deleteFolder(folderId).subscribe(
         {
           next: () => {
+            const parent_folder_id = this.folders.find(x => x.id === folderId).parent_folder_id;
             this.folders = this.folders.filter(x => x.id !== folderId);
-            this.selectedFolderId = null;
-            this.loadFiles();
+            this.filterFolders(parent_folder_id);
+
           },
           error: err => {
             console.error('Error deleting folder:', err);
@@ -129,6 +152,7 @@ export class FilesComponent {
         }
       }
     );
+
   }
 
   onFolderClick(id: number) {
@@ -137,5 +161,22 @@ export class FilesComponent {
     } else {
       this.selectedFolderId = id;
     }
+    this.filterFolders(id);
+    this.filterFiles(id);
+  }
+
+  filterFolders(folderId: number | undefined = undefined) {
+    this.displayedFolders = this.folders.filter(x => x.parent_folder_id === folderId);
+  }
+
+  filterFiles(folder_id: number | undefined = undefined) {
+    this.displayedFiles = this.files.filter(x => x.folder_id === folder_id);
+  }
+
+  onBackFolder() {
+    const folder = this.folders.find(x => x.id === this.selectedFolderId);
+    this.filterFiles(folder.parent_folder_id);
+    this.filterFolders(folder.parent_folder_id);
+    this.selectedFolderId = folder.parent_folder_id;
   }
 }
