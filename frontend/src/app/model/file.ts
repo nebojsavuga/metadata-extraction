@@ -5,3 +5,9 @@ export interface UploadedFile{
     user_id: number;
     file_path: string;
 }
+
+export interface MetadataFolder{
+    id: number,
+    name: string,
+    parent_folder_id: number
+}

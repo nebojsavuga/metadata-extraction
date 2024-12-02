@@ -22,6 +22,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getFiles();
+
+    this.metadataService.getFolders().subscribe(
+      res =>{
+        console.log(res);
+      }
+    )
   }
 
   getFiles() {

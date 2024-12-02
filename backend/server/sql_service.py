@@ -400,3 +400,100 @@ def get_file_path(config_path, file_id):
     cursor.execute(query, (file_id,))
     result = cursor.fetchone()
     return result.file_path
+
+
+def get_all_folders(config_file):
+    with open(config_file, "r") as file:
+        db_config = json.load(file)
+
+    server = db_config["server"]
+    database = db_config["database"]
+    driver = db_config["driver"]
+    connection_string = (
+        f"DRIVER={driver};"
+        f"SERVER={server};"
+        f"DATABASE={database};"
+        f"Trusted_Connection=yes;"
+    )
+
+    query = """
+    SELECT id, name, parent_folder_id, created_at 
+    FROM MetadataFolders
+    """
+
+    folders = []
+    with pyodbc.connect(connection_string) as conn:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        for row in cursor.fetchall():
+            folders.append(
+                {
+                    "id": row.id,
+                    "name": row.name,
+                    "parent_folder_id": row.parent_folder_id,
+                    "created_at": row.created_at
+                }
+            )
+
+    return folders
+
+
+def create_folder(config_file, name, parent_folder_id=None):
+    with open(config_file, "r") as file:
+        db_config = json.load(file)
+
+    server = db_config["server"]
+    database = db_config["database"]
+    driver = db_config["driver"]
+    connection_string = (
+        f"DRIVER={driver};"
+        f"SERVER={server};"
+        f"DATABASE={database};"
+        f"Trusted_Connection=yes;"
+    )
+
+    query = """
+    INSERT INTO MetadataFolders (name, parent_folder_id, created_at)
+    VALUES (?, ?, CURRENT_TIMESTAMP)
+    """
+
+    try:
+        with pyodbc.connect(connection_string) as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, (name, parent_folder_id))
+            conn.commit()
+            return {
+                "id": cursor.lastrowid,
+                "name": name,
+                "parent_folder_id": parent_folder_id,
+            }
+    except Exception as e:
+        raise Exception(f"Error creating folder: {str(e)}")
+
+
+def delete_folder(config_file, folder_id):
+    with open(config_file, "r") as file:
+        db_config = json.load(file)
+
+    server = db_config["server"]
+    database = db_config["database"]
+    driver = db_config["driver"]
+    connection_string = (
+        f"DRIVER={driver};"
+        f"SERVER={server};"
+        f"DATABASE={database};"
+        f"Trusted_Connection=yes;"
+    )
+
+    query = "DELETE FROM MetadataFolders WHERE id = ?"
+
+    try:
+        with pyodbc.connect(connection_string) as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, (folder_id,))
+            if cursor.rowcount == 0:
+                return {"error": "Folder not found"}
+            conn.commit()
+            return {"message": "Folder deleted successfully"}
+    except Exception as e:
+        raise Exception(f"Error deleting folder: {str(e)}")

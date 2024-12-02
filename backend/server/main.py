@@ -85,6 +85,42 @@ def get_blob_file(file_id):
     return {"file_type": mime_type, "file_data": encoded_file}
 
 
+@app.route("/folders", methods=["GET"])
+def get_folders():
+    try:
+        folders = get_all_folders("db_config.json")
+        print(folders)
+        return jsonify(folders), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/folders", methods=["POST"])
+def create_folder_route():
+    try:
+        data = request.get_json()
+        name = data.get("name")
+        parent_folder_id = data.get("parent_folder_id")
+
+        if not name:
+            return jsonify({"error": "Folder name is required"}), 400
+
+        new_folder = create_folder("db_config.json", name, parent_folder_id)
+        return jsonify(new_folder), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+    
+@app.route("/folders/<int:folder_id>", methods=["DELETE"])
+def delete_folder_route(folder_id):
+    try:
+        response = delete_folder("db_config.json", folder_id)
+        if "error" in response:
+            return jsonify(response), 404
+        return jsonify(response), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == "__main__":
     # create_tables('../db_scripts/create_tables.sql', 'db_config.json')
     # insert_user('db_config.json')
