@@ -6,14 +6,26 @@ CREATE TABLE Users (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE MetadataFolders (
+    id INT IDENTITY(1,1) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    parent_folder_id INT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (parent_folder_id) REFERENCES MetadataFolders(id) ON DELETE NO ACTION
+    );
+
+
 CREATE TABLE UploadedFile (
     id INT IDENTITY(1,1) NOT NULL,
     name VARCHAR(255) NOT NULL,
     size INT NOT NULL,
     user_id INT,
+    folder_id INT,
     file_path VARCHAR(255),
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+    FOREIGN KEY (folder_id) REFERENCES MetadataFolders(id) ON DELETE SET NULL,
 );
 
 CREATE TABLE Metadata (
