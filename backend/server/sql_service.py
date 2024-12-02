@@ -220,11 +220,17 @@ def get_all_files(config_path):
         f"Trusted_Connection=yes;"
     )
     cursor = connection.cursor()
-    query = "SELECT id, name, size, file_path FROM UploadedFile"
+    query = "SELECT id, name, size, file_path, folder_id FROM UploadedFile"
     cursor.execute(query)
     rows = cursor.fetchall()
     files = [
-        {"id": row[0], "name": row[1], "size": row[2], "file_path": row[3]}
+        {
+            "id": row[0],
+            "name": row[1],
+            "size": row[2],
+            "file_path": row[3],
+            "folder_id": row[4],
+        }
         for row in rows
     ]
 
@@ -431,7 +437,7 @@ def get_all_folders(config_file):
                     "id": row.id,
                     "name": row.name,
                     "parent_folder_id": row.parent_folder_id,
-                    "created_at": row.created_at
+                    "created_at": row.created_at,
                 }
             )
 
@@ -454,16 +460,19 @@ def create_folder(config_file, name, parent_folder_id=None):
 
     query = """
     INSERT INTO MetadataFolders (name, parent_folder_id, created_at)
+    OUTPUT INSERTED.id
     VALUES (?, ?, CURRENT_TIMESTAMP)
     """
-
     try:
         with pyodbc.connect(connection_string) as conn:
             cursor = conn.cursor()
+
             cursor.execute(query, (name, parent_folder_id))
+            file_id = cursor.fetchone()[0]
+
             conn.commit()
             return {
-                "id": cursor.lastrowid,
+                "id": file_id,
                 "name": name,
                 "parent_folder_id": parent_folder_id,
             }

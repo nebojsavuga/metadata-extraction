@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UploadedFile } from '../../model/file';
-import { Router } from '@angular/router';
+import { MetadataFolder, UploadedFile } from '../../model/file';
 import { MetadataService } from '../../services/metadata.service';
 import { SnackbarService } from '../../services/snackbar.service';
 
@@ -12,11 +11,13 @@ import { SnackbarService } from '../../services/snackbar.service';
 export class FilesComponent {
 
   @Input() files: UploadedFile[] = [];
+  @Input() folders: MetadataFolder[] = [];
   @Output() refresh = new EventEmitter<boolean>();
   isLoading: boolean = false;
   selectedFileId: string | undefined;
+  selectedFolderId: number | null = null;
 
-  constructor(private router: Router, private metadataService: MetadataService, private snackbar: SnackbarService) { }
+  constructor(private metadataService: MetadataService, private snackbar: SnackbarService) { }
 
   onFileClick(event: any) {
     this.selectedFileId = event;
@@ -63,5 +64,59 @@ export class FilesComponent {
         }
       }
     )
+  }
+
+  onAddFolderClick() {
+    const folderName = prompt('Enter folder name');
+    if (folderName) {
+      this.metadataService.createFolder(folderName, this.selectedFolderId).subscribe(
+        {
+          next: newFolder => {
+            this.folders.push(newFolder);
+            this.loadFiles();
+          },
+          error: err => {
+            console.error('Error creating folder:', err);
+          }
+        }
+      );
+    }
+  }
+
+  // Delete the currently selected folder
+  onDeleteFolderClick() {
+    if (this.selectedFolderId) {
+      if (confirm('Are you sure you want to delete this folder?')) {
+        this.metadataService.deleteFolder(this.selectedFolderId).subscribe(
+          {
+            next: () => {
+              this.folders = this.folders.filter(x => x.id !== this.selectedFolderId);
+              this.selectedFolderId = null;
+              this.loadFiles();
+            },
+            error: err => {
+              console.error('Error deleting folder:', err);
+            }
+          }
+        );
+      }
+    }
+  }
+
+
+  loadFiles() {
+    this.isLoading = true;
+    this.metadataService.getFiles().subscribe(
+      {
+        next: files => {
+          this.files = files;
+          this.isLoading = false;
+        },
+        error: err => {
+          console.error('Error loading files:', err);
+          this.isLoading = false;
+        }
+      }
+    );
   }
 }

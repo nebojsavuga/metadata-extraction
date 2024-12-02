@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environment/environment';
 import { MetadataService } from '../../services/metadata.service';
 import { Metadata } from '../../model/metadata';
-import { UploadedFile } from '../../model/file';
+import { MetadataFolder, UploadedFile } from '../../model/file';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   fileName: string | null = null;
   metadata: Metadata;
   files: UploadedFile[] = [];
+  folders: MetadataFolder[] = [];
 
   constructor(private metadataService: MetadataService) { }
 
@@ -24,8 +25,8 @@ export class HomeComponent implements OnInit {
     this.getFiles();
 
     this.metadataService.getFolders().subscribe(
-      res =>{
-        console.log(res);
+      res => {
+        this.folders = res;
       }
     )
   }
