@@ -7,9 +7,9 @@ import fitz
 from transformers import BlipProcessor, BlipForConditionalGeneration
 import pptx
 import moviepy.editor as mp
-from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 import whisper
 import os
+import time
 
 processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
 model = BlipForConditionalGeneration.from_pretrained(
@@ -109,16 +109,15 @@ def extract_pptx(file):
 
 whisper_model = whisper.load_model("base")
 
-
 def extract_audio_with_timestamps(path):
     """Extracts and transcribes audio with timestamps from a video file."""
     # Extract audio from video
-    video = mp.VideoFileClip(path)
-    audio = video.audio
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    audio_path = os.path.join(script_dir, "temp_audio.wav")
-    audio.write_audiofile(audio_path)
-    audio.close()
+    with mp.VideoFileClip(path) as video:
+        audio = video.audio
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        audio_path = os.path.join(script_dir, "temp_audio.wav")
+        audio.write_audiofile(audio_path)
+        audio.close()
     result = whisper_model.transcribe(audio_path, task="transcribe", verbose=False)
     segments = result["segments"]
 
@@ -145,31 +144,30 @@ def extract_video(file):
     try:
         audio_transcription = extract_audio_with_timestamps(video_path)
 
-        video = mp.VideoFileClip(video_path)
-        duration = int(video.duration)
-        frame_interval = 5
+        frame_interval = 3
         frame_captions = []
-        # get video image every 5 seconds
-        for t in range(0, duration, frame_interval):
-            frame = video.get_frame(t)
-            pil_image = Image.fromarray(frame)
-            caption = generate_caption(pil_image)
-            frame_captions.append((t, caption))
+        with mp.VideoFileClip(video_path) as video:
+            duration = int(video.duration)
+            # get video image every 3 seconds
+            for t in range(0, duration, frame_interval):
+                frame = video.get_frame(t)
+                pil_image = Image.fromarray(frame)
+                caption = generate_caption(pil_image)
+                frame_captions.append((t, caption))
 
         # sort timelines so that audio and video aligns well
         timeline = []
         for start, end, text in audio_transcription:
             timeline.append((start, f"[Audio {start:.2f}-{end:.2f}s]: {text}"))
 
-        for time, caption in frame_captions:
-            timeline.append((time, f"[Video Frame {time}s]: {caption}"))
+        for ti, caption in frame_captions:
+            timeline.append((ti, f"[Video Frame {ti}s]: {caption}"))
 
         timeline.sort(key=lambda x: x[0])
 
         text_output = "\n".join(event[1] for event in timeline)
     finally:
-        if "video" in locals():
-            video.close()
         if os.path.exists(video_path):
+            time.sleep(0.5)
             os.remove(video_path)
         return text_output.strip()

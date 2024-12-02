@@ -14,7 +14,7 @@ import tiktoken
 from concurrent.futures import ThreadPoolExecutor
 from text_extractors import *
 from datetime import datetime
-
+from openai import OpenAI
 
 # Supported video and audio formats
 VIDEO_FORMATS = ["mp4", "mkv", "avi", "mov"]
@@ -45,13 +45,12 @@ def split_text_by_word_count(text, word_limit=2000):
 
 class TextAnalyzer:
     def __init__(self, api_key=None):
-        self.client = Groq(api_key=api_key or os.environ.get("GROQ_API_KEY"))
+        self.client = OpenAI(api_key=api_key or os.environ.get("OPENAI_API_KEY"))
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
 
     def get_metadata(
-        self, file, model="llama3-8b-8192", temperature=0.5, max_tokens=1000, top_p=1
+        self, file, model="gpt-3.5-turbo", temperature=0.5, max_tokens=1000, top_p=1
     ):
-
         text = ""
         if file.filename.endswith(".pdf"):
             text = extract_pdf(file)
@@ -68,7 +67,7 @@ class TextAnalyzer:
         if not text:
             return jsonify({"error": "Could not extract text from the file"}), 400
         num_tokens = len(self.tokenizer.encode(text))
-        if num_tokens > 5000:
+        if num_tokens > 30000:
             words = split_text_by_word_count(text)
             short_text = []
             for word in words:
@@ -88,7 +87,7 @@ class TextAnalyzer:
                 )
                 short_text.append(completion.choices[0].message.content.strip())
             text = "".join(short_text)
-
+        
         metadata_instance = Metadata()
         with ThreadPoolExecutor() as executor:
             futures = {
@@ -292,7 +291,7 @@ class TextAnalyzer:
 
     def get_relation_data(self, file, text, model, temperature, max_tokens, top_p):
         relation = RelationMetadata()
-        # TODO
+        # TODO compare metadata from database
         return relation
 
     def get_classification_data(
