@@ -1,6 +1,6 @@
 .delete {
     position: absolute;
-    top: 5px;
+    top: 8px;
     right: 5px;
     color: red;
     padding-left: 5px;
@@ -15,4 +15,8 @@
 
 .file-item{
     border: 2px solid rgb(18, 20, 148);
+}
+
+.folder-item{
+    border: 1px solid gray;
 }

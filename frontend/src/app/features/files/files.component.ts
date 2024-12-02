@@ -83,26 +83,22 @@ export class FilesComponent {
     }
   }
 
-  // Delete the currently selected folder
-  onDeleteFolderClick() {
-    if (this.selectedFolderId) {
-      if (confirm('Are you sure you want to delete this folder?')) {
-        this.metadataService.deleteFolder(this.selectedFolderId).subscribe(
-          {
-            next: () => {
-              this.folders = this.folders.filter(x => x.id !== this.selectedFolderId);
-              this.selectedFolderId = null;
-              this.loadFiles();
-            },
-            error: err => {
-              console.error('Error deleting folder:', err);
-            }
+  onDeleteFolderClick(folderId: number) {
+    if (confirm('Are you sure you want to delete this folder?')) {
+      this.metadataService.deleteFolder(folderId).subscribe(
+        {
+          next: () => {
+            this.folders = this.folders.filter(x => x.id !== folderId);
+            this.selectedFolderId = null;
+            this.loadFiles();
+          },
+          error: err => {
+            console.error('Error deleting folder:', err);
           }
-        );
-      }
+        }
+      );
     }
   }
-
 
   loadFiles() {
     this.isLoading = true;
@@ -118,5 +114,9 @@ export class FilesComponent {
         }
       }
     );
+  }
+
+  onFolderClick(id: number) {
+    this.selectedFolderId = id;
   }
 }

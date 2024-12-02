@@ -1,16 +1,27 @@
 <div class="row">
-    <!-- Left Column for Files -->
     <div class="col-4">
-        <!-- Folder Management -->
         <div class="mb-3">
-            <button class="btn btn-primary" (click)="onAddFolderClick()">Add Folder</button>
-            <button class="btn btn-danger" (click)="onDeleteFolderClick()" *ngIf="selectedFolderId">Delete Folder</button>
+            <button class="default-button" (click)="onAddFolderClick()">Add Folder</button>
         </div>
-
+        <div class="row">
+            <div class="col-md-6 col-12 px-5 mb-3 mx-1 d-flex align-items-center folder-item"
+                *ngFor="let folder of folders" style="position: relative;">
+                <i class="bi bi-folder-fill me-2" style="cursor: pointer; font-size: 2.5rem; color: #007bff;"
+                    (click)="onFolderClick(folder.id)"></i>
+                <div style="cursor: pointer;" (click)="onFolderClick(folder.id)">
+                    <strong>{{ folder.name }}</strong>
+                </div>
+                <div class="delete" (click)="onDeleteFolderClick(folder.id)">
+                    X
+                </div>
+            </div>
+        </div>
         <!-- File List -->
         <div class="row">
-            <div class="col-md-6 col-12 px-5 mb-3 mx-1 d-flex align-items-center file-item" *ngFor="let file of files" style="position: relative;">
-                <i (click)="onFileClick(file.id)" class="{{ getFileIcon(file.name) }} me-2" style="cursor: pointer; font-size: 2.5rem; color: #007bff;"></i>
+            <div class="col-md-6 col-12 px-5 mb-3 mx-1 d-flex align-items-center file-item" *ngFor="let file of files"
+                style="position: relative;">
+                <i (click)="onFileClick(file.id)" class="{{ getFileIcon(file.name) }} me-2"
+                    style="cursor: pointer; font-size: 2.5rem; color: #007bff;"></i>
                 <div (click)="onFileClick(file.id)" style="cursor: pointer;">
                     <strong>{{ file.name }}</strong> <br>
                     <small class="text-muted">{{ file.size / 1000000 | number : '1.0-3'}} MB</small>
