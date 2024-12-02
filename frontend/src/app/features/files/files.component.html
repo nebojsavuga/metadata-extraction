@@ -1,16 +1,24 @@
 <div class="row">
-    <div class="col-md-3 col-sm-6 col-12 px-5 mb-3 mx-1 d-flex align-items-center file-item" *ngFor="let file of files"
-        style="position: relative;">
-        <i (click)="onFileClick(file.id)" class="{{ getFileIcon(file.name) }} me-2"
-            style="cursor: pointer; font-size: 2.5rem; color: #007bff;"></i>
-        <div (click)="onFileClick(file.id)" style="cursor: pointer;">
-            <strong>{{ file.name }}</strong> <br>
-            <small class="text-muted">{{ file.size / 1000000 | number : '1.0-3'}} MB</small>
-        </div>
-        <div class="delete" (click)="onDeleteClick(file.id)">
-            X
+    <div class="col-4">
+        <div class="row">
+            <div class="col-md-6 col-12 px-5 mb-3 mx-1 d-flex align-items-center file-item"
+                *ngFor="let file of files" style="position: relative;">
+                <i (click)="onFileClick(file.id)" class="{{ getFileIcon(file.name) }} me-2"
+                    style="cursor: pointer; font-size: 2.5rem; color: #007bff;"></i>
+                <div (click)="onFileClick(file.id)" style="cursor: pointer;">
+                    <strong>{{ file.name }}</strong> <br>
+                    <small class="text-muted">{{ file.size / 1000000 | number : '1.0-3'}} MB</small>
+                </div>
+                <div class="delete" (click)="onDeleteClick(file.id)">
+                    X
+                </div>
+            </div>
         </div>
     </div>
+    <div class="col-8" *ngIf="selectedFileId">
+        <app-metadata [selectedFileId]="selectedFileId"></app-metadata>
+    </div>
+
 </div>
 <div *ngIf="isLoading" class="spinner">
     <div class="spinner-border" role="status">

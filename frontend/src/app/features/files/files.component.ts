@@ -14,11 +14,13 @@ export class FilesComponent {
   @Input() files: UploadedFile[] = [];
   @Output() refresh = new EventEmitter<boolean>();
   isLoading: boolean = false;
+  selectedFileId: string | undefined;
 
   constructor(private router: Router, private metadataService: MetadataService, private snackbar: SnackbarService) { }
 
   onFileClick(event: any) {
-    this.router.navigate(['file/' + event])
+    this.selectedFileId = event;
+    console.log(this.selectedFileId);
   }
 
   getFileIcon(fileName: string): string {
