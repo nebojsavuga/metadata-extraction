@@ -1,3 +1,8 @@
+IF OBJECT_ID('Metadata', 'U') IS NOT NULL DROP TABLE Metadata;
+IF OBJECT_ID('UploadedFile', 'U') IS NOT NULL DROP TABLE UploadedFile;
+IF OBJECT_ID('MetadataFolders', 'U') IS NOT NULL DROP TABLE MetadataFolders;
+IF OBJECT_ID('Users', 'U') IS NOT NULL DROP TABLE Users;
+
 CREATE TABLE Users (
     id INT IDENTITY(1,1) NOT NULL,
     username VARCHAR(255) NOT NULL,
@@ -62,7 +67,7 @@ CREATE TABLE Metadata (
     technical_duration VARCHAR(2000),
     rights_cost VARCHAR(2000),
     rights_copyright_restrictions VARCHAR(2000),
-    rights_description VARCHAR(2000),
+    rights_description VARCHAR(4000),
     life_cycle_version VARCHAR(500),
     life_cycle_status VARCHAR(2000),
     life_cycle_contribute VARCHAR(2000),
