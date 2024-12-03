@@ -76,8 +76,6 @@ def insert_general_metadata(filename, general_data, config_path, file_path, fold
     server = db_config["server"]
     database = db_config["database"]
     driver = db_config["driver"]
-
-    # Kreiranje konekcije ka bazi
     connection = pyodbc.connect(
         f"DRIVER={driver};"
         f"SERVER={server};"
@@ -101,7 +99,6 @@ def insert_general_metadata(filename, general_data, config_path, file_path, fold
     except ValueError:
         folder_id = None
         
-    print(folder_id)
     if folder_id is None:
         cursor.execute(
             """

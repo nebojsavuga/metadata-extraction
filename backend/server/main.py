@@ -20,7 +20,7 @@ def get_metadata():
     if not file:
         return jsonify({"error": "No file provided"}), 400
     folder_id = request.args.get("folderId")
-    
+
     analyzer = TextAnalyzer()
     metadata_instance = analyzer.get_metadata(
         file, temperature=0.7, max_tokens=1000, top_p=1, folder_id=folder_id
@@ -67,13 +67,9 @@ def delete_file(file_id):
 
 @app.route("/<int:file_id>", methods=["PUT"])
 def edit_metadata_route(file_id):
-    data = request.get_json() 
-    
-    print(data.get('tehnical', {}).get('size', ''),
-
-)# Uzimanje podataka iz JSON tela
-    response = update_metadata(file_id, data, "db_config.json")  # Pozivanje funkcije za ažuriranje
+    response = update_metadata(file_id, request.get_json(), "db_config.json")
     return jsonify(response)
+
 
 @app.route("/file/<int:file_id>", methods=["GET"])
 def get_blob_file(file_id):
@@ -82,7 +78,7 @@ def get_blob_file(file_id):
     if not os.path.exists(file_path):
         return {"error": "File not found"}, 404
 
-    _, file_extension = os.path.splitext(file_path)
+    _, _ = os.path.splitext(file_path)
     mime_type, _ = mimetypes.guess_type(file_path)
 
     if not mime_type:
@@ -100,7 +96,6 @@ def get_blob_file(file_id):
 def get_folders():
     try:
         folders = get_all_folders("db_config.json")
-        print(folders)
         return jsonify(folders), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -134,6 +129,6 @@ def delete_folder_route(folder_id):
 
 
 if __name__ == "__main__":
-    create_tables('../db_scripts/create_tables.sql', 'db_config.json')
-    insert_user('db_config.json')
+    # create_tables('../db_scripts/create_tables.sql', 'db_config.json')
+    # insert_user('db_config.json')
     app.run(debug=True)
