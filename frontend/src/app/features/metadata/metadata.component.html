@@ -7,6 +7,8 @@
     <div id="fileContainer"></div>
 </div>
 <div class="row" *ngIf="metadata">
+    <form login [formGroup]="metadataForm" (ngSubmit)="editMetadata()" class="row">
+
     <div class="col-6">
         <div class="row">
             <div class="col-12">
@@ -18,7 +20,7 @@
                         <b>Title: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.general.title}}
+                        <input type="text" class="form-control" name="general_title" id="general_title" formControlName="general_title">
                     </div>
                 </div>
             </div>
@@ -28,7 +30,7 @@
                         <b>Description: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.general.description}}
+                        <textarea rows=7 class="form-control" name="general_description" id="general_description" formControlName="general_description"></textarea>
                     </div>
                 </div>
             </div>
@@ -38,7 +40,7 @@
                         <b>Coverage: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.general.coverage}}
+                        <textarea rows=7 class="form-control" name="general_coverage" id="general_coverage" formControlName="general_coverage"></textarea>
                     </div>
                 </div>
             </div>
@@ -48,7 +50,7 @@
                         <b>Aggregation level: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.general.aggregation_level}}
+                        <textarea rows=7 class="form-control" name="general_aggregation_level" id="general_aggregation_level" formControlName="general_aggregation_level"></textarea>
                     </div>
                 </div>
             </div>
@@ -58,7 +60,7 @@
                         <b>Keywords: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.general.keywords}}
+                        <textarea rows=7 class="form-control" name="general_keywords" id="general_keywords" formControlName="general_keywords"></textarea>
                     </div>
                 </div>
             </div>
@@ -68,7 +70,7 @@
                         <b>Language: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.general.language}}
+                        <textarea rows=7 class="form-control" name="general_language" id="general_language" formControlName="general_language"></textarea>
                     </div>
                 </div>
             </div>
@@ -78,7 +80,7 @@
                         <b>Structure: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.general.structure}}
+                        <textarea rows=7 class="form-control" name="general_structure" id="general_structure" formControlName="general_structure"></textarea>
                     </div>
                 </div>
             </div>
@@ -96,7 +98,7 @@
                         <b>Interactivity Type: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.educational.interactivity_type}}
+                        <textarea rows=7 class="form-control" name="educational_interactivity_type" id="educational_interactivity_type" formControlName="educational_interactivity_type"></textarea>
                     </div>
                 </div>
             </div>
@@ -106,7 +108,7 @@
                         <b>Learning Resource Type: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.educational.learning_resource_type}}
+                        <textarea rows=7 class="form-control" name="educational_learning_resource_type" id="educational_learning_resource_type" formControlName="educational_learning_resource_type"></textarea>
                     </div>
                 </div>
             </div>
@@ -116,7 +118,7 @@
                         <b>Interactivity Level: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.educational.interactivity_level}}
+                        <textarea rows=7 class="form-control" name="educational_interactivity_level" id="educational_interactivity_level" formControlName="educational_interactivity_level"></textarea>
                     </div>
                 </div>
             </div>
@@ -126,7 +128,7 @@
                         <b>Semantic Density: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.educational.semantic_density}}
+                        <textarea rows=7 class="form-control" name="educational_semantic_density" id="educational_semantic_density" formControlName="educational_semantic_density"></textarea>
                     </div>
                 </div>
             </div>
@@ -136,7 +138,7 @@
                         <b>Intended End User Role: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.educational.intended_end_user_role}}
+                        <textarea rows=7 class="form-control" name="educational_intended_end_user_role" id="educational_intended_end_user_role" formControlName="educational_intended_end_user_role"></textarea>
                     </div>
                 </div>
             </div>
@@ -146,7 +148,7 @@
                         <b>Context: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.educational.context}}
+                        <textarea rows=7 class="form-control" name="educational_context" id="educational_context" formControlName="educational_context"></textarea>
                     </div>
                 </div>
             </div>
@@ -156,7 +158,7 @@
                         <b>Typical Age Range: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.educational.typical_age_range}}
+                        <textarea rows=7 class="form-control" name="educational_typical_age_range" id="educational_typical_age_range" formControlName="educational_typical_age_range"></textarea>
                     </div>
                 </div>
             </div>
@@ -166,7 +168,7 @@
                         <b>Difficulty: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.educational.difficulty}}
+                        <textarea rows=7 class="form-control" name="educational_difficulty" id="educational_difficulty" formControlName="educational_difficulty"></textarea>
                     </div>
                 </div>
             </div>
@@ -176,7 +178,7 @@
                         <b>Typical Learning Time: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.educational.typical_learning_time}}
+                        <textarea rows=7 class="form-control" name="educational_stypical_learning_time" id="educational_stypical_learning_time" formControlName="educational_stypical_learning_time"></textarea>
                     </div>
                 </div>
             </div>
@@ -186,7 +188,7 @@
                         <b>Description: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.educational.description}}
+                        <textarea rows=7 class="form-control" name="educational_description" id="educational_description" formControlName="educational_description"></textarea>
                     </div>
                 </div>
             </div>
@@ -196,7 +198,7 @@
                         <b>Language: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.educational.language}}
+                        <textarea rows=7 class="form-control" name="educational_language" id="educational_language" formControlName="educational_language"></textarea>
                     </div>
                 </div>
             </div>
@@ -213,7 +215,7 @@
                         <b>Version: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.lifeCycle.version}}
+                        <textarea rows=7 class="form-control" name="lifeCycle_version" id="lifeCycle_version" formControlName="lifeCycle_version"></textarea>
                     </div>
                 </div>
             </div>
@@ -223,7 +225,7 @@
                         <b>Status: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.lifeCycle.status}}
+                        <textarea rows=7 class="form-control" name="lifeCycle_status" id="lifeCycle_status" formControlName="lifeCycle_status"></textarea>
                     </div>
                 </div>
             </div>
@@ -233,7 +235,7 @@
                         <b>Contribute: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.lifeCycle.contribute}}
+                        <textarea rows=7 class="form-control" name="lifeCycle_contribute" id="lifeCycle_contribute" formControlName="lifeCycle_contribute"></textarea>
                     </div>
                 </div>
             </div>
@@ -250,7 +252,7 @@
                         <b>Purpose: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.classification.purpose}}
+                        <textarea rows=7 class="form-control" name="classification_purpose" id="classification_purpose" formControlName="classification_purpose"></textarea>
                     </div>
                 </div>
             </div>
@@ -260,7 +262,7 @@
                         <b>Taxon Path: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.classification.taxon_path}}
+                        <textarea rows=7 class="form-control" name="classification_taxon_path" id="classification_taxon_path" formControlName="classification_taxon_path"></textarea>
                     </div>
                 </div>
             </div>
@@ -270,7 +272,7 @@
                         <b>Description: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.classification.description}}
+                        <textarea rows=7 class="form-control" name="classification_description" id="classification_description" formControlName="classification_description"></textarea>
                     </div>
                 </div>
             </div>
@@ -280,7 +282,7 @@
                         <b>Keywords: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.classification.keywords}}
+                        <textarea rows=7 class="form-control" name="classification_keywords" id="classification_keywords" formControlName="classification_keywords"></textarea>
                     </div>
                 </div>
             </div>
@@ -297,7 +299,7 @@
                         <b>Cost: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.rights.cost}}
+                        <textarea rows=7 class="form-control" name="rights_cost" id="rights_cost" formControlName="rights_cost"></textarea>
                     </div>
                 </div>
             </div>
@@ -307,7 +309,7 @@
                         <b>Copyright: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.rights.copyright}}
+                        <textarea rows=7 class="form-control" name="rights_copyright" id="rights_copyright" formControlName="rights_copyright"></textarea>
                     </div>
                 </div>
             </div>
@@ -317,7 +319,7 @@
                         <b>Description: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.rights.description}}
+                        <textarea rows=7 class="form-control" name="rights_description" id="rights_description" formControlName="rights_description"></textarea>
                     </div>
                 </div>
             </div>
@@ -334,7 +336,7 @@
                         <b>Kind: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.relation.kind}}
+                        <textarea rows=7 class="form-control" name="relation_kind" id="relation_kind" formControlName="relation_kind"></textarea>
                     </div>
                 </div>
             </div>
@@ -344,7 +346,7 @@
                         <b>Resource: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.relation.resource}}
+                        <textarea rows=7 class="form-control" name="relation_resource" id="relation_resource" formControlName="relation_resource"></textarea>
                     </div>
                 </div>
             </div>
@@ -354,7 +356,7 @@
                         <b>Annotation: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.relation.annotation}}
+                        <textarea rows=7 class="form-control" name="relation_annotation" id="relation_annotation" formControlName="relation_annotation"></textarea>
                     </div>
                 </div>
             </div>
@@ -371,17 +373,17 @@
                         <b>Format: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.tehnical.format}}
+                        <textarea rows=7 class="form-control" name="technical_format" id="technical_format" formControlName="technical_format"></textarea>
                     </div>
                 </div>
             </div>
             <div class="col-12">
                 <div class="row mx-3">
                     <div class="col-3">
-                        <b>Size: </b>
+                        <b>Size (MB): </b>
                     </div>
                     <div class="col-9">
-                        {{ metadata.tehnical.size / 1000000 | number : '1.0-3' }} MB
+                        <textarea rows=7 class="form-control" name="technical_size" id="technical_size" formControlName="technical_size">MB</textarea>
                     </div>
                 </div>
             </div>
@@ -391,7 +393,7 @@
                         <b>Location: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.tehnical.location}}
+                        <textarea rows=7 class="form-control" name="technical_location" id="technical_location" formControlName="technical_location"></textarea>
                     </div>
                 </div>
             </div>
@@ -401,7 +403,7 @@
                         <b>Requirement: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.tehnical.requirement}}
+                        <textarea rows=7 class="form-control" name="technical_requirement" id="technical_requirement" formControlName="technical_requirement"></textarea>
                     </div>
                 </div>
             </div>
@@ -411,7 +413,7 @@
                         <b>Installation Remarks: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.tehnical.installation_remarks}}
+                        <textarea rows=7 class="form-control" name="technical_installation_remarks" id="technical_installation_remarks" formControlName="technical_installation_remarks"></textarea>
                     </div>
                 </div>
             </div>
@@ -421,12 +423,16 @@
                         <b>Duration: </b>
                     </div>
                     <div class="col-9">
-                        {{metadata.tehnical.duration}}
+                        <textarea rows=7 class="form-control" name="technical_duration" id="technical_duration" formControlName="technical_duration"></textarea>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="mt-2 text-center">
+        <button type="submit" class="button-style" id="confirmRegistration">Change</button>
+    </div>
+</form>
 </div>
 <div *ngIf="isLoading" class="spinner">
     <div class="spinner-border" role="status">

@@ -9,6 +9,8 @@ import { MetadataComponent } from './features/metadata/metadata.component';
 import { FilesComponent } from './features/files/files.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms'; // Uvezi ReactiveFormsModule
+import { DecimalPipe } from '@angular/common'; // Dodaj ovo
 
 @NgModule({
   declarations: [
@@ -22,9 +24,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     HttpClientModule,
     MatSnackBarModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule 
+
   ],
-  providers: [],
+  providers: [DecimalPipe], // Dodaj DecimalPipe ovde
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Metadata } from '../model/metadata';
 import { MetadataFolder, UploadedFile } from '../model/file';
 
@@ -34,6 +34,10 @@ export class MetadataService {
   getBlobFile(file_id: number): Observable<any> {
     const url = `${this.baseUrl}file/${file_id}`;
     return this.http.get(url);
+  }
+  editMetadata(metadata: Metadata, file_id: number): Observable<any> {
+    const url = `${environment.apiHost}/${file_id}`; // Dodaj ID datoteke
+    return this.http.put(url, metadata);
   }
 
   getFolders(): Observable<MetadataFolder[]> {

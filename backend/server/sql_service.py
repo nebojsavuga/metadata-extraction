@@ -76,8 +76,6 @@ def insert_general_metadata(filename, general_data, config_path, file_path, fold
     server = db_config["server"]
     database = db_config["database"]
     driver = db_config["driver"]
-
-    # Kreiranje konekcije ka bazi
     connection = pyodbc.connect(
         f"DRIVER={driver};"
         f"SERVER={server};"
@@ -101,7 +99,6 @@ def insert_general_metadata(filename, general_data, config_path, file_path, fold
     except ValueError:
         folder_id = None
         
-    print(folder_id)
     if folder_id is None:
         cursor.execute(
             """
@@ -222,7 +219,134 @@ def insert_general_metadata(filename, general_data, config_path, file_path, fold
     cursor.close()
     connection.close()
 
+def update_metadata(file_id, general_data, config_path):
+    """
+    Ažurira metapodatke u bazi podataka koristeći pyodbc.
 
+    :param file_id: ID datoteke koja se ažurira.
+    :param general_data: Rečnik sa podacima za ažuriranje.
+    :return: Poruka o uspehu ili grešci.
+    """
+    try:
+        db_config = load_db_config(config_path)
+        server = db_config["server"]
+        database = db_config["database"]
+        driver = db_config["driver"]
+        connection = pyodbc.connect(
+            f"DRIVER={driver};"
+            f"SERVER={server};"
+            f"DATABASE={database};"
+            f"Trusted_Connection=yes;"
+        )
+        cursor = connection.cursor()
+
+        cursor.execute("""
+    UPDATE UploadedFile
+    SET size = ?
+    OUTPUT INSERTED.id
+    WHERE id = ?;
+""", ( general_data.get('tehnical', {}).get('size', ''), file_id))
+
+# Dohvatanje ID-a ažuriranog reda
+
+# Potvrda promena
+        connection.commit()
+
+        # Pripremi SQL upit za ažuriranje
+        update_query = """
+    UPDATE Metadata
+    SET
+        classification_description = ?,
+        classification_keywords = ?,
+        classification_purpose = ?,
+        classification_taxon_path = ?,
+        educational_context = ?,
+        educational_description = ?,
+        educational_difficulty = ?,
+        educational_intended_end_user_role = ?,
+        educational_interactivity_level = ?,
+        educational_interactivity_type = ?,
+        educational_language = ?,
+        educational_learning_resource_type = ?,
+        educational_semantic_density = ?,
+        educational_typical_age_range = ?,
+        educational_typical_learning_rate = ?,
+        general_aggregation_level = ?,
+        general_coverage = ?,
+        general_description = ?,
+        general_keywords = ?,
+        general_language = ?,
+        general_structure = ?,
+        general_title = ?,
+        technical_format = ?,
+        technical_size = ?,
+        technical_location = ?,
+        technical_requirement = ?,
+        technical_installation_remarks = ?,
+        technical_duration = ?,
+        rights_cost = ?,
+        rights_copyright_restrictions = ?,
+        rights_description = ?,
+        life_cycle_version = ?,
+        life_cycle_status = ?,
+        life_cycle_contribute = ?,
+        relation_annotation = ?,
+        relation_kind = ?,
+        relation_resource = ?
+    WHERE fileId = ?
+"""
+
+        # Pripremi vrednosti za ažuriranje iz rečnika
+        values = (
+            general_data.get('classification', {}).get('description', ''),
+            general_data.get('classification', {}).get('keywords', ''),
+            general_data.get('classification', {}).get('purpose', ''),
+            general_data.get('classification', {}).get('taxon_path', ''),
+            general_data.get('educational', {}).get('context', ''),
+            general_data.get('educational', {}).get('description', ''),
+            general_data.get('educational', {}).get('difficulty', ''),
+            general_data.get('educational', {}).get('intended_end_user_role', ''),
+            general_data.get('educational', {}).get('interactivity_level', ''),
+            general_data.get('educational', {}).get('interactivity_type', ''),
+            general_data.get('educational', {}).get('language', ''),
+            general_data.get('educational', {}).get('learning_resource_type', ''),
+            general_data.get('educational', {}).get('semantic_density', ''),
+            general_data.get('educational', {}).get('typical_age_range', ''),
+            general_data.get('educational', {}).get('typical_learning_time', ''),
+            general_data.get('general', {}).get('aggregation_level', ''),
+            general_data.get('general', {}).get('coverage', ''),
+            general_data.get('general', {}).get('description', ''),
+            general_data.get('general', {}).get('keywords', ''),
+            general_data.get('general', {}).get('language', ''),
+            general_data.get('general', {}).get('structure', ''),
+            general_data.get('general', {}).get('title', ''),
+            general_data.get('tehnical', {}).get('format', ''),
+            general_data.get('tehnical', {}).get('size', ''),
+            general_data.get('tehnical', {}).get('location', ''),
+            general_data.get('tehnical', {}).get('requirement', ''),
+            general_data.get('tehnical', {}).get('installation_remarks', ''),
+            general_data.get('tehnical', {}).get('duration', ''),
+            general_data.get('rights', {}).get('cost', ''),
+            general_data.get('rights', {}).get('copyright', ''),
+            general_data.get('rights', {}).get('description', ''),
+            general_data.get('lifeCycle', {}).get('version', ''),
+            general_data.get('lifeCycle', {}).get('status', ''),
+            general_data.get('lifeCycle', {}).get('contribute', ''),
+            general_data.get('relation', {}).get('annotation', None),
+            general_data.get('relation', {}).get('kind', None),
+            general_data.get('relation', {}).get('resource', None),
+            file_id  # ID za ažuriranje
+        )
+        # Izvrši upit
+        cursor.execute(update_query, values)
+        connection.commit()
+        connection.close()
+
+        return {"message": "Metadata updated successfully."}, 200
+
+    except Exception as e:
+        return {"error": str(e)}, 500
+    
 def get_all_files(config_path):
     db_config = load_db_config(config_path)
     server = db_config["server"]
