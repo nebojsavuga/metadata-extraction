@@ -1,6 +1,6 @@
 <div class="row my-3">
     <div class="col-12 text-center">
-        <h1>Metadata</h1>
+        <h1>Metadata <span *ngIf="metadata && metadata.general.title !== ''">- {{metadata.general.title}}</span></h1>
     </div>
 </div>
 <div class="row col-12">

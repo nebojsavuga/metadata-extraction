@@ -48,7 +48,7 @@ class TextAnalyzer:
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
 
     def get_metadata(
-        self, file, model="llama3-8b-8192", temperature=0.5, max_tokens=1000, top_p=1
+        self, file, model="llama3-8b-8192", temperature=0.5, max_tokens=1000, top_p=1, folder_id = None
     ):
         text = ""
         if file.filename.endswith(".pdf"):
@@ -170,7 +170,7 @@ class TextAnalyzer:
             output_file.write(file.read())
 
         insert_general_metadata(
-            file.filename, metadata_instance, "db_config.json", file_path
+            file.filename, metadata_instance, "db_config.json", file_path, folder_id
         )
         return metadata_instance
 

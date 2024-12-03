@@ -1,20 +1,22 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ClassificationMetadata, EducationalMetadata, GeneralMetadata, LifeCycleMetadata, Metadata, RelationMetadata, RightsMetadata, TehnicalMetadata } from '../../model/metadata';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  ClassificationMetadata, EducationalMetadata, GeneralMetadata, LifeCycleMetadata, Metadata,
+  RelationMetadata, RightsMetadata, TehnicalMetadata
+} from '../../model/metadata';
 import { MetadataService } from '../../services/metadata.service';
-import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DecimalPipe } from '@angular/common'; // Import NumberPipe
 
 @Component({
   selector: 'app-metadata',
   templateUrl: './metadata.component.html',
   styleUrl: './metadata.component.css'
 })
-export class MetadataComponent implements OnInit {
+export class MetadataComponent implements OnChanges {
 
   metadata: Metadata;
   isLoading = false;
-  constructor(private metadataService: MetadataService, private route: ActivatedRoute, private decimalPipe: DecimalPipe) { }
+
+  constructor(private metadataService: MetadataService) { }
 
   metadataForm = new FormGroup({
     id: new FormControl(''),
@@ -56,57 +58,58 @@ export class MetadataComponent implements OnInit {
     technical_installation_remarks: new FormControl(''),
     technical_duration: new FormControl(''),
   });
-  
-  ngOnInit(): void {
-    
+  @Input() selectedFileId: number | undefined;
 
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      this.getMetadata(id);
-      
-      this.metadataService.getBlobFile(Number(id)).subscribe((response) => {
-        const fileType = response.file_type;  // e.g., 'application/pdf', 'audio/mp3'
-        const fileData = response.file_data;  // Base64 encoded data
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedFileId'] && changes['selectedFileId'].currentValue) {
+      this.fetchMetadata(changes['selectedFileId'].currentValue);
+    }
+  }
 
-        // Create an object URL for the base64 data
-        const fileURL = `data:${fileType};base64,${fileData}`;
+  fetchMetadata(selectedFileId: number) {
+    this.getMetadata(selectedFileId);
+    const fileContainer = document.getElementById('fileContainer');
+    if (fileContainer) {
+      fileContainer.innerHTML = '';
+    }
+    this.metadataService.getBlobFile(Number(selectedFileId)).subscribe((response) => {
+      const fileType = response.file_type;  // e.g., 'application/pdf', 'audio/mp3'
+      const fileData = response.file_data;  // Base64 encoded data
+      // Create an object URL for the base64 data
+      const fileURL = `data:${fileType};base64,${fileData}`;
 
-        if (fileType.startsWith('image')) {
-          // For images
-          const img = document.createElement('img');
-          img.src = fileURL;
-          img.style.width = '100%';
-          img.style.height = 'auto';
-          document.getElementById('fileContainer').appendChild(img);
-        } else if (fileType.startsWith('video') || fileType.startsWith('audio')) {
-          // For video or audio
-          const mediaElement = document.createElement(fileType.startsWith('video') ? 'video' : 'audio');
-          mediaElement.src = fileURL;
-          mediaElement.controls = true;
-          mediaElement.style.width = '100%';
-          mediaElement.style.height = 'auto';
-          document.getElementById('fileContainer').appendChild(mediaElement);
-        } else if (fileType === 'application/pdf') {
-          // For PDFs
-          const iframe = document.createElement('iframe');
-          iframe.src = fileURL;
-          iframe.style.width = '100%';
-          iframe.style.height = '500px'; // Adjust as needed
-          document.getElementById('fileContainer').appendChild(iframe);
-        }
-      })
+      if (fileType.startsWith('image')) {
+        // For images
+        const img = document.createElement('img');
+        img.src = fileURL;
+        img.style.width = '100%';
+        img.style.height = 'auto';
+        fileContainer.appendChild(img);
+      } else if (fileType.startsWith('video') || fileType.startsWith('audio')) {
+        // For video or audio
+        const mediaElement = document.createElement(fileType.startsWith('video') ? 'video' : 'audio');
+        mediaElement.src = fileURL;
+        mediaElement.controls = true;
+        mediaElement.style.width = '100%';
+        mediaElement.style.height = 'auto';
+        fileContainer.appendChild(mediaElement);
+      } else if (fileType === 'application/pdf') {
+        // For PDFs
+        const iframe = document.createElement('iframe');
+        iframe.src = fileURL;
+        iframe.style.width = '100%';
+        iframe.style.height = '500px'; // Adjust as needed
+        fileContainer.appendChild(iframe);
+      }
     });
   }
-  
-  editMetadata(){
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
 
-    if(!this.metadataForm.valid){
+  editMetadata() {
+    if (!this.metadataForm.valid) {
       return;
     }
     let general: GeneralMetadata = {
-      id:this.metadataForm.value.id,
+      id: this.metadataForm.value.id,
       title: this.metadataForm.value.general_title,
       description: this.metadataForm.value.general_description,
       language: this.metadataForm.value.general_language,
@@ -160,23 +163,24 @@ export class MetadataComponent implements OnInit {
     let editMetadata: Metadata = {
       general: general,
       educational: educational,
-      lifeCycle:lifeCycle,
-      tehnical:tehnical,
-      rights:rights,
-      relation:relation,
-      classification:classification
+      lifeCycle: lifeCycle,
+      tehnical: tehnical,
+      rights: rights,
+      relation: relation,
+      classification: classification
     }
-    this.metadataService.editMetadata(editMetadata, id).subscribe({
-      next:(result) =>{
-        this.getMetadata(id)
+    this.metadataService.editMetadata(editMetadata, this.selectedFileId).subscribe({
+      next: () => {
+        this.getMetadata(this.selectedFileId);
       },
-      error:(err) =>{
-        
+      error: (err) => {
+        console.log(err);
       }
-    })
-  })}
+    });
+  }
 
-  private getMetadata(id: string) {
+
+  private getMetadata(id: number) {
     this.isLoading = true;
     this.metadataService.getFile(id).subscribe(
       res => {
@@ -188,39 +192,39 @@ export class MetadataComponent implements OnInit {
           general_title: this.metadata.general.title,
           general_aggregation_level: this.metadata.general.aggregation_level,
           general_coverage: this.metadata.general.coverage,
-          general_description:this.metadata.general.description,
-          general_keywords:this.metadata.general.keywords,
-          general_language:this.metadata.general.language,
-          general_structure:this.metadata.general.structure,
-          educational_context:this.metadata.educational.context,
-          educational_description:this.metadata.educational.description,
-          educational_difficulty:this.metadata.educational.difficulty,
-          educational_intended_end_user_role:this.metadata.educational.intended_end_user_role,
-          educational_interactivity_level:this.metadata.educational.interactivity_level,
-          educational_interactivity_type:this.metadata.educational.interactivity_type,
-          educational_language:this.metadata.educational.language,
-          educational_learning_resource_type:this.metadata.educational.learning_resource_type,
-          educational_semantic_density:this.metadata.educational.semantic_density,
-          educational_stypical_learning_time:this.metadata.educational.typical_learning_time,
-          educational_typical_age_range:this.metadata.educational.typical_age_range,
-          lifeCycle_contribute:this.metadata.lifeCycle.contribute,
-          lifeCycle_status:this.metadata.lifeCycle.status,
-          lifeCycle_version:this.metadata.lifeCycle.version,
-          classification_description:this.metadata.classification.description,
-          classification_keywords:this.metadata.classification.keywords,
-          classification_purpose:this.metadata.classification.purpose,
-          classification_taxon_path:this.metadata.classification.taxon_path,
-          rights_copyright:this.metadata.rights.copyright,
-          rights_cost:this.metadata.rights.cost,
-          rights_description:this.metadata.rights.description,
-          relation_annotation:this.metadata.relation.annotation,
-          relation_kind:this.metadata.relation.kind,
-          relation_resource:this.metadata.relation.resource,
-          technical_duration:this.metadata.tehnical.duration,
-          technical_format:this.metadata.tehnical.format,
-          technical_installation_remarks:this.metadata.tehnical.installation_remarks,
-          technical_location:this.metadata.tehnical.location,
-          technical_requirement:this.metadata.tehnical.requirement,
+          general_description: this.metadata.general.description,
+          general_keywords: this.metadata.general.keywords,
+          general_language: this.metadata.general.language,
+          general_structure: this.metadata.general.structure,
+          educational_context: this.metadata.educational.context,
+          educational_description: this.metadata.educational.description,
+          educational_difficulty: this.metadata.educational.difficulty,
+          educational_intended_end_user_role: this.metadata.educational.intended_end_user_role,
+          educational_interactivity_level: this.metadata.educational.interactivity_level,
+          educational_interactivity_type: this.metadata.educational.interactivity_type,
+          educational_language: this.metadata.educational.language,
+          educational_learning_resource_type: this.metadata.educational.learning_resource_type,
+          educational_semantic_density: this.metadata.educational.semantic_density,
+          educational_stypical_learning_time: this.metadata.educational.typical_learning_time,
+          educational_typical_age_range: this.metadata.educational.typical_age_range,
+          lifeCycle_contribute: this.metadata.lifeCycle.contribute,
+          lifeCycle_status: this.metadata.lifeCycle.status,
+          lifeCycle_version: this.metadata.lifeCycle.version,
+          classification_description: this.metadata.classification.description,
+          classification_keywords: this.metadata.classification.keywords,
+          classification_purpose: this.metadata.classification.purpose,
+          classification_taxon_path: this.metadata.classification.taxon_path,
+          rights_copyright: this.metadata.rights.copyright,
+          rights_cost: this.metadata.rights.cost,
+          rights_description: this.metadata.rights.description,
+          relation_annotation: this.metadata.relation.annotation,
+          relation_kind: this.metadata.relation.kind,
+          relation_resource: this.metadata.relation.resource,
+          technical_duration: this.metadata.tehnical.duration,
+          technical_format: this.metadata.tehnical.format,
+          technical_installation_remarks: this.metadata.tehnical.installation_remarks,
+          technical_location: this.metadata.tehnical.location,
+          technical_requirement: this.metadata.tehnical.requirement,
           technical_size: (this.metadata.tehnical.size)
         });
       }

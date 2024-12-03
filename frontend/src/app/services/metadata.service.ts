@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Metadata } from '../model/metadata';
-import { UploadedFile } from '../model/file';
+import { MetadataFolder, UploadedFile } from '../model/file';
 
 @Injectable({
   providedIn: 'root'
@@ -14,37 +14,46 @@ export class MetadataService {
 
   constructor(private http: HttpClient) { }
 
-  uploadFile(formData: FormData): Observable<Metadata> {
-    const url = environment.apiHost;
+  uploadFile(formData: FormData, folderId: number | undefined): Observable<Metadata> {
+    const url = `${this.baseUrl.replace(/\/$/, '')}?folderId=${folderId}`;
     return this.http.post<Metadata>(url, formData);
   }
 
   getFiles(): Observable<UploadedFile[]> {
-    const url = environment.apiHost;
-    return this.http.get<UploadedFile[]>(url);
+    return this.http.get<UploadedFile[]>(this.baseUrl);
   }
 
-  
-  getFile(file_id: string): Observable<Metadata> {
-    const url = environment.apiHost;
-    return this.http.get<Metadata>(url + Number(file_id));
+  getFile(file_id: number): Observable<Metadata> {
+    return this.http.get<Metadata>(this.baseUrl + file_id);
   }
 
   deleteFile(file_id: number): Observable<any> {
-    const url = environment.apiHost;
-    return this.http.delete<any>(url + file_id);
+    return this.http.delete<any>(this.baseUrl + file_id);
   }
 
   getBlobFile(file_id: number): Observable<any> {
-    const url = `${environment.apiHost}file/${file_id}`;
+    const url = `${this.baseUrl}file/${file_id}`;
     return this.http.get(url);
   }
-  editMetadata(metadata: Metadata, file_id:string): Observable<any> {
+  editMetadata(metadata: Metadata, file_id: number): Observable<any> {
     const url = `${environment.apiHost}/${file_id}`; // Dodaj ID datoteke
-    const headers = new HttpHeaders({
-        'Content-Type': 'application/json'
-    });
-    console.log((url));
     return this.http.put(url, metadata);
-}
+  }
+
+  getFolders(): Observable<MetadataFolder[]> {
+    const url = `${this.baseUrl}folders`;
+    return this.http.get<MetadataFolder[]>(url);
+  }
+
+  createFolder(name: string, parentFolderId?: number): Observable<MetadataFolder> {
+    const url = `${this.baseUrl}folders`;
+    const body = { name, parent_folder_id: parentFolderId };
+    return this.http.post<MetadataFolder>(url, body);
+  }
+
+  deleteFolder(folderId: number): Observable<any> {
+    const url = `${this.baseUrl}folders/${folderId}`;
+    return this.http.delete<any>(url);
+  }
+
 }
