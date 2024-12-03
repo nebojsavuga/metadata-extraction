@@ -228,6 +228,18 @@ def update_metadata(file_id, general_data, config_path):
         )
         cursor = connection.cursor()
 
+        cursor.execute("""
+    UPDATE UploadedFile
+    SET size = ?
+    OUTPUT INSERTED.id
+    WHERE id = ?;
+""", ( general_data.get('tehnical', {}).get('size', ''), file_id))
+
+# Dohvatanje ID-a ažuriranog reda
+
+# Potvrda promena
+        connection.commit()
+
         # Pripremi SQL upit za ažuriranje
         update_query = """
     UPDATE Metadata

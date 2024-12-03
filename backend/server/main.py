@@ -67,7 +67,8 @@ def delete_file(file_id):
 @app.route("/<int:file_id>", methods=["PUT"])
 def edit_metadata_route(file_id):
     data = request.get_json() 
-    print(data.get('tehnical', {}).get('location', ''),
+    
+    print(data.get('tehnical', {}).get('size', ''),
 
 )# Uzimanje podataka iz JSON tela
     response = update_metadata(file_id, data, "db_config.json")  # Pozivanje funkcije za ažuriranje
@@ -95,6 +96,6 @@ def get_blob_file(file_id):
 
 
 if __name__ == "__main__":
-    # create_tables('../db_scripts/create_tables.sql', 'db_config.json')
-    # insert_user('db_config.json')
+    create_tables('../db_scripts/create_tables.sql', 'db_config.json')
+    insert_user('db_config.json')
     app.run(debug=True)

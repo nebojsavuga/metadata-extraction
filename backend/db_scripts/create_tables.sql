@@ -9,7 +9,7 @@ CREATE TABLE Users (
 CREATE TABLE UploadedFile (
     id INT IDENTITY(1,1) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    size INT NOT NULL,
+    size VARCHAR(255) NOT NULL,
     user_id INT,
     file_path VARCHAR(255),
     PRIMARY KEY (id),
@@ -43,7 +43,7 @@ CREATE TABLE Metadata (
     general_structure VARCHAR(2000) NOT NULL,
     general_title VARCHAR(2000) NOT NULL,
     technical_format VARCHAR(500),
-    technical_size INT,
+    technical_size VARCHAR(500),
     technical_location VARCHAR(2000),
     technical_requirement VARCHAR(2000),
     technical_installation_remarks VARCHAR(2000),

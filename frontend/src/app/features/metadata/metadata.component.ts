@@ -151,7 +151,7 @@ export class MetadataComponent implements OnInit {
     }
     let tehnical: TehnicalMetadata = {
       format: this.metadataForm.value.technical_format,
-      size: this.metadataForm.value.technical_size.slice(0, -3) as unknown as number,
+      size: this.metadataForm.value.technical_size,
       location: this.metadataForm.value.technical_location,
       requirement: this.metadataForm.value.technical_requirement,
       installation_remarks: this.metadataForm.value.technical_installation_remarks,
@@ -221,7 +221,7 @@ export class MetadataComponent implements OnInit {
           technical_installation_remarks:this.metadata.tehnical.installation_remarks,
           technical_location:this.metadata.tehnical.location,
           technical_requirement:this.metadata.tehnical.requirement,
-          technical_size: this.decimalPipe.transform(this.metadata.tehnical.size / 1000000, '1.0-3') + ' MB' 
+          technical_size: (this.metadata.tehnical.size)
         });
       }
     );

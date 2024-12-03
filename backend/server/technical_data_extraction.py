@@ -15,7 +15,7 @@ def get_file_size(file):
     file.seek(0, os.SEEK_END)
     file_size_mb = file.tell()
     file.seek(0)
-    return file_size_mb
+    return str(file_size_mb/1000000)
 
 
 def get_location(textAnalyzer, text, model, temperature, max_tokens, top_p):
