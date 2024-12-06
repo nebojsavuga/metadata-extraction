@@ -53,8 +53,10 @@
                             <b>Aggregation level: </b>
                         </div>
                         <div class="col-9">
-                            <textarea rows=7 class="form-control" name="general_aggregation_level"
-                                id="general_aggregation_level" formControlName="general_aggregation_level"></textarea>
+                            <select class="form-control" id="general_aggregation_level"
+                                formControlName="general_aggregation_level">
+                                <option *ngFor="let level of aggregationLevels" [value]="level">{{ level }}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -86,8 +88,10 @@
                             <b>Structure: </b>
                         </div>
                         <div class="col-9">
-                            <textarea rows=7 class="form-control" name="general_structure" id="general_structure"
-                                formControlName="general_structure"></textarea>
+                            <select class="form-control" id="general_structure" formControlName="general_structure">
+                                <option *ngFor="let structure of structures" [value]="structure">{{ structure }}
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -105,9 +109,11 @@
                             <b>Interactivity Type: </b>
                         </div>
                         <div class="col-9">
-                            <textarea rows=7 class="form-control" name="educational_interactivity_type"
-                                id="educational_interactivity_type"
-                                formControlName="educational_interactivity_type"></textarea>
+                            <select class="form-control" id="educational_interactivity_type"
+                                formControlName="educational_interactivity_type">
+                                <option *ngFor="let InteractivityType of interactivityTypes"
+                                    [value]="InteractivityType">{{ InteractivityType }}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -117,9 +123,10 @@
                             <b>Learning Resource Type: </b>
                         </div>
                         <div class="col-9">
-                            <textarea rows=7 class="form-control" name="educational_learning_resource_type"
-                                id="educational_learning_resource_type"
-                                formControlName="educational_learning_resource_type"></textarea>
+                            <select class="form-control" id="educational_learning_resource_type"
+                                formControlName="educational_learning_resource_type">
+                                <option *ngFor="let type of learningResourceTypes" [value]="type">{{ type }}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -129,9 +136,10 @@
                             <b>Interactivity Level: </b>
                         </div>
                         <div class="col-9">
-                            <textarea rows=7 class="form-control" name="educational_interactivity_level"
-                                id="educational_interactivity_level"
-                                formControlName="educational_interactivity_level"></textarea>
+                            <select class="form-control" id="educational_interactivity_level"
+                                formControlName="educational_interactivity_level">
+                                <option *ngFor="let level of interactivityLevels" [value]="level">{{ level }}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -141,9 +149,11 @@
                             <b>Semantic Density: </b>
                         </div>
                         <div class="col-9">
-                            <textarea rows=7 class="form-control" name="educational_semantic_density"
-                                id="educational_semantic_density"
-                                formControlName="educational_semantic_density"></textarea>
+                            <select class="form-control" id="educational_semantic_density"
+                                formControlName="educational_semantic_density">
+                                <option *ngFor="let density of semanticDensities" [value]="density">{{ density }}
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -153,9 +163,10 @@
                             <b>Intended End User Role: </b>
                         </div>
                         <div class="col-9">
-                            <textarea rows=7 class="form-control" name="educational_intended_end_user_role"
-                                id="educational_intended_end_user_role"
-                                formControlName="educational_intended_end_user_role"></textarea>
+                            <select class="form-control" id="educational_intended_end_user_role"
+                                formControlName="educational_intended_end_user_role">
+                                <option *ngFor="let role of intendedUserRoles" [value]="role">{{ role }}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -165,8 +176,9 @@
                             <b>Context: </b>
                         </div>
                         <div class="col-9">
-                            <textarea rows=7 class="form-control" name="educational_context" id="educational_context"
-                                formControlName="educational_context"></textarea>
+                            <select class="form-control" id="educational_context" formControlName="educational_context">
+                                <option *ngFor="let context of contexts" [value]="context">{{ context }}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -187,8 +199,11 @@
                             <b>Difficulty: </b>
                         </div>
                         <div class="col-9">
-                            <textarea rows=7 class="form-control" name="educational_difficulty"
-                                id="educational_difficulty" formControlName="educational_difficulty"></textarea>
+                            <select class="form-control" id="educational_difficulty"
+                                formControlName="educational_difficulty">
+                                <option *ngFor="let difficulty of difficulties" [value]="difficulty">{{ difficulty }}
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -200,7 +215,7 @@
                         <div class="col-9">
                             <input type="text" class="form-control" name="educational_stypical_learning_time"
                                 id="educational_stypical_learning_time"
-                                formControlName="educational_stypical_learning_time"/>
+                                formControlName="educational_stypical_learning_time" />
                         </div>
                     </div>
                 </div>
@@ -279,8 +294,10 @@
                             <b>Purpose: </b>
                         </div>
                         <div class="col-9">
-                            <textarea rows=7 class="form-control" name="classification_purpose"
-                                id="classification_purpose" formControlName="classification_purpose"></textarea>
+                            <select class="form-control" id="classification_purpose"
+                                formControlName="classification_purpose">
+                                <option *ngFor="let purpose of purposes" [value]="purpose">{{ purpose }}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -411,7 +428,7 @@
                         </div>
                         <div class="col-9">
                             <input type="text" class="form-control" name="technical_format" id="technical_format"
-                                formControlName="technical_format"/>
+                                formControlName="technical_format" />
                         </div>
                     </div>
                 </div>
@@ -422,7 +439,7 @@
                         </div>
                         <div class="col-9">
                             <input type="text" class="form-control" name="technical_size" id="technical_size"
-                                formControlName="technical_size"/>
+                                formControlName="technical_size" />
                         </div>
                     </div>
                 </div>
@@ -433,7 +450,7 @@
                         </div>
                         <div class="col-9">
                             <input type="text" class="form-control" name="technical_location" id="technical_location"
-                                formControlName="technical_location"/>
+                                formControlName="technical_location" />
                         </div>
                     </div>
                 </div>

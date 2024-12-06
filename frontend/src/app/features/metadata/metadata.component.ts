@@ -130,56 +130,61 @@ export class MetadataComponent implements OnChanges {
     }
     let general: GeneralMetadata = {
       id: this.metadataForm.value.id,
-      title: this.metadataForm.value.general_title,
-      description: this.metadataForm.value.general_description,
-      language: this.metadataForm.value.general_language,
-      keywords: this.metadataForm.value.general_keywords,
-      structure: this.metadataForm.value.general_structure,
-      coverage: this.metadataForm.value.general_coverage,
-      aggregation_level: this.metadataForm.value.general_aggregation_level,
-    }
+      title: this.metadataForm.value.general_title?.toLocaleLowerCase(),
+      description: this.metadataForm.value.general_description?.toLocaleLowerCase(),
+      language: this.metadataForm.value.general_language?.toLocaleLowerCase(),
+      keywords: this.metadataForm.value.general_keywords?.toLocaleLowerCase(),
+      structure: this.metadataForm.value.general_structure?.toLocaleLowerCase(),
+      coverage: this.metadataForm.value.general_coverage?.toLocaleLowerCase(),
+      aggregation_level: this.metadataForm.value.general_aggregation_level?.toLocaleLowerCase()
+    };
     let educational: EducationalMetadata = {
-      interactivity_type: this.metadataForm.value.educational_interactivity_type,
-      learning_resource_type: this.metadataForm.value.educational_learning_resource_type,
-      interactivity_level: this.metadataForm.value.educational_interactivity_level,
-      semantic_density: this.metadataForm.value.educational_semantic_density,
-      intended_end_user_role: this.metadataForm.value.educational_intended_end_user_role,
-      context: this.metadataForm.value.educational_context,
-      typical_age_range: this.metadataForm.value.educational_typical_age_range,
-      difficulty: this.metadataForm.value.educational_difficulty,
-      typical_learning_time: this.metadataForm.value.educational_stypical_learning_time,
-      description: this.metadataForm.value.educational_description,
-      language: this.metadataForm.value.educational_language,
-    }
+      interactivity_type: this.metadataForm.value.educational_interactivity_type?.toLocaleLowerCase(),
+      learning_resource_type: this.metadataForm.value.educational_learning_resource_type?.toLocaleLowerCase(),
+      interactivity_level: this.metadataForm.value.educational_interactivity_level?.toLocaleLowerCase(),
+      semantic_density: this.metadataForm.value.educational_semantic_density?.toLocaleLowerCase(),
+      intended_end_user_role: this.metadataForm.value.educational_intended_end_user_role?.toLocaleLowerCase(),
+      context: this.metadataForm.value.educational_context?.toLocaleLowerCase(),
+      typical_age_range: this.metadataForm.value.educational_typical_age_range?.toLocaleLowerCase(),
+      difficulty: this.metadataForm.value.educational_difficulty?.toLocaleLowerCase(),
+      typical_learning_time: this.metadataForm.value.educational_stypical_learning_time?.toLocaleLowerCase(),
+      description: this.metadataForm.value.educational_description?.toLocaleLowerCase(),
+      language: this.metadataForm.value.educational_language?.toLocaleLowerCase()
+    };
+
     let rights: RightsMetadata = {
-      cost: this.metadataForm.value.rights_cost,
-      copyright: this.metadataForm.value.rights_copyright,
-      description: this.metadataForm.value.rights_description,
-    }
+      cost: this.metadataForm.value.rights_cost?.toLocaleLowerCase(),
+      copyright: this.metadataForm.value.rights_copyright?.toLocaleLowerCase(),
+      description: this.metadataForm.value.rights_description?.toLocaleLowerCase()
+    };
+
     let relation: RelationMetadata = {
-      kind: this.metadataForm.value.relation_kind,
-      resource: this.metadataForm.value.relation_resource,
-      annotation: this.metadataForm.value.relation_annotation,
-    }
+      kind: this.metadataForm.value.relation_kind?.toLocaleLowerCase(),
+      resource: this.metadataForm.value.relation_resource?.toLocaleLowerCase(),
+      annotation: this.metadataForm.value.relation_annotation?.toLocaleLowerCase()
+    };
+
     let classification: ClassificationMetadata = {
-      purpose: this.metadataForm.value.classification_purpose,
-      taxon_path: this.metadataForm.value.classification_taxon_path,
-      description: this.metadataForm.value.classification_description,
-      keywords: this.metadataForm.value.classification_keywords,
-    }
+      purpose: this.metadataForm.value.classification_purpose?.toLocaleLowerCase(),
+      taxon_path: this.metadataForm.value.classification_taxon_path?.toLocaleLowerCase(),
+      description: this.metadataForm.value.classification_description?.toLocaleLowerCase(),
+      keywords: this.metadataForm.value.classification_keywords?.toLocaleLowerCase()
+    };
+
     let lifeCycle: LifeCycleMetadata = {
-      version: this.metadataForm.value.lifeCycle_version,
-      status: this.metadataForm.value.lifeCycle_status,
-      contribute: this.metadataForm.value.lifeCycle_contribute,
-    }
+      version: this.metadataForm.value.lifeCycle_version?.toLocaleLowerCase(),
+      status: this.metadataForm.value.lifeCycle_status?.toLocaleLowerCase(),
+      contribute: this.metadataForm.value.lifeCycle_contribute?.toLocaleLowerCase()
+    };
+
     let tehnical: TehnicalMetadata = {
-      format: this.metadataForm.value.technical_format,
-      size: this.metadataForm.value.technical_size,
-      location: this.metadataForm.value.technical_location,
-      requirement: this.metadataForm.value.technical_requirement,
-      installation_remarks: this.metadataForm.value.technical_installation_remarks,
-      duration: this.metadataForm.value.technical_duration,
-    }
+      format: this.metadataForm.value.technical_format?.toLocaleLowerCase(),
+      size: this.metadataForm.value.technical_size?.toLocaleLowerCase(),
+      location: this.metadataForm.value.technical_location?.toLocaleLowerCase(),
+      requirement: this.metadataForm.value.technical_requirement?.toLocaleLowerCase(),
+      installation_remarks: this.metadataForm.value.technical_installation_remarks?.toLocaleLowerCase(),
+      duration: this.metadataForm.value.technical_duration?.toLocaleLowerCase()
+    };
     let editMetadata: Metadata = {
       general: general,
       educational: educational,
@@ -209,43 +214,43 @@ export class MetadataComponent implements OnChanges {
 
         this.metadataForm.patchValue({
           id: this.metadata.general.id,
-          general_title: this.metadata.general.title,
-          general_aggregation_level: this.metadata.general.aggregation_level,
-          general_coverage: this.metadata.general.coverage,
-          general_description: this.metadata.general.description,
-          general_keywords: this.metadata.general.keywords,
-          general_language: this.metadata.general.language,
-          general_structure: this.metadata.general.structure,
-          educational_context: this.metadata.educational.context,
-          educational_description: this.metadata.educational.description,
-          educational_difficulty: this.metadata.educational.difficulty,
-          educational_intended_end_user_role: this.metadata.educational.intended_end_user_role,
-          educational_interactivity_level: this.metadata.educational.interactivity_level,
-          educational_interactivity_type: this.metadata.educational.interactivity_type,
-          educational_language: this.metadata.educational.language,
-          educational_learning_resource_type: this.metadata.educational.learning_resource_type,
-          educational_semantic_density: this.metadata.educational.semantic_density,
-          educational_stypical_learning_time: this.metadata.educational.typical_learning_time,
-          educational_typical_age_range: this.metadata.educational.typical_age_range,
-          lifeCycle_contribute: this.metadata.lifeCycle.contribute,
-          lifeCycle_status: this.metadata.lifeCycle.status,
-          lifeCycle_version: this.metadata.lifeCycle.version,
-          classification_description: this.metadata.classification.description,
-          classification_keywords: this.metadata.classification.keywords,
-          classification_purpose: this.metadata.classification.purpose,
-          classification_taxon_path: this.metadata.classification.taxon_path,
-          rights_copyright: this.metadata.rights.copyright,
-          rights_cost: this.metadata.rights.cost,
-          rights_description: this.metadata.rights.description,
-          relation_annotation: this.metadata.relation.annotation,
-          relation_kind: this.metadata.relation.kind,
-          relation_resource: this.metadata.relation.resource,
-          technical_duration: this.metadata.tehnical.duration,
-          technical_format: this.metadata.tehnical.format,
-          technical_installation_remarks: this.metadata.tehnical.installation_remarks,
-          technical_location: this.metadata.tehnical.location,
-          technical_requirement: this.metadata.tehnical.requirement,
-          technical_size: (this.metadata.tehnical.size)
+          general_title: this.metadata.general.title?.toLocaleLowerCase(),
+          general_aggregation_level: this.metadata.general.aggregation_level?.toLocaleLowerCase(),
+          general_coverage: this.metadata.general.coverage?.toLocaleLowerCase(),
+          general_description: this.metadata.general.description?.toLocaleLowerCase(),
+          general_keywords: this.metadata.general.keywords?.toLocaleLowerCase(),
+          general_language: this.metadata.general.language?.toLocaleLowerCase(),
+          general_structure: this.metadata.general.structure?.toLocaleLowerCase(),
+          educational_context: this.metadata.educational.context?.toLocaleLowerCase(),
+          educational_description: this.metadata.educational.description?.toLocaleLowerCase(),
+          educational_difficulty: this.metadata.educational.difficulty?.toLocaleLowerCase(),
+          educational_intended_end_user_role: this.metadata.educational.intended_end_user_role?.toLocaleLowerCase(),
+          educational_interactivity_level: this.metadata.educational.interactivity_level?.toLocaleLowerCase(),
+          educational_interactivity_type: this.metadata.educational.interactivity_type?.toLocaleLowerCase(),
+          educational_language: this.metadata.educational.language?.toLocaleLowerCase(),
+          educational_learning_resource_type: this.metadata.educational.learning_resource_type?.toLocaleLowerCase(),
+          educational_semantic_density: this.metadata.educational.semantic_density?.toLocaleLowerCase(),
+          educational_stypical_learning_time: this.metadata.educational.typical_learning_time?.toLocaleLowerCase(),
+          educational_typical_age_range: this.metadata.educational.typical_age_range?.toLocaleLowerCase(),
+          lifeCycle_contribute: this.metadata.lifeCycle.contribute?.toLocaleLowerCase(),
+          lifeCycle_status: this.metadata.lifeCycle.status?.toLocaleLowerCase(),
+          lifeCycle_version: this.metadata.lifeCycle.version?.toLocaleLowerCase(),
+          classification_description: this.metadata.classification.description?.toLocaleLowerCase(),
+          classification_keywords: this.metadata.classification.keywords?.toLocaleLowerCase(),
+          classification_purpose: this.metadata.classification.purpose?.toLocaleLowerCase(),
+          classification_taxon_path: this.metadata.classification.taxon_path?.toLocaleLowerCase(),
+          rights_copyright: this.metadata.rights.copyright?.toLocaleLowerCase(),
+          rights_cost: this.metadata.rights.cost?.toLocaleLowerCase(),
+          rights_description: this.metadata.rights.description?.toLocaleLowerCase(),
+          relation_annotation: this.metadata.relation.annotation?.toLocaleLowerCase(),
+          relation_kind: this.metadata.relation.kind?.toLocaleLowerCase(),
+          relation_resource: this.metadata.relation.resource?.toLocaleLowerCase(),
+          technical_duration: this.metadata.tehnical.duration?.toLocaleLowerCase(),
+          technical_format: this.metadata.tehnical.format?.toLocaleLowerCase(),
+          technical_installation_remarks: this.metadata.tehnical.installation_remarks?.toLocaleLowerCase(),
+          technical_location: this.metadata.tehnical.location?.toLocaleLowerCase(),
+          technical_requirement: this.metadata.tehnical.requirement?.toLocaleLowerCase(),
+          technical_size: this.metadata.tehnical.size?.toLocaleLowerCase()
         });
       }
     );
