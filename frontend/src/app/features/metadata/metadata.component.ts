@@ -67,9 +67,6 @@ export class MetadataComponent implements OnChanges {
     rights_cost: new FormControl(''),
     rights_copyright: new FormControl(''),
     rights_description: new FormControl(''),
-    relation_kind: new FormControl(''),
-    relation_resource: new FormControl(''),
-    relation_annotation: new FormControl(''),
     technical_format: new FormControl(''),
     technical_size: new FormControl(''),
     technical_location: new FormControl(''),
@@ -156,12 +153,6 @@ export class MetadataComponent implements OnChanges {
       description: this.metadataForm.value.rights_description?.toLocaleLowerCase()
     };
 
-    let relation: RelationMetadata = {
-      kind: this.metadataForm.value.relation_kind?.toLocaleLowerCase(),
-      resource: this.metadataForm.value.relation_resource?.toLocaleLowerCase(),
-      annotation: this.metadataForm.value.relation_annotation?.toLocaleLowerCase()
-    };
-
     let classification: ClassificationMetadata = {
       purpose: this.metadataForm.value.classification_purpose?.toLocaleLowerCase(),
       taxon_path: this.metadataForm.value.classification_taxon_path?.toLocaleLowerCase(),
@@ -189,7 +180,6 @@ export class MetadataComponent implements OnChanges {
       lifeCycle: lifeCycle,
       tehnical: tehnical,
       rights: rights,
-      relation: relation,
       classification: classification
     }
     this.metadataService.editMetadata(editMetadata, this.selectedFileId).subscribe({
@@ -239,9 +229,6 @@ export class MetadataComponent implements OnChanges {
           rights_copyright: this.metadata.rights.copyright?.toLocaleLowerCase(),
           rights_cost: this.metadata.rights.cost?.toLocaleLowerCase(),
           rights_description: this.metadata.rights.description?.toLocaleLowerCase(),
-          relation_annotation: this.metadata.relation.annotation?.toLocaleLowerCase(),
-          relation_kind: this.metadata.relation.kind?.toLocaleLowerCase(),
-          relation_resource: this.metadata.relation.resource?.toLocaleLowerCase(),
           technical_duration: this.metadata.tehnical.duration?.toLocaleLowerCase(),
           technical_format: this.metadata.tehnical.format?.toLocaleLowerCase(),
           technical_installation_remarks: this.metadata.tehnical.installation_remarks?.toLocaleLowerCase(),

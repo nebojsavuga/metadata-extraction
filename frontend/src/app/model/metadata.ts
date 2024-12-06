@@ -4,7 +4,6 @@ export interface Metadata {
     tehnical: TehnicalMetadata;
     educational: EducationalMetadata;
     rights: RightsMetadata;
-    relation: RelationMetadata;
     classification: ClassificationMetadata;
 }
 
