@@ -57,7 +57,6 @@ export class MetadataComponent implements OnChanges {
     educational_difficulty: new FormControl(''),
     educational_stypical_learning_time: new FormControl(''),
     educational_description: new FormControl(''),
-    educational_language: new FormControl(''),
     lifeCycle_version: new FormControl(''),
     lifeCycle_status: new FormControl(''),
     lifeCycle_contribute: new FormControl(''),
@@ -148,8 +147,7 @@ export class MetadataComponent implements OnChanges {
       typical_age_range: this.metadataForm.value.educational_typical_age_range?.toLocaleLowerCase(),
       difficulty: this.metadataForm.value.educational_difficulty?.toLocaleLowerCase(),
       typical_learning_time: this.metadataForm.value.educational_stypical_learning_time?.toLocaleLowerCase(),
-      description: this.metadataForm.value.educational_description?.toLocaleLowerCase(),
-      language: this.metadataForm.value.educational_language?.toLocaleLowerCase()
+      description: this.metadataForm.value.educational_description?.toLocaleLowerCase()
     };
 
     let rights: RightsMetadata = {
@@ -227,7 +225,6 @@ export class MetadataComponent implements OnChanges {
           educational_intended_end_user_role: this.metadata.educational.intended_end_user_role?.toLocaleLowerCase(),
           educational_interactivity_level: this.metadata.educational.interactivity_level?.toLocaleLowerCase(),
           educational_interactivity_type: this.metadata.educational.interactivity_type?.toLocaleLowerCase(),
-          educational_language: this.metadata.educational.language?.toLocaleLowerCase(),
           educational_learning_resource_type: this.metadata.educational.learning_resource_type?.toLocaleLowerCase(),
           educational_semantic_density: this.metadata.educational.semantic_density?.toLocaleLowerCase(),
           educational_stypical_learning_time: this.metadata.educational.typical_learning_time?.toLocaleLowerCase(),

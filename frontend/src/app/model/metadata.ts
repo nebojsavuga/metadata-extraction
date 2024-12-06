@@ -45,7 +45,6 @@ export interface EducationalMetadata {
     difficulty: string;
     typical_learning_time: string;
     description: string;
-    language: string;
 }
 
 export interface RightsMetadata {

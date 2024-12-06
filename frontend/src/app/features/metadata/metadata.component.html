@@ -8,7 +8,9 @@
 </div>
 <div class="row" *ngIf="metadata">
     <form login [formGroup]="metadataForm" (ngSubmit)="editMetadata()" class="row">
-
+        <div class="mt-2 text-center">
+            <button type="submit" class="button-style" id="change">Apply Changes</button>
+        </div>
         <div class="col-6">
             <div class="row">
                 <div class="col-12">
@@ -230,17 +232,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
-                    <div class="row mx-3">
-                        <div class="col-3">
-                            <b>Language: </b>
-                        </div>
-                        <div class="col-9">
-                            <input type="text" class="form-control" name="educational_language"
-                                id="educational_language" formControlName="educational_language" />
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="col-6">
@@ -347,8 +338,8 @@
                             <b>Cost: </b>
                         </div>
                         <div class="col-9">
-                            <textarea rows=7 class="form-control" name="rights_cost" id="rights_cost"
-                                formControlName="rights_cost"></textarea>
+                            <input type="text" class="form-control" name="rights_cost" id="rights_cost"
+                                formControlName="rights_cost" />
                         </div>
                     </div>
                 </div>
@@ -358,8 +349,8 @@
                             <b>Copyright: </b>
                         </div>
                         <div class="col-9">
-                            <textarea rows=7 class="form-control" name="rights_copyright" id="rights_copyright"
-                                formControlName="rights_copyright"></textarea>
+                            <input type="text" class="form-control" name="rights_copyright" id="rights_copyright"
+                                formControlName="rights_copyright" />
                         </div>
                     </div>
                 </div>
@@ -371,46 +362,6 @@
                         <div class="col-9">
                             <textarea rows=7 class="form-control" name="rights_description" id="rights_description"
                                 formControlName="rights_description"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="row">
-                <div class="col-12">
-                    <h2 class="subtitle mx-4 my-2">Relation</h2>
-                </div>
-                <div class="col-12">
-                    <div class="row mx-3">
-                        <div class="col-3">
-                            <b>Kind: </b>
-                        </div>
-                        <div class="col-9">
-                            <textarea rows=7 class="form-control" name="relation_kind" id="relation_kind"
-                                formControlName="relation_kind"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="row mx-3">
-                        <div class="col-3">
-                            <b>Resource: </b>
-                        </div>
-                        <div class="col-9">
-                            <textarea rows=7 class="form-control" name="relation_resource" id="relation_resource"
-                                formControlName="relation_resource"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="row mx-3">
-                        <div class="col-3">
-                            <b>Annotation: </b>
-                        </div>
-                        <div class="col-9">
-                            <textarea rows=7 class="form-control" name="relation_annotation" id="relation_annotation"
-                                formControlName="relation_annotation"></textarea>
                         </div>
                     </div>
                 </div>
@@ -480,7 +431,7 @@
                 <div class="col-12">
                     <div class="row mx-3">
                         <div class="col-3">
-                            <b>Duration: </b>
+                            <b>Duration (sec): </b>
                         </div>
                         <div class="col-9">
                             <input type="text" class="form-control" name="technical_duration" id="technical_duration"
@@ -491,7 +442,7 @@
             </div>
         </div>
         <div class="mt-2 text-center">
-            <button type="submit" class="button-style" id="confirmRegistration">Change</button>
+            <button type="submit" class="button-style" id="change">Apply Changes</button>
         </div>
     </form>
 </div>
