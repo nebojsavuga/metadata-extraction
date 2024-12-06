@@ -9,430 +9,474 @@
 <div class="row" *ngIf="metadata">
     <form login [formGroup]="metadataForm" (ngSubmit)="editMetadata()" class="row">
 
-    <div class="col-6">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="subtitle mx-4 my-2">General</h2>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Title: </b>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="subtitle mx-4 my-2">General</h2>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Title: </b>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" name="general_title" id="general_title"
+                                formControlName="general_title">
+                        </div>
                     </div>
-                    <div class="col-9">
-                        <input type="text" class="form-control" name="general_title" id="general_title" formControlName="general_title">
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Description: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="general_description" id="general_description"
+                                formControlName="general_description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Coverage: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="general_coverage" id="general_coverage"
+                                formControlName="general_coverage"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Aggregation level: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="general_aggregation_level"
+                                id="general_aggregation_level" formControlName="general_aggregation_level"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Keywords: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="general_keywords" id="general_keywords"
+                                formControlName="general_keywords"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Language: </b>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" name="general_language" id="general_language"
+                                formControlName="general_language" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Structure: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="general_structure" id="general_structure"
+                                formControlName="general_structure"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Description: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="general_description" id="general_description" formControlName="general_description"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Coverage: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="general_coverage" id="general_coverage" formControlName="general_coverage"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Aggregation level: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="general_aggregation_level" id="general_aggregation_level" formControlName="general_aggregation_level"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Keywords: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="general_keywords" id="general_keywords" formControlName="general_keywords"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Language: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="general_language" id="general_language" formControlName="general_language"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Structure: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="general_structure" id="general_structure" formControlName="general_structure"></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-    </div>
-    <div class="col-6">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="subtitle mx-4 my-2">Educational</h2>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Interactivity Type: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="educational_interactivity_type" id="educational_interactivity_type" formControlName="educational_interactivity_type"></textarea>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="subtitle mx-4 my-2">Educational</h2>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Interactivity Type: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="educational_interactivity_type"
+                                id="educational_interactivity_type"
+                                formControlName="educational_interactivity_type"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Learning Resource Type: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="educational_learning_resource_type" id="educational_learning_resource_type" formControlName="educational_learning_resource_type"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Interactivity Level: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="educational_interactivity_level" id="educational_interactivity_level" formControlName="educational_interactivity_level"></textarea>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Learning Resource Type: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="educational_learning_resource_type"
+                                id="educational_learning_resource_type"
+                                formControlName="educational_learning_resource_type"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Semantic Density: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="educational_semantic_density" id="educational_semantic_density" formControlName="educational_semantic_density"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Intended End User Role: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="educational_intended_end_user_role" id="educational_intended_end_user_role" formControlName="educational_intended_end_user_role"></textarea>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Interactivity Level: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="educational_interactivity_level"
+                                id="educational_interactivity_level"
+                                formControlName="educational_interactivity_level"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Context: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="educational_context" id="educational_context" formControlName="educational_context"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Typical Age Range: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="educational_typical_age_range" id="educational_typical_age_range" formControlName="educational_typical_age_range"></textarea>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Semantic Density: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="educational_semantic_density"
+                                id="educational_semantic_density"
+                                formControlName="educational_semantic_density"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Difficulty: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="educational_difficulty" id="educational_difficulty" formControlName="educational_difficulty"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Typical Learning Time: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="educational_stypical_learning_time" id="educational_stypical_learning_time" formControlName="educational_stypical_learning_time"></textarea>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Intended End User Role: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="educational_intended_end_user_role"
+                                id="educational_intended_end_user_role"
+                                formControlName="educational_intended_end_user_role"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Description: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="educational_description" id="educational_description" formControlName="educational_description"></textarea>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Context: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="educational_context" id="educational_context"
+                                formControlName="educational_context"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Language: </b>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Typical Age Range: </b>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" name="educational_typical_age_range"
+                                id="educational_typical_age_range" formControlName="educational_typical_age_range" />
+                        </div>
                     </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="educational_language" id="educational_language" formControlName="educational_language"></textarea>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Difficulty: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="educational_difficulty"
+                                id="educational_difficulty" formControlName="educational_difficulty"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Typical Learning Time: </b>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" name="educational_stypical_learning_time"
+                                id="educational_stypical_learning_time"
+                                formControlName="educational_stypical_learning_time"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Description: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="educational_description"
+                                id="educational_description" formControlName="educational_description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Language: </b>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" name="educational_language"
+                                id="educational_language" formControlName="educational_language" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-6">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="subtitle mx-4 my-2">Life Cycle</h2>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Version: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="lifeCycle_version" id="lifeCycle_version" formControlName="lifeCycle_version"></textarea>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="subtitle mx-4 my-2">Life Cycle</h2>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Version: </b>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" name="lifeCycle_version" id="lifeCycle_version"
+                                formControlName="lifeCycle_version" />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Status: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="lifeCycle_status" id="lifeCycle_status" formControlName="lifeCycle_status"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Contribute: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="lifeCycle_contribute" id="lifeCycle_contribute" formControlName="lifeCycle_contribute"></textarea>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Status: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="lifeCycle_status" id="lifeCycle_status"
+                                formControlName="lifeCycle_status"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-6">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="subtitle mx-4 my-2">Classification</h2>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Purpose: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="classification_purpose" id="classification_purpose" formControlName="classification_purpose"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Taxon Path: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="classification_taxon_path" id="classification_taxon_path" formControlName="classification_taxon_path"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Description: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="classification_description" id="classification_description" formControlName="classification_description"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Keywords: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="classification_keywords" id="classification_keywords" formControlName="classification_keywords"></textarea>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Contribute: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="lifeCycle_contribute" id="lifeCycle_contribute"
+                                formControlName="lifeCycle_contribute"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-6">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="subtitle mx-4 my-2">Rights</h2>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Cost: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="rights_cost" id="rights_cost" formControlName="rights_cost"></textarea>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="subtitle mx-4 my-2">Classification</h2>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Purpose: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="classification_purpose"
+                                id="classification_purpose" formControlName="classification_purpose"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Copyright: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="rights_copyright" id="rights_copyright" formControlName="rights_copyright"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Description: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="rights_description" id="rights_description" formControlName="rights_description"></textarea>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Taxon Path: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="classification_taxon_path"
+                                id="classification_taxon_path" formControlName="classification_taxon_path"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-6">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="subtitle mx-4 my-2">Relation</h2>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Kind: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="relation_kind" id="relation_kind" formControlName="relation_kind"></textarea>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Description: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="classification_description"
+                                id="classification_description" formControlName="classification_description"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Resource: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="relation_resource" id="relation_resource" formControlName="relation_resource"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Annotation: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="relation_annotation" id="relation_annotation" formControlName="relation_annotation"></textarea>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Keywords: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="classification_keywords"
+                                id="classification_keywords" formControlName="classification_keywords"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-6">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="subtitle mx-4 my-2">Technical</h2>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Format: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="technical_format" id="technical_format" formControlName="technical_format"></textarea>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="subtitle mx-4 my-2">Rights</h2>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Cost: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="rights_cost" id="rights_cost"
+                                formControlName="rights_cost"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Size (MB): </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="technical_size" id="technical_size" formControlName="technical_size">MB</textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Location: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="technical_location" id="technical_location" formControlName="technical_location"></textarea>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Copyright: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="rights_copyright" id="rights_copyright"
+                                formControlName="rights_copyright"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Requirement: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="technical_requirement" id="technical_requirement" formControlName="technical_requirement"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Installation Remarks: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="technical_installation_remarks" id="technical_installation_remarks" formControlName="technical_installation_remarks"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row mx-3">
-                    <div class="col-3">
-                        <b>Duration: </b>
-                    </div>
-                    <div class="col-9">
-                        <textarea rows=7 class="form-control" name="technical_duration" id="technical_duration" formControlName="technical_duration"></textarea>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Description: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="rights_description" id="rights_description"
+                                formControlName="rights_description"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="mt-2 text-center">
-        <button type="submit" class="button-style" id="confirmRegistration">Change</button>
-    </div>
-</form>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="subtitle mx-4 my-2">Relation</h2>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Kind: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="relation_kind" id="relation_kind"
+                                formControlName="relation_kind"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Resource: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="relation_resource" id="relation_resource"
+                                formControlName="relation_resource"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Annotation: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="relation_annotation" id="relation_annotation"
+                                formControlName="relation_annotation"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="subtitle mx-4 my-2">Technical</h2>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Format: </b>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" name="technical_format" id="technical_format"
+                                formControlName="technical_format"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Size (MB): </b>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" name="technical_size" id="technical_size"
+                                formControlName="technical_size"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Location: </b>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" name="technical_location" id="technical_location"
+                                formControlName="technical_location"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Requirement: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="technical_requirement"
+                                id="technical_requirement" formControlName="technical_requirement"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Installation Remarks: </b>
+                        </div>
+                        <div class="col-9">
+                            <textarea rows=7 class="form-control" name="technical_installation_remarks"
+                                id="technical_installation_remarks"
+                                formControlName="technical_installation_remarks"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row mx-3">
+                        <div class="col-3">
+                            <b>Duration: </b>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" name="technical_duration" id="technical_duration"
+                                formControlName="technical_duration" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2 text-center">
+            <button type="submit" class="button-style" id="confirmRegistration">Change</button>
+        </div>
+    </form>
 </div>
 <div *ngIf="isLoading" class="spinner">
     <div class="spinner-border" role="status">
