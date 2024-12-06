@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {
   ClassificationMetadata, EducationalMetadata, GeneralMetadata, LifeCycleMetadata, Metadata,
-  RelationMetadata, RightsMetadata, TehnicalMetadata
+  RightsMetadata, TehnicalMetadata
 } from '../../model/metadata';
 
 import { MetadataService } from '../../services/metadata.service';

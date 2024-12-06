@@ -52,12 +52,6 @@ export interface RightsMetadata {
     description: string;
 }
 
-export interface RelationMetadata {
-    kind: string;
-    resource: string;
-    annotation: string;
-}
-
 export interface ClassificationMetadata {
     purpose: string;
     taxon_path: string;
