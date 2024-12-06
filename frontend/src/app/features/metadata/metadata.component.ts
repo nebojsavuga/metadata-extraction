@@ -3,8 +3,18 @@ import {
   ClassificationMetadata, EducationalMetadata, GeneralMetadata, LifeCycleMetadata, Metadata,
   RelationMetadata, RightsMetadata, TehnicalMetadata
 } from '../../model/metadata';
+
 import { MetadataService } from '../../services/metadata.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import {
+  interactivityLevels, learningResourceTypes, semanticDensities,
+  intendedUserRoles,
+  contexts,
+  difficulties,
+  aggregationLevels,
+  structures,
+  purposes
+} from '../../model/lists';
 
 @Component({
   selector: 'app-metadata',
@@ -14,8 +24,16 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class MetadataComponent implements OnChanges {
 
   metadata: Metadata;
-  isLoading = false;
-
+  isLoading = false
+  interactivityLevels: string[] = interactivityLevels;
+  learningResourceTypes: string[] = learningResourceTypes;
+  semanticDensities: string[] = semanticDensities;
+  intendedUserRoles: string[] = intendedUserRoles;
+  contexts: string[] = contexts;
+  difficulties: string[] = difficulties;
+  aggregationLevels: string[] = aggregationLevels;
+  structures: string[] = structures;
+  purposes: string[] = purposes;
   constructor(private metadataService: MetadataService) { }
 
   metadataForm = new FormGroup({
