@@ -1,3 +1,10 @@
+export const interactivityTypes: string[] = [
+    '--',
+    'active',
+    'expositive',
+    'mixed'
+];
+
 export const interactivityLevels: string[] = [
     '--',
     'very low',

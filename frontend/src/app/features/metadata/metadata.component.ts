@@ -13,7 +13,8 @@ import {
   difficulties,
   aggregationLevels,
   structures,
-  purposes
+  purposes,
+  interactivityTypes
 } from '../../model/lists';
 
 @Component({
@@ -34,6 +35,7 @@ export class MetadataComponent implements OnChanges {
   aggregationLevels: string[] = aggregationLevels;
   structures: string[] = structures;
   purposes: string[] = purposes;
+  interactivityTypes: string[] = interactivityTypes;
   constructor(private metadataService: MetadataService) { }
 
   metadataForm = new FormGroup({
