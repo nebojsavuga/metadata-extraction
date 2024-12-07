@@ -36,6 +36,13 @@ export class MetadataComponent implements OnChanges {
   structures: string[] = structures;
   purposes: string[] = purposes;
   interactivityTypes: string[] = interactivityTypes;
+  showGeneral = false;
+  showEducational = false;
+  showLifecycle = false;
+  showClassification = false;
+  showRights = false;
+  showTechnical = false;
+
   constructor(private metadataService: MetadataService) { }
 
   metadataForm = new FormGroup({
@@ -238,5 +245,29 @@ export class MetadataComponent implements OnChanges {
         });
       }
     );
+  }
+
+  changeShowGeneral() {
+    this.showGeneral = !this.showGeneral;
+  }
+
+  changeShowEducational() {
+    this.showEducational = !this.showEducational;
+  }
+
+  changeShowLifecycle() {
+    this.showLifecycle = !this.showLifecycle;
+  }
+
+  changeShowClassification() {
+    this.showClassification = !this.showClassification;
+  }
+
+  changeShowRights() {
+    this.showRights = !this.showRights;
+  }
+
+  changeShowTechnical() {
+    this.showTechnical = !this.showTechnical;
   }
 }

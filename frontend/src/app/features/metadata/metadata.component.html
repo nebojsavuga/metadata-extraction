@@ -13,10 +13,10 @@
         </div>
         <div class="col-6">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 title" (click)="changeShowGeneral()">
                     <h2 class="subtitle mx-4 my-2">General</h2>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showGeneral">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Title: </b>
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showGeneral">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Description: </b>
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showGeneral">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Coverage: </b>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showGeneral">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Aggregation level: </b>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showGeneral">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Keywords: </b>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showGeneral">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Language: </b>
@@ -84,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showGeneral">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Structure: </b>
@@ -102,10 +102,10 @@
         </div>
         <div class="col-6">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 title" (click)="changeShowEducational()">
                     <h2 class="subtitle mx-4 my-2">Educational</h2>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showEducational">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Interactivity Type: </b>
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showEducational">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Learning Resource Type: </b>
@@ -132,7 +132,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showEducational">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Interactivity Level: </b>
@@ -145,7 +145,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showEducational">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Semantic Density: </b>
@@ -159,7 +159,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showEducational">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Intended End User Role: </b>
@@ -172,7 +172,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showEducational">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Context: </b>
@@ -184,7 +184,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showEducational">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Typical Age Range: </b>
@@ -195,7 +195,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showEducational">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Difficulty: </b>
@@ -209,7 +209,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showEducational">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Typical Learning Time: </b>
@@ -221,7 +221,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showEducational">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Description: </b>
@@ -236,10 +236,10 @@
         </div>
         <div class="col-6">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 title" (click)="changeShowLifecycle()">
                     <h2 class="subtitle mx-4 my-2">Life Cycle</h2>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showLifecycle">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Version: </b>
@@ -250,7 +250,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showLifecycle">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Status: </b>
@@ -261,7 +261,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showLifecycle">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Contribute: </b>
@@ -276,10 +276,10 @@
         </div>
         <div class="col-6">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 title" (click)="changeShowClassification()">
                     <h2 class="subtitle mx-4 my-2">Classification</h2>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showClassification">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Purpose: </b>
@@ -292,7 +292,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showClassification">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Taxon Path: </b>
@@ -303,7 +303,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showClassification">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Description: </b>
@@ -314,7 +314,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showClassification">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Keywords: </b>
@@ -329,10 +329,10 @@
         </div>
         <div class="col-6">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 title" (click)="changeShowRights()">
                     <h2 class="subtitle mx-4 my-2">Rights</h2>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showRights">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Cost: </b>
@@ -343,7 +343,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showRights">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Copyright: </b>
@@ -354,7 +354,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showRights">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Description: </b>
@@ -369,10 +369,10 @@
         </div>
         <div class="col-6">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 title" (click)="changeShowTechnical()">
                     <h2 class="subtitle mx-4 my-2">Technical</h2>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showTechnical">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Format: </b>
@@ -383,7 +383,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showTechnical">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Size (MB): </b>
@@ -394,7 +394,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showTechnical">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Location: </b>
@@ -405,7 +405,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showTechnical">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Requirement: </b>
@@ -416,7 +416,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showTechnical">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Installation Remarks: </b>
@@ -428,7 +428,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="showTechnical">
                     <div class="row mx-3">
                         <div class="col-3">
                             <b>Duration (sec): </b>
