@@ -28,3 +28,12 @@ pip install -r requirements.txt
 Run
 
 py main.py
+
+## Starting frontend
+Position yourself in the folder: frontend
+Run:
+npm install
+Run:
+ng serve
+
+Enjoy.
