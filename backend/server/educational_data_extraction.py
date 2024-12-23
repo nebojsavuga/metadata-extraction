@@ -9,7 +9,7 @@ def get_interactivity_type(textAnalyzer, text, model, temperature, max_tokens, t
             },
             {
                 "role": "system",
-                "content": """Answers: active, expositive, mixed. Don't explain answers. Only choose 1 of the given choices. "Active" learning (e.g., learning by doing). An active 
+                "content": """Answers: active, expositive, mixed ; Don't explain answers. Only choose 1 of the given choices. "Active" learning (e.g., learning by doing). An active 
 learning object prompts the learner for 
 semantically meaningful input or for some 
 other kind of productive action or decision, 
@@ -51,7 +51,7 @@ def get_interactivity_level(textAnalyzer, text, model, temperature, max_tokens, 
             },
             {
                 "role": "system",
-                "content": """Answers: very low, low, medium, high, very high. Don't explain answers. Only choose 1 of the given choices""",
+                "content": """Answers: very low, low, medium, high, very high . Don't explain answers. Only choose 1 of the given choices""",
             },
         ],
         temperature=temperature,
@@ -75,7 +75,7 @@ def get_learning_resource_type(
             },
             {
                 "role": "system",
-                "content": """Answers: exercise, simulation, questionnaire, diagram, figure, graph, index, slide, table, narrative text, exam, experiment, problem statement, self assessment lecture. Don't explain answers. Only choose 1 of the given choices""",
+                "content": """Possible answers: exercise, simulation, questionnaire, diagram, figure, graph, index, slide, table, narrative text, exam, experiment, problem statement, self assessment lecture . Don't explain answers. Only choose 1 of the given choices""",
             },
         ],
         temperature=temperature,

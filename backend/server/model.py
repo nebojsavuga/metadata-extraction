@@ -1,4 +1,3 @@
-from groq import Groq
 from general_data_extraction import *
 from technical_data_extraction import *
 from rights_data_extraction import *
@@ -14,6 +13,7 @@ import tiktoken
 from concurrent.futures import ThreadPoolExecutor
 from text_extractors import *
 from datetime import datetime
+from openai import OpenAI
 
 # Supported video and audio formats
 VIDEO_FORMATS = ["mp4", "mkv", "avi", "mov"]
@@ -44,11 +44,11 @@ def split_text_by_word_count(text, word_limit=2000):
 
 class TextAnalyzer:
     def __init__(self, api_key=None):
-        self.client = Groq(api_key=api_key or os.environ.get("GROQ_API_KEY"))
+        self.client = OpenAI(api_key= os.environ.get("OPENAI_API_KEY"))
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
 
     def get_metadata(
-        self, file, model="llama3-8b-8192", temperature=0.5, max_tokens=1000, top_p=1, folder_id = None
+        self, file, model="gpt-4o", temperature=0.5, max_tokens=1000, top_p=1, folder_id = None
     ):
         text = ""
         if file.filename.endswith(".pdf"):
@@ -92,7 +92,6 @@ class TextAnalyzer:
             futures = {
                 executor.submit(
                     self.get_general_data,
-                    file,
                     text,
                     model,
                     temperature,
@@ -101,7 +100,6 @@ class TextAnalyzer:
                 ): "general",
                 executor.submit(
                     self.get_life_cycle_data,
-                    file,
                     text,
                     model,
                     temperature,
@@ -119,16 +117,13 @@ class TextAnalyzer:
                 ): "tehnical",
                 executor.submit(
                     self.get_educational_data,
-                    file,
                     text,
                     model,
-                    temperature,
                     max_tokens,
                     top_p,
                 ): "educational",
                 executor.submit(
                     self.get_rights_data,
-                    file,
                     text,
                     model,
                     temperature,
@@ -146,7 +141,6 @@ class TextAnalyzer:
                 ): "relation",
                 executor.submit(
                     self.get_classification_data,
-                    file,
                     text,
                     model,
                     temperature,
@@ -174,7 +168,7 @@ class TextAnalyzer:
         )
         return metadata_instance
 
-    def get_general_data(self, file, text, model, temperature, max_tokens, top_p):
+    def get_general_data(self, text, model, temperature, max_tokens, top_p):
         general = GeneralMetadata()
 
         general.title = get_title(self, text, model, temperature, max_tokens, top_p)
@@ -200,7 +194,7 @@ class TextAnalyzer:
 
         return general
 
-    def get_life_cycle_data(self, file, text, model, temperature, max_tokens, top_p):
+    def get_life_cycle_data(self, text, model, temperature, max_tokens, top_p):
         life_cycle = LifeCycleMetadata()
         life_cycle.version = get_version(
             self, text, model, temperature, max_tokens, top_p
@@ -230,7 +224,7 @@ class TextAnalyzer:
 
         return tehnical
 
-    def get_educational_data(self, file, text, model, temperature, max_tokens, top_p):
+    def get_educational_data(self, text, model, max_tokens, top_p):
         educational = EducationalMetadata()
         educational.interactivity_type = get_interactivity_type(
             self, text, model, 0.1, max_tokens, top_p
@@ -277,7 +271,7 @@ class TextAnalyzer:
         )
         return educational
 
-    def get_rights_data(self, file, text, model, temperature, max_tokens, top_p):
+    def get_rights_data(self, text, model, temperature, max_tokens, top_p):
         rights = RightsMetadata()
         rights.cost = get_cost(self, text, model, 0.1, max_tokens, top_p)
         rights.copyright = get_copyright(
@@ -288,13 +282,8 @@ class TextAnalyzer:
         )
         return rights
 
-    def get_relation_data(self, file, text, model, temperature, max_tokens, top_p):
-        relation = RelationMetadata()
-        # TODO compare metadata from database
-        return relation
-
     def get_classification_data(
-        self, file, text, model, temperature, max_tokens, top_p
+        self, text, model, temperature, max_tokens, top_p
     ):
         classification = ClassificationMetadata()
         classification.purpose = get_purpose(
