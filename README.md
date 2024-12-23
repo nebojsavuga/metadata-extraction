@@ -1,4 +1,5 @@
-# metadata-extraction
+# Metadata extraction using AI
+
 Metadata extraction from educational materials (pdfs, videos, presentations etc) with IEEE LOM Specification
 
 ## Members
@@ -35,5 +36,3 @@ Run:
 npm install
 Run:
 ng serve
-
-Enjoy.
