@@ -10,9 +10,10 @@ def get_purpose(textAnalyzer, text, model, temperature, max_tokens, top_p):
             {
                 "role": "system",
                 "content": """
-                    Based on the following options, determine the purpose. Choose only one. If you can't specify, choose unspecified option.
-                    Options can be: "unspecified," "discipline," "idea," "prerequisite," "educational objective,"
-                    "accessibility," "restrictions," "educational level," "skill level," "security level," and "competency .""",
+                   Based on the following options, determine the purpose. Choose only one. If you can't specify, choose the 'unspecified' option.
+                    Options: "unspecified," "discipline," "idea," "prerequisite," "educational objective,"
+                    "accessibility," "restrictions," "educational level," "skill level," "security level," "competency" .
+                    Return only the choice as a single word, without any additional text.""",
             },
         ],
         temperature=temperature,

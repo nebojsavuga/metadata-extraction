@@ -14,6 +14,7 @@ from concurrent.futures import ThreadPoolExecutor
 from text_extractors import *
 from datetime import datetime
 from openai import OpenAI
+import time
 
 # Supported video and audio formats
 VIDEO_FORMATS = ["mp4", "mkv", "avi", "mov"]
@@ -44,11 +45,17 @@ def split_text_by_word_count(text, word_limit=2000):
 
 class TextAnalyzer:
     def __init__(self, api_key=None):
-        self.client = OpenAI(api_key= os.environ.get("OPENAI_API_KEY"))
+        self.client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
 
     def get_metadata(
-        self, file, model="gpt-4o", temperature=0.5, max_tokens=1000, top_p=1, folder_id = None
+        self,
+        file,
+        model="gpt-4o",
+        temperature=0.5,
+        max_tokens=1000,
+        top_p=1,
+        folder_id=None,
     ):
         text = ""
         if file.filename.endswith(".pdf"):
@@ -86,7 +93,7 @@ class TextAnalyzer:
                 )
                 short_text.append(completion.choices[0].message.content.strip())
             text = "".join(short_text)
-        
+
         metadata_instance = Metadata()
         with ThreadPoolExecutor() as executor:
             futures = {
@@ -131,15 +138,6 @@ class TextAnalyzer:
                     top_p,
                 ): "rights",
                 executor.submit(
-                    self.get_relation_data,
-                    file,
-                    text,
-                    model,
-                    temperature,
-                    max_tokens,
-                    top_p,
-                ): "relation",
-                executor.submit(
                     self.get_classification_data,
                     text,
                     model,
@@ -172,51 +170,62 @@ class TextAnalyzer:
         general = GeneralMetadata()
 
         general.title = get_title(self, text, model, temperature, max_tokens, top_p)
+        time.sleep(5)
 
         general.description = get_educational_description(
             self, text, model, temperature, max_tokens, top_p
         )
-        general.keywords = get_keywords(
-            self, text, model, temperature, max_tokens, top_p
-        )
-        general.language = get_language(
-            self, text, model, temperature, max_tokens, top_p
-        )
+        time.sleep(5)
+
+        general.keywords = get_keywords(self, text, model, temperature, max_tokens, top_p)
+        time.sleep(5)
+
+        general.language = get_language(self, text, model, temperature, max_tokens, top_p)
+        time.sleep(5)
+
         general.aggregation_level = get_aggregation_level(
             self, text, model, 0.1, max_tokens, top_p
         )
-        general.structure = get_structure(
-            self, text, model, temperature, max_tokens, top_p
-        )
-        general.coverage = get_coverage(
-            self, text, model, temperature, max_tokens, top_p
-        )
+        time.sleep(5)
+
+        general.structure = get_structure(self, text, model, temperature, max_tokens, top_p)
+        time.sleep(5)
+
+        general.coverage = get_coverage(self, text, model, temperature, max_tokens, top_p)
 
         return general
 
+
     def get_life_cycle_data(self, text, model, temperature, max_tokens, top_p):
         life_cycle = LifeCycleMetadata()
-        life_cycle.version = get_version(
-            self, text, model, temperature, max_tokens, top_p
-        )
-        life_cycle.contribute = get_contribute(
-            self, text, model, 0.1, max_tokens, top_p
-        )
+        life_cycle.version = get_version(self, text, model, temperature, max_tokens, top_p)
+        time.sleep(5)
+
+        life_cycle.contribute = get_contribute(self, text, model, 0.1, max_tokens, top_p)
         return life_cycle
+
 
     def get_tehnical_data(self, file, text, model, temperature, max_tokens, top_p):
         tehnical = TehnicalMetadata()
         tehnical.format = get_file_format(file)
+        time.sleep(5)
 
         tehnical.size = get_file_size(file)
+        time.sleep(5)
 
         tehnical.location = get_location(self, text, model, temperature, 500, top_p)
+        time.sleep(5)
+
         tehnical.requirement = get_requirement(
             self, text, model, temperature, max_tokens, top_p
         )
+        time.sleep(5)
+
         tehnical.installation_remarks = get_installation_remarks(
             self, text, model, temperature, max_tokens, top_p
         )
+        time.sleep(5)
+
         if tehnical.format in VIDEO_FORMATS + AUDIO_FORMATS:
             tehnical.duration = get_duration(
                 file, tehnical.format, VIDEO_FORMATS, AUDIO_FORMATS
@@ -224,29 +233,44 @@ class TextAnalyzer:
 
         return tehnical
 
+
     def get_educational_data(self, text, model, max_tokens, top_p):
         educational = EducationalMetadata()
         educational.interactivity_type = get_interactivity_type(
             self, text, model, 0.1, max_tokens, top_p
         )
+        time.sleep(5)
+
         educational.interactivity_level = get_interactivity_level(
             self, text, model, 0.1, max_tokens, top_p
         )
+        time.sleep(5)
+
         educational.learning_resource_type = get_learning_resource_type(
             self, text, model, 0.1, max_tokens, top_p
         )
+        time.sleep(5)
+
         educational.semantic_density = get_semantic_density(
             self, text, model, 0.1, max_tokens, top_p
         )
+        time.sleep(5)
+
         educational.intended_end_user_role = get_intended_user_role(
             self, text, model, 0.1, max_tokens, top_p
         )
+        time.sleep(5)
+
         educational.context = get_educational_context(
             self, text, model, 0.1, max_tokens, top_p
         )
+        time.sleep(5)
+
         educational.typical_age_range = get_typical_age_range(
             self, text, model, 0.1, max_tokens, top_p
         )
+        time.sleep(5)
+
         educational.difficulty = get_dificulty(
             self,
             text,
@@ -256,6 +280,8 @@ class TextAnalyzer:
             max_tokens,
             top_p,
         )
+        time.sleep(5)
+
         educational.typical_learning_time = get_learning_time(
             self,
             text,
@@ -266,35 +292,45 @@ class TextAnalyzer:
             max_tokens,
             top_p,
         )
+        time.sleep(5)
+
         educational.description = get_educational_description(
             self, text, model, 0.1, max_tokens, top_p
         )
         return educational
 
+
     def get_rights_data(self, text, model, temperature, max_tokens, top_p):
         rights = RightsMetadata()
         rights.cost = get_cost(self, text, model, 0.1, max_tokens, top_p)
-        rights.copyright = get_copyright(
-            self, text, model, temperature, max_tokens, top_p
-        )
+        time.sleep(5)
+
+        rights.copyright = get_copyright(self, text, model, temperature, max_tokens, top_p)
+        time.sleep(5)
+
         rights.description = get_rights_description(
             self, text, model, temperature, max_tokens, top_p
         )
         return rights
 
-    def get_classification_data(
-        self, text, model, temperature, max_tokens, top_p
-    ):
+
+    def get_classification_data(self, text, model, temperature, max_tokens, top_p):
         classification = ClassificationMetadata()
         classification.purpose = get_purpose(
             self, text, model, temperature, max_tokens, top_p
         )
+        time.sleep(5)
+
         classification.taxon_path = get_taxon_path(
             self, text, model, temperature, max_tokens, top_p
         )
+        time.sleep(5)
+
         classification.description = get_classification_description(
             self, text, model, temperature, max_tokens, top_p, classification.purpose
         )
+        time.sleep(5)
+
         classification.keywords = get_classification_keywords(
             self, text, model, temperature, max_tokens, top_p, classification.purpose
         )
