@@ -1,5 +1,5 @@
 def get_title(textAnalyzer, text, model, temperature, max_tokens, top_p):
-        """Get title from the given text using the Groq API."""
+        """Get title from the given text"""
         completion = textAnalyzer.client.chat.completions.create(
             model=model,
             messages=[
@@ -18,7 +18,7 @@ def get_title(textAnalyzer, text, model, temperature, max_tokens, top_p):
     
     
 def get_description(textAnalyzer, text, model, temperature, max_tokens, top_p):
-    """Get description from the given text using the Groq API."""
+    """Get description from the given text"""
     completion = textAnalyzer.client.chat.completions.create(
         model=model,
         messages=[
